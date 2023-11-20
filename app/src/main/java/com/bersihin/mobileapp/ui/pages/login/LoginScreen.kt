@@ -1,9 +1,9 @@
-package com.bersihin.mobileapp.ui.pages.register
+package com.bersihin.mobileapp.ui.pages.login
 
-import android.util.Log
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -33,53 +33,24 @@ import com.bersihin.mobileapp.ui.theme.BersihinTheme
 import com.bersihin.mobileapp.utils.FormFieldValidator
 
 @Composable
-fun RegisterScreen(
+fun LoginScreen(
     modifier: Modifier = Modifier,
-    navigateToLogin: () -> Unit = {}
+    navigateToRegister: () -> Unit = {}
 ) {
-    var firstName by rememberSaveable { mutableStateOf("") }
-    var lastName by rememberSaveable { mutableStateOf("") }
     var email by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
-    var confirmPassword by rememberSaveable { mutableStateOf("") }
     var passwordVisible by rememberSaveable { mutableStateOf(false) }
-    var confirmPasswordVisible by rememberSaveable { mutableStateOf(false) }
 
     var isAllValid by rememberSaveable { mutableStateOf(false) }
     val validator = FormFieldValidator
 
     fun updateValid() {
-        isAllValid = validator.validateName(firstName)
-                && validator.validateName(lastName)
-                && validator.validateEmail(email)
+        isAllValid = validator.validateEmail(email)
                 && validator.validatePassword(password)
-                && validator.validateConfirmPassword(confirmPassword, password)
+
     }
 
-
     val props: List<FormFieldProps> = listOf(
-        FormFieldProps(
-            labelId = R.string.first_name,
-            value = firstName,
-            placeholderId = R.string.first_name_placeholder,
-            validator = { validator.validateName(it as String) },
-            onValueChanged = {
-                firstName = it as String
-                updateValid()
-            },
-            errorMessageId = R.string.first_name_invalid
-        ),
-        FormFieldProps(
-            labelId = R.string.last_name,
-            value = lastName,
-            placeholderId = R.string.last_name_placeholder,
-            validator = { validator.validateName(it as String) },
-            onValueChanged = {
-                lastName = it as String
-                updateValid()
-            },
-            errorMessageId = R.string.last_name_invalid
-        ),
         FormFieldProps(
             labelId = R.string.email,
             value = email,
@@ -104,34 +75,19 @@ fun RegisterScreen(
             isPasswordVisible = passwordVisible,
             onPasswordToggle = { passwordVisible = !passwordVisible },
             errorMessageId = R.string.password_invalid
-        ),
-        FormFieldProps(
-            labelId = R.string.confirm_password,
-            value = confirmPassword,
-            placeholderId = R.string.confirm_password_placeholder,
-            validator = { validator.validateConfirmPassword(it as String, password) },
-            onValueChanged = {
-                confirmPassword = it as String
-                Log.i("RegisterPage", "createProps: $confirmPassword")
-                updateValid()
-            },
-            isPassword = true,
-            isPasswordVisible = confirmPasswordVisible,
-            onPasswordToggle = { confirmPasswordVisible = !confirmPasswordVisible },
-            errorMessageId = R.string.confirm_password_invalid
         )
     )
 
     Column(
         modifier = Modifier
             .verticalScroll(rememberScrollState())
-            .fillMaxWidth()
-            .padding(bottom = 64.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+            .fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
     ) {
         Text(
             modifier = Modifier.padding(vertical = 64.dp),
-            text = stringResource(id = R.string.register),
+            text = stringResource(id = R.string.login),
             style = MaterialTheme.typography.displaySmall
         )
 
@@ -144,11 +100,11 @@ fun RegisterScreen(
                 .width(320.dp)
                 .height(80.dp)
                 .padding(top = 32.dp),
-            onClick = { /*TODO: register user*/ },
+            onClick = { /*TODO: login user*/ },
             enabled = isAllValid
         ) {
             Text(
-                text = stringResource(id = R.string.register),
+                text = stringResource(id = R.string.login),
                 style = MaterialTheme.typography.titleMedium
             )
         }
@@ -157,12 +113,12 @@ fun RegisterScreen(
             modifier = Modifier.padding(vertical = 32.dp)
         ) {
             Text(
-                text = stringResource(id = R.string.already_have_account),
+                text = stringResource(id = R.string.dont_have_account),
                 style = MaterialTheme.typography.titleMedium
             )
             ClickableText(
-                text = AnnotatedString(stringResource(id = R.string.login)),
-                onClick = { navigateToLogin() },
+                text = AnnotatedString(stringResource(id = R.string.register)),
+                onClick = { navigateToRegister() },
                 style = MaterialTheme.typography.titleMedium.copy(
                     color = MaterialTheme.colorScheme.secondary,
                     textDecoration = TextDecoration.Underline,
@@ -170,13 +126,15 @@ fun RegisterScreen(
                 )
             )
         }
+
     }
 }
 
+
 @Composable
 @Preview(showBackground = true)
-fun RegisterScreenPreview() {
+fun LoginScreenPreview() {
     BersihinTheme {
-        RegisterScreen()
+        LoginScreen()
     }
 }

@@ -3,6 +3,7 @@
 
     <!-- nouns -->
     <string name="register">Register</string>
+    <string name="login">Log In</string>
 
     <!-- form-related -->
     <string name="first_name">First Name</string>
@@ -22,5 +23,8 @@
     <string name="email_invalid">E-mail must be in a valid format!</string>
     <string name="password_invalid">Password must contain at least 8 characters and 1 alphabet!</string>
     <string name="confirm_password_invalid">Passwords do not match!</string>
+
+    <string name="dont_have_account">Don\'t have an account yet?&#160;</string>
+    <string name="already_have_account">Already have an account?&#160;</string>
     <!--    -->
 </resources>

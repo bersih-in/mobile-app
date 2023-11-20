@@ -59,7 +59,7 @@ fun FormField(
     ) {
         Text(
             text = stringResource(id = props.labelId),
-            style = MaterialTheme.typography.bodySmall
+            style = MaterialTheme.typography.bodyLarge
         )
 
         Spacer(
@@ -81,9 +81,9 @@ fun FormField(
                 if (props.isPassword) {
                     val icon =
                         if (props.isPasswordVisible) {
-                            Icons.Filled.Visibility
-                        } else {
                             Icons.Filled.VisibilityOff
+                        } else {
+                            Icons.Filled.Visibility
                         }
 
                     IconButton(onClick = props.onPasswordToggle) {
