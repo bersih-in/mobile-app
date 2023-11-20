@@ -53,9 +53,7 @@ fun FormField(
     }
 
     Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp)
+        modifier = Modifier.padding(vertical = 8.dp)
     ) {
         Text(
             text = stringResource(id = props.labelId),

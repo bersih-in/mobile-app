@@ -26,5 +26,6 @@
 
     <string name="dont_have_account">Don\'t have an account yet?&#160;</string>
     <string name="already_have_account">Already have an account?&#160;</string>
+    <string name="registering_as">Registering as?&#160;</string>
     <!--    -->
 </resources>
