@@ -67,6 +67,9 @@ dependencies {
     // navigation
     implementation("androidx.navigation:navigation-compose:2.6.0")
 
+    // custom fonts
+    implementation("androidx.compose.ui:ui-text-google-fonts:1.5.2")
+
     // test implementation dependencies
     testImplementation(libs.junit)
 

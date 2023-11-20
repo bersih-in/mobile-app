@@ -5,14 +5,15 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -64,16 +65,17 @@ fun FormField(
             modifier = Modifier.height(8.dp)
         )
 
-        TextField(
+        OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
             value = props.value.toString(),
             onValueChange = {
                 props.onValueChanged(it)
                 isError = !props.validator(it)
             },
-            isError = isError, placeholder =
-            { Text(text = stringResource(id = props.placeholderId)) },
+            isError = isError,
+            placeholder = { Text(text = stringResource(id = props.placeholderId)) },
             singleLine = true,
+            shape = RoundedCornerShape(12.dp),
             visualTransformation = visualTransformation,
             trailingIcon = {
                 if (props.isPassword) {
