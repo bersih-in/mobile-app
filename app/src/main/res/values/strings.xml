@@ -1,3 +1,26 @@
 <resources>
     <string name="app_name">bersih.in</string>
+
+    <!-- nouns -->
+    <string name="register">Register</string>
+
+    <!-- form-related -->
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="email">E-mail</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm Password</string>
+
+    <string name="first_name_placeholder">e.g. John</string>
+    <string name="last_name_placeholder">e.g. Doe</string>
+    <string name="email_placeholder">e.g. johndoe@gmail.com</string>
+    <string name="password_placeholder">Enter your password</string>
+    <string name="confirm_password_placeholder">Re-enter your password</string>
+
+    <string name="first_name_invalid">First name must not be empty!</string>
+    <string name="last_name_invalid">Last name must not be empty!</string>
+    <string name="email_invalid">E-mail must be in a valid format!</string>
+    <string name="password_invalid">Password must contain at least 8 characters and 1 alphabet!</string>
+    <string name="confirm_password_invalid">Passwords do not match!</string>
+    <!--    -->
 </resources>

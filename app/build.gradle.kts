@@ -51,7 +51,7 @@ android {
 }
 
 dependencies {
-
+    // implementation dependencies
     implementation(libs.core.ktx)
     implementation(libs.lifecycle.runtime.ktx)
     implementation(libs.activity.compose)
@@ -60,11 +60,20 @@ dependencies {
     implementation(libs.ui.graphics)
     implementation(libs.ui.tooling.preview)
     implementation(libs.material3)
+
+    // extended icons
+    implementation("androidx.compose.material:material-icons-extended")
+
+    // test implementation dependencies
     testImplementation(libs.junit)
+
+    // android test implementation dependencies
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
     androidTestImplementation(platform(libs.compose.bom))
     androidTestImplementation(libs.ui.test.junit4)
+
+    // debug implementation dependencies
     debugImplementation(libs.ui.tooling)
     debugImplementation(libs.ui.test.manifest)
 }
