@@ -53,9 +53,8 @@ fun App(
         ) {
             composable(Screen.Login.route) {
                 LoginScreen(
-                    modifier = Modifier.padding(innerPadding),
-                    navigateToRegister = { navController.navigate(Screen.Register.route) }
-                )
+                    modifier = Modifier.padding(innerPadding)
+                ) { navController.navigate(Screen.Register.route) }
             }
             composable(Screen.Register.route) {
                 RegisterScreen(

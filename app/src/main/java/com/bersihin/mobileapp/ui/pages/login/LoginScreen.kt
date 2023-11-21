@@ -13,12 +13,19 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -33,15 +40,19 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.bersihin.mobileapp.R
 import com.bersihin.mobileapp.ui.components.FormField
 import com.bersihin.mobileapp.ui.components.FormFieldProps
 import com.bersihin.mobileapp.ui.theme.BersihinTheme
 import com.bersihin.mobileapp.utils.FormFieldValidator
+import com.bersihin.mobileapp.utils.ViewModelFactory
+import kotlinx.coroutines.launch
 
 @Composable
 fun LoginScreen(
     modifier: Modifier = Modifier,
+    viewModel: LoginViewModel = viewModel(factory = ViewModelFactory()),
     navigateToRegister: () -> Unit = {}
 ) {
     var email by rememberSaveable { mutableStateOf("") }
@@ -49,11 +60,19 @@ fun LoginScreen(
     var passwordVisible by rememberSaveable { mutableStateOf(false) }
 
     var isAllValid by rememberSaveable { mutableStateOf(false) }
+
     val validator = FormFieldValidator
+    val scope = rememberCoroutineScope()
+    val snackbarHostState = remember { SnackbarHostState() }
+
+    val loginSuccessMessage = stringResource(id = R.string.login_success)
+    val loginFailedMessage = stringResource(id = R.string.login_failed)
 
     val tileSize = with(LocalDensity.current) {
         1500.dp.toPx()
     }
+
+    val isLoading = viewModel.isLoading.collectAsState()
 
     fun updateValid() {
         isAllValid = validator.validateEmail(email)
@@ -89,67 +108,84 @@ fun LoginScreen(
         )
     )
 
-    Column(
-        modifier = Modifier
-            .fillMaxHeight()
-            .verticalScroll(rememberScrollState())
-            .background(
-                brush = Brush.verticalGradient(
-                    colors = listOf(
-                        MaterialTheme.colorScheme.surface,
-                        Color(0xFF016b64)
-                    ),
-                    endY = tileSize,
-                    tileMode = TileMode.Clamp
-                )
-            )
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Text(
-            modifier = Modifier.padding(vertical = 64.dp),
-            text = stringResource(id = R.string.login),
-            style = MaterialTheme.typography.titleLarge
-        )
-
-        props.forEach { prop ->
-            FormField(props = prop)
-        }
-
-        Button(
+    Scaffold(
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
+    ) { innerPadding ->
+        Column(
             modifier = Modifier
-                .width(320.dp)
-                .height(80.dp)
-                .padding(top = 32.dp),
-            onClick = { /*TODO: login user*/ },
-//            enabled = isAllValid
+                .fillMaxHeight()
+                .verticalScroll(rememberScrollState())
+                .background(
+                    brush = Brush.verticalGradient(
+                        colors = listOf(
+                            MaterialTheme.colorScheme.surface,
+                            Color(0xFF016b64)
+                        ),
+                        endY = tileSize,
+                        tileMode = TileMode.Clamp
+                    )
+                )
+                .padding(innerPadding)
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
         ) {
             Text(
+                modifier = Modifier.padding(vertical = 64.dp),
                 text = stringResource(id = R.string.login),
-                style = MaterialTheme.typography.labelLarge
+                style = MaterialTheme.typography.titleLarge
             )
-        }
 
-        Row(
-            modifier = Modifier.padding(vertical = 32.dp)
-        ) {
-            Text(
-                text = stringResource(id = R.string.dont_have_account),
-                style = MaterialTheme.typography.labelLarge.copy(
-                    fontWeight = FontWeight.Normal
-                )
-            )
-            ClickableText(
-                text = AnnotatedString(stringResource(id = R.string.register)),
-                onClick = { navigateToRegister() },
-                style = MaterialTheme.typography.labelLarge.copy(
-                    color = MaterialTheme.colorScheme.secondary,
-                    textDecoration = TextDecoration.Underline,
-                )
-            )
-        }
+            props.forEach { prop ->
+                FormField(props = prop)
+            }
 
+            Button(
+                modifier = Modifier
+                    .width(320.dp)
+                    .height(80.dp)
+                    .padding(top = 32.dp),
+                onClick = {
+                    scope.launch {
+                        val errorMessage = viewModel.login(email, password)
+                        val isSuccess = errorMessage.isEmpty()
+                        val message =
+                            if (isSuccess) loginSuccessMessage else loginFailedMessage + errorMessage
+                        snackbarHostState.showSnackbar(message)
+                    }
+                },
+                enabled = isAllValid && !isLoading.value
+            ) {
+                if (isLoading.value) {
+                    CircularProgressIndicator()
+                } else {
+                    Text(
+                        text = stringResource(id = R.string.login),
+                        style = MaterialTheme.typography.labelLarge
+                    )
+                }
+
+            }
+
+            Row(
+                modifier = Modifier.padding(vertical = 32.dp)
+            ) {
+                Text(
+                    text = stringResource(id = R.string.dont_have_account),
+                    style = MaterialTheme.typography.labelLarge.copy(
+                        fontWeight = FontWeight.Normal
+                    )
+                )
+                ClickableText(
+                    text = AnnotatedString(stringResource(id = R.string.register)),
+                    onClick = { navigateToRegister() },
+                    style = MaterialTheme.typography.labelLarge.copy(
+                        color = MaterialTheme.colorScheme.secondary,
+                        textDecoration = TextDecoration.Underline,
+                    )
+                )
+            }
+        }
     }
 }
 

@@ -21,11 +21,21 @@
     <string name="first_name_invalid">First name must not be empty!</string>
     <string name="last_name_invalid">Last name must not be empty!</string>
     <string name="email_invalid">E-mail must be in a valid format!</string>
-    <string name="password_invalid">Password must contain at least 8 characters and 1 alphabet!</string>
+    <string name="password_invalid">Password must contain at least 8 alphanumeric characters!</string>
     <string name="confirm_password_invalid">Passwords do not match!</string>
 
     <string name="dont_have_account">Don\'t have an account yet?&#160;</string>
     <string name="already_have_account">Already have an account?&#160;</string>
     <string name="registering_as">Registering as?&#160;</string>
+
+    <string name="public_reporter">Public Reporter</string>
+    <string name="environmental_worker">Environmental Worker</string>
+
+    <string name="register_success_user">Successfully registered your account!</string>
+    <string name="register_success_worker">Successfully registered your account, kindly wait for your account confirmation in your e-mail!</string>
+    <string name="register_failed">Failed to register your account, please try again later!</string>
+
+    <string name="login_success">Successfully logged in!</string>
+    <string name="login_failed">Failed to log in:&#160;</string>
     <!--    -->
 </resources>
