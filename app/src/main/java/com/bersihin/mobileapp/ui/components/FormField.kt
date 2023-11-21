@@ -54,15 +54,15 @@ fun FormField(
     }
 
     Column(
-        modifier = Modifier.padding(vertical = 8.dp)
+        modifier = Modifier.padding(vertical = 12.dp)
     ) {
         Text(
             text = stringResource(id = props.labelId),
-            style = MaterialTheme.typography.bodyLarge
+            style = MaterialTheme.typography.labelMedium
         )
 
         Spacer(
-            modifier = Modifier.height(8.dp)
+            modifier = Modifier.height(16.dp)
         )
 
         OutlinedTextField(
@@ -72,8 +72,16 @@ fun FormField(
                 props.onValueChanged(it)
                 isError = !props.validator(it)
             },
+            textStyle = MaterialTheme.typography.labelMedium,
             isError = isError,
-            placeholder = { Text(text = stringResource(id = props.placeholderId)) },
+            placeholder = {
+                Text(
+                    text = stringResource(id = props.placeholderId),
+                    style = MaterialTheme.typography.labelMedium.copy(
+                        fontWeight = FontWeight.Normal
+                    )
+                )
+            },
             singleLine = true,
             shape = RoundedCornerShape(12.dp),
             visualTransformation = visualTransformation,
@@ -100,7 +108,7 @@ fun FormField(
             Text(
                 text = stringResource(id = props.errorMessageId),
                 color = MaterialTheme.colorScheme.error,
-                style = MaterialTheme.typography.bodySmall.copy(
+                style = MaterialTheme.typography.labelMedium.copy(
                     fontWeight = FontWeight.Bold
                 ),
                 modifier = Modifier.padding(start = 8.dp, top = 8.dp)

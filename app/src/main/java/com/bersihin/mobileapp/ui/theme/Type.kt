@@ -15,50 +15,38 @@ val fontProvider = GoogleFont.Provider(
     certificates = R.array.com_google_android_gms_fonts_certs
 )
 
-val KanitFont = FontFamily(
-    Font(googleFont = GoogleFont("Kanit"), fontProvider = fontProvider),
+val PrimaryFont = FontFamily(
+    Font(googleFont = GoogleFont("Lexend Deca"), fontProvider = fontProvider),
 )
 
-val RubikFont = FontFamily(
-    Font(googleFont = GoogleFont("Rubik"), fontProvider = fontProvider),
+val SecondaryFont = FontFamily(
+    Font(googleFont = GoogleFont("Lato"), fontProvider = fontProvider),
 )
 
-// Set of Material typography styles to start with
-val Typography = Typography(
-    displaySmall = TextStyle(
-        fontFamily = KanitFont,
-        fontWeight = FontWeight.Bold,
-        fontSize = 32.sp,
-        lineHeight = 24.sp,
-    ),
-    bodyLarge = TextStyle(
-        fontFamily = RubikFont,
-        fontWeight = FontWeight.Normal,
-        fontSize = 16.sp,
-        lineHeight = 24.sp,
-        letterSpacing = 0.5.sp
-    ),
-    titleMedium = TextStyle(
-        fontFamily = KanitFont,
-        fontWeight = FontWeight.Bold,
-        fontSize = 18.sp,
-        lineHeight = 24.sp,
-        letterSpacing = 0.sp
-    ),
-    /* Other default text styles to override
-    titleLarge = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Normal,
-        fontSize = 22.sp,
-        lineHeight = 28.sp,
-        letterSpacing = 0.sp
-    ),
-    labelSmall = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Medium,
-        fontSize = 11.sp,
-        lineHeight = 16.sp,
-        letterSpacing = 0.5.sp
+fun createTypography(isDarkMode: Boolean) : Typography {
+    return Typography(
+        titleLarge = TextStyle(
+            fontFamily = PrimaryFont,
+            fontWeight = FontWeight.W700,
+            fontSize = 34.sp,
+            letterSpacing = 0.sp,
+        ),
+        labelLarge = TextStyle(
+            fontFamily = SecondaryFont,
+            fontWeight = FontWeight.W600,
+            fontSize = 18.sp,
+            letterSpacing = 0.sp
+        ),
+        labelMedium = TextStyle(
+            fontFamily = SecondaryFont,
+            fontWeight = FontWeight.W600,
+            fontSize = 16.sp,
+            letterSpacing = 0.sp
+        ),
+        labelSmall = TextStyle(
+            fontFamily = SecondaryFont,
+            fontSize = 14.sp,
+            letterSpacing = 0.sp
+        ),
     )
-    */
-)
+}
