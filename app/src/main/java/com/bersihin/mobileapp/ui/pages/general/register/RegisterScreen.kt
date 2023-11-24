@@ -21,7 +21,6 @@ import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -31,7 +30,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -49,6 +47,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.bersihin.mobileapp.R
 import com.bersihin.mobileapp.ui.components.FormField
 import com.bersihin.mobileapp.ui.components.FormFieldProps
@@ -64,7 +63,8 @@ fun RegisterScreen(
     viewModel: RegisterViewModel = viewModel(
         factory = ViewModelFactory(LocalContext.current)
     ),
-    navigateToLogin: () -> Unit = {}
+    navController: NavController? = null,
+    snackbarHostState: SnackbarHostState? = null
 ) {
     var firstName by rememberSaveable { mutableStateOf("") }
     var lastName by rememberSaveable { mutableStateOf("") }
@@ -91,8 +91,6 @@ fun RegisterScreen(
 
     val validator = FormFieldValidator
     val scope = rememberCoroutineScope()
-    val snackbarHostState = remember { SnackbarHostState() }
-
 
     val tileSize = with(LocalDensity.current) {
         2000.dp.toPx()
@@ -173,9 +171,7 @@ fun RegisterScreen(
             errorMessageId = R.string.confirm_password_invalid
         )
     )
-    Scaffold(
-        snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
-    ) { innerPadding ->
+    Scaffold { innerPadding ->
         Column(
             modifier = Modifier
                 .fillMaxHeight()
@@ -265,20 +261,23 @@ fun RegisterScreen(
                             password = password,
                             role = if (selectedRole == publicReporter) "USER" else "WORKER"
                         )
-                        val message = if (isSuccess) {
-                            if (selectedRole == publicReporter) {
-                                registerUserSuccessMessage
+
+                        scope.launch {
+                            val message = if (isSuccess) {
+                                if (selectedRole == publicReporter) {
+                                    registerUserSuccessMessage
+                                } else {
+                                    registerWorkerSuccessMessage
+                                }
                             } else {
-                                registerWorkerSuccessMessage
+                                registerFailedMessage
                             }
-                        } else {
-                            registerFailedMessage
+
+                            snackbarHostState?.showSnackbar(message)
                         }
 
-                        snackbarHostState.showSnackbar(message)
-
                         if (isSuccess) {
-                            navigateToLogin()
+                            navController?.navigateUp()
                         }
                     }
                 },
@@ -303,7 +302,7 @@ fun RegisterScreen(
                 )
                 ClickableText(
                     text = AnnotatedString(stringResource(id = R.string.login)),
-                    onClick = { navigateToLogin() },
+                    onClick = { navController?.navigateUp() },
                     style = MaterialTheme.typography.labelLarge.copy(
                         color = MaterialTheme.colorScheme.secondary,
                         textDecoration = TextDecoration.Underline,

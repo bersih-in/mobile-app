@@ -16,7 +16,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -24,7 +23,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -42,9 +40,12 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.bersihin.mobileapp.R
+import com.bersihin.mobileapp.preferences.auth.AuthViewModel
 import com.bersihin.mobileapp.ui.components.FormField
 import com.bersihin.mobileapp.ui.components.FormFieldProps
+import com.bersihin.mobileapp.ui.navigation.Screen
 import com.bersihin.mobileapp.ui.theme.BersihinTheme
 import com.bersihin.mobileapp.utils.FormFieldValidator
 import com.bersihin.mobileapp.utils.ViewModelFactory
@@ -56,7 +57,11 @@ fun LoginScreen(
     viewModel: LoginViewModel = viewModel(
         factory = ViewModelFactory(LocalContext.current)
     ),
-    navigateToRegister: () -> Unit = {}
+    authViewModel: AuthViewModel = viewModel(
+        factory = ViewModelFactory(LocalContext.current)
+    ),
+    navController: NavController? = null,
+    snackbarHostState: SnackbarHostState? = null
 ) {
     var email by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
@@ -66,7 +71,6 @@ fun LoginScreen(
 
     val validator = FormFieldValidator
     val scope = rememberCoroutineScope()
-    val snackbarHostState = remember { SnackbarHostState() }
 
     val loginSuccessMessage = stringResource(id = R.string.login_success)
     val loginFailedMessage = stringResource(id = R.string.login_failed)
@@ -111,9 +115,7 @@ fun LoginScreen(
         )
     )
 
-    Scaffold(
-        snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
-    ) { innerPadding ->
+    Scaffold { innerPadding ->
         Column(
             modifier = Modifier
                 .fillMaxHeight()
@@ -150,11 +152,25 @@ fun LoginScreen(
                     .padding(top = 32.dp),
                 onClick = {
                     scope.launch {
-                        val errorMessage = viewModel.login(email, password)
-                        val isSuccess = errorMessage.isEmpty()
-                        val message =
-                            if (isSuccess) loginSuccessMessage else loginFailedMessage + errorMessage
-                        snackbarHostState.showSnackbar(message)
+                        val isSuccess = viewModel.login(email, password)
+
+                        scope.launch {
+                            val message =
+                                if (isSuccess) loginSuccessMessage else loginFailedMessage + viewModel.errorMessage
+                            snackbarHostState?.showSnackbar(message)
+                        }
+
+                        if (isSuccess) {
+                            navController?.navigate(
+                                if (viewModel.userRole == "WORKER") Screen.WorkerHome.route
+                                else Screen.UserHome.route
+                            )
+
+                            authViewModel.saveAuthInfo(
+                                authToken = viewModel.authToken,
+                                userRole = viewModel.userRole
+                            )
+                        }
                     }
                 },
                 enabled = isAllValid && !isLoading.value
@@ -181,7 +197,7 @@ fun LoginScreen(
                 )
                 ClickableText(
                     text = AnnotatedString(stringResource(id = R.string.register)),
-                    onClick = { navigateToRegister() },
+                    onClick = { navController?.navigate(Screen.Register.route) },
                     style = MaterialTheme.typography.labelLarge.copy(
                         color = MaterialTheme.colorScheme.secondary,
                         textDecoration = TextDecoration.Underline,

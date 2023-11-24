@@ -7,9 +7,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -50,6 +53,7 @@ fun App(
 ) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
+    val snackbarHostState = remember { SnackbarHostState() }
 
     val screenWithNoBottomBar = listOf(
         Screen.Login.route,
@@ -63,7 +67,8 @@ fun App(
                     navController = navController
                 )
             }
-        }
+        },
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
     ) { innerPadding ->
         NavHost(
             navController = navController,
@@ -73,13 +78,16 @@ fun App(
             // general pages
             composable(Screen.Login.route) {
                 LoginScreen(
-                    modifier = Modifier.padding(innerPadding)
-                ) { navController.navigate(Screen.Register.route) }
+                    modifier = Modifier.padding(innerPadding),
+                    navController = navController,
+                    snackbarHostState = snackbarHostState
+                )
             }
             composable(Screen.Register.route) {
                 RegisterScreen(
                     modifier = Modifier.padding(innerPadding),
-                    navigateToLogin = { navController.navigate(Screen.Login.route) }
+                    navController = navController,
+                    snackbarHostState = snackbarHostState
                 )
             }
             composable(Screen.Settings.route) {

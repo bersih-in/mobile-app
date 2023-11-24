@@ -25,7 +25,7 @@ fun UserHomeScreen() {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            Text("This is user home screen")
+            Text("This is worker home screen")
         }
     }
 }

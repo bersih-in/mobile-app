@@ -7,6 +7,7 @@ plugins {
 android {
     namespace = "com.bersihin.mobileapp"
     compileSdk = 34
+    
 
     defaultConfig {
         applicationId = "com.bersihin.mobileapp"
@@ -82,7 +83,7 @@ dependencies {
 
     // preferences
     implementation("androidx.datastore:datastore-preferences:1.0.0")
-    
+
     // test implementation dependencies
     testImplementation(libs.junit)
 
