@@ -16,9 +16,15 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.bersihin.mobileapp.navigation.Screen
-import com.bersihin.mobileapp.ui.pages.login.LoginScreen
-import com.bersihin.mobileapp.ui.pages.register.RegisterScreen
+import com.bersihin.mobileapp.ui.components.BottomBar
+import com.bersihin.mobileapp.ui.navigation.Screen
+import com.bersihin.mobileapp.ui.pages.general.login.LoginScreen
+import com.bersihin.mobileapp.ui.pages.general.register.RegisterScreen
+import com.bersihin.mobileapp.ui.pages.general.settings.SettingsScreen
+import com.bersihin.mobileapp.ui.pages.user.home.UserHomeScreen
+import com.bersihin.mobileapp.ui.pages.user.report_details.ReportDetailsScreen
+import com.bersihin.mobileapp.ui.pages.worker.history.HistoryScreen
+import com.bersihin.mobileapp.ui.pages.worker.progress.ProgressScreen
 import com.bersihin.mobileapp.ui.theme.BersihinTheme
 
 class MainActivity : ComponentActivity() {
@@ -45,12 +51,26 @@ fun App(
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
 
-    Scaffold { innerPadding ->
+    val screenWithNoBottomBar = listOf(
+        Screen.Login.route,
+        Screen.Register.route
+    )
+
+    Scaffold(
+        bottomBar = {
+            if (!screenWithNoBottomBar.contains(currentRoute)) {
+                BottomBar(
+                    navController = navController
+                )
+            }
+        }
+    ) { innerPadding ->
         NavHost(
             navController = navController,
             startDestination = Screen.Login.route,
             modifier = modifier
         ) {
+            // general pages
             composable(Screen.Login.route) {
                 LoginScreen(
                     modifier = Modifier.padding(innerPadding)
@@ -61,6 +81,31 @@ fun App(
                     modifier = Modifier.padding(innerPadding),
                     navigateToLogin = { navController.navigate(Screen.Login.route) }
                 )
+            }
+            composable(Screen.Settings.route) {
+                SettingsScreen()
+            }
+
+            // user pages
+            composable(Screen.UserHome.route) {
+                UserHomeScreen()
+            }
+            composable(Screen.ReportDetails.route) {
+                ReportDetailsScreen()
+            }
+            composable(Screen.ReportUpload.route) {
+                ReportDetailsScreen()
+            }
+
+            // worker pages
+            composable(Screen.WorkerHome.route) {
+                UserHomeScreen()
+            }
+            composable(Screen.Progress.route) {
+                ProgressScreen()
+            }
+            composable(Screen.History.route) {
+                HistoryScreen()
             }
         }
     }

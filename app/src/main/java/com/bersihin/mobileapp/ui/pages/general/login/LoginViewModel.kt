@@ -1,4 +1,4 @@
-package com.bersihin.mobileapp.ui.pages.login
+package com.bersihin.mobileapp.ui.pages.general.login
 
 import android.os.Build
 import android.util.Log

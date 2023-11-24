@@ -8,10 +8,11 @@ class AuthViewModel(
     private val pref: AuthPreferences
 ) : ViewModel() {
     fun getAuthToken() = pref.getAuthToken()
+    fun getUserRole() = pref.getUserRole()
 
-    fun saveAuthInfo(authToken: String, isWorker: Boolean) {
+    fun saveAuthInfo(authToken: String, userRole: String) {
         viewModelScope.launch {
-            pref.saveAuthInfo(authToken, isWorker)
+            pref.saveAuthInfo(authToken, userRole)
         }
     }
 

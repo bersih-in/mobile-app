@@ -1,4 +1,4 @@
-package com.bersihin.mobileapp.ui.pages.register
+package com.bersihin.mobileapp.ui.pages.general.register
 
 import android.content.res.Configuration
 import android.util.Log
@@ -40,6 +40,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.TileMode
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
@@ -60,7 +61,9 @@ import kotlinx.coroutines.launch
 @Composable
 fun RegisterScreen(
     modifier: Modifier = Modifier,
-    viewModel: RegisterViewModel = viewModel(factory = ViewModelFactory()),
+    viewModel: RegisterViewModel = viewModel(
+        factory = ViewModelFactory(LocalContext.current)
+    ),
     navigateToLogin: () -> Unit = {}
 ) {
     var firstName by rememberSaveable { mutableStateOf("") }

@@ -3,7 +3,6 @@ package com.bersihin.mobileapp.preferences.auth
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
@@ -30,7 +29,7 @@ class AuthPreferences private constructor(
     }
 
     private val AUTH_TOKEN = stringPreferencesKey("auth_token")
-    private val IS_WORKER = booleanPreferencesKey("is_worker")
+    private val USER_ROLE = stringPreferencesKey("user_role")
 
     fun getAuthToken(): Flow<String?> {
         return dataStore.data.map { preferences ->
@@ -38,23 +37,23 @@ class AuthPreferences private constructor(
         }
     }
 
-    fun getIsWorker(): Flow<Boolean?> {
+    fun getUserRole(): Flow<String?> {
         return dataStore.data.map { preferences ->
-            preferences[IS_WORKER]
+            preferences[USER_ROLE]
         }
     }
 
-    suspend fun saveAuthInfo(authToken: String, isWorker: Boolean) {
+    suspend fun saveAuthInfo(authToken: String, userRole: String) {
         dataStore.edit { preferences ->
             preferences[AUTH_TOKEN] = authToken
-            preferences[IS_WORKER] = isWorker
+            preferences[USER_ROLE] = userRole
         }
     }
 
     suspend fun clearAuthInfo() {
         dataStore.edit { preferences ->
             preferences[AUTH_TOKEN] = ""
-            preferences[IS_WORKER] = false
+            preferences[USER_ROLE] = ""
         }
     }
 }

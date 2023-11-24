@@ -1,4 +1,4 @@
-package com.bersihin.mobileapp.ui.pages.register
+package com.bersihin.mobileapp.ui.pages.general.register
 
 import android.util.Log
 import androidx.lifecycle.ViewModel

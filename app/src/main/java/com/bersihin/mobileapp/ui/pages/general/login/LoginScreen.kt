@@ -1,4 +1,4 @@
-package com.bersihin.mobileapp.ui.pages.login
+package com.bersihin.mobileapp.ui.pages.general.login
 
 import android.content.res.Configuration
 import androidx.compose.foundation.background
@@ -33,6 +33,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.TileMode
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
@@ -52,7 +53,9 @@ import kotlinx.coroutines.launch
 @Composable
 fun LoginScreen(
     modifier: Modifier = Modifier,
-    viewModel: LoginViewModel = viewModel(factory = ViewModelFactory()),
+    viewModel: LoginViewModel = viewModel(
+        factory = ViewModelFactory(LocalContext.current)
+    ),
     navigateToRegister: () -> Unit = {}
 ) {
     var email by rememberSaveable { mutableStateOf("") }

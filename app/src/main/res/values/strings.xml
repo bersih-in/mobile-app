@@ -38,4 +38,8 @@
     <string name="login_success">Successfully logged in!</string>
     <string name="login_failed">Failed to log in:&#160;</string>
     <!--    -->
+
+    <!-- related to pages -->
+    <string name="menu_home">Home</string>
+    <string name="menu_report">Report</string>
 </resources>
