@@ -50,7 +50,9 @@ class ApiConfig {
 
         fun setAuthToken(token: String) {
             authToken = token
-            INSTANCE = null
+            synchronized(this) {
+                buildRetrofit().also { INSTANCE = it }
+            }
         }
 
         fun <T> getService(serviceClass: Class<T>): T {

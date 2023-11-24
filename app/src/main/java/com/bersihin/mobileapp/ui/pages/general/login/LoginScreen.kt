@@ -1,6 +1,7 @@
 package com.bersihin.mobileapp.ui.pages.general.login
 
 import android.content.res.Configuration
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -42,6 +43,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.bersihin.mobileapp.R
+import com.bersihin.mobileapp.api.ApiConfig
 import com.bersihin.mobileapp.preferences.auth.AuthViewModel
 import com.bersihin.mobileapp.ui.components.FormField
 import com.bersihin.mobileapp.ui.components.FormFieldProps
@@ -170,13 +172,17 @@ fun LoginScreen(
                                 authToken = viewModel.authToken,
                                 userRole = viewModel.userRole
                             )
+                            
+                            ApiConfig.setAuthToken(viewModel.authToken)
+
+                            Log.i("LoginScreen", "authToken: ${viewModel.authToken}")
                         }
                     }
                 },
                 enabled = isAllValid && !isLoading.value
             ) {
                 if (isLoading.value) {
-                    CircularProgressIndicator()
+                    CircularProgressIndicator(modifier = Modifier.padding(4.dp))
                 } else {
                     Text(
                         text = stringResource(id = R.string.login),

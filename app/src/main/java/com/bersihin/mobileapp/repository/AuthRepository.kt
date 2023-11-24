@@ -26,20 +26,24 @@ class AuthRepository(
             role = role
         )
     )
-
-//    suspend fun login(
-//        email: String,
-//        password: String,
-//    ) = service.login(
-//        LoginRequest(
-//            email = email,
-//            password = password
-//        )
-//    )
+    
 
     suspend fun login(email: String, password: String): LoginResponse {
         return try {
             val response = service.login(LoginRequest(email, password))
+            LoginResponse.Success(response)
+        } catch (e: HttpException) {
+            val errorMessage =
+                JSONObject(e.response()?.errorBody()?.string()!!).getString("message")
+            LoginResponse.Error(errorMessage)
+        } catch (e: IOException) {
+            LoginResponse.NetworkError
+        }
+    }
+
+    suspend fun checkAuthToken(): LoginResponse {
+        return try {
+            val response = service.credentialInfo()
             LoginResponse.Success(response)
         } catch (e: HttpException) {
             val errorMessage =

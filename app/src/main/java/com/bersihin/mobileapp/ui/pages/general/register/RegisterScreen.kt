@@ -284,7 +284,7 @@ fun RegisterScreen(
                 enabled = isAllValid && !isLoading.value
             ) {
                 if (isLoading.value) {
-                    CircularProgressIndicator()
+                    CircularProgressIndicator(modifier = Modifier.padding(4.dp))
                 } else {
                     Text(
                         text = stringResource(id = R.string.register),

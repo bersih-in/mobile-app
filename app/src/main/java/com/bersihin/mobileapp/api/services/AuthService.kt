@@ -3,6 +3,7 @@ package com.bersihin.mobileapp.api.services
 import com.bersihin.mobileapp.api.responses.AuthResponse
 import com.bersihin.mobileapp.api.responses.LoginSuccessResponse
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.POST
 
 data class RegisterRequest(
@@ -35,4 +36,7 @@ interface AuthService {
     suspend fun login(
         @Body request: LoginRequest
     ): LoginSuccessResponse
+
+    @GET("auth/credential-info")
+    suspend fun credentialInfo(): LoginSuccessResponse
 }

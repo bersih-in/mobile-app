@@ -1,6 +1,7 @@
 package com.bersihin.mobileapp
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,14 +12,21 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.bersihin.mobileapp.api.ApiConfig
+import com.bersihin.mobileapp.preferences.auth.AuthViewModel
 import com.bersihin.mobileapp.ui.components.BottomBar
 import com.bersihin.mobileapp.ui.navigation.Screen
 import com.bersihin.mobileapp.ui.pages.general.login.LoginScreen
@@ -29,6 +37,7 @@ import com.bersihin.mobileapp.ui.pages.user.report_details.ReportDetailsScreen
 import com.bersihin.mobileapp.ui.pages.worker.history.HistoryScreen
 import com.bersihin.mobileapp.ui.pages.worker.progress.ProgressScreen
 import com.bersihin.mobileapp.ui.theme.BersihinTheme
+import com.bersihin.mobileapp.utils.ViewModelFactory
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,6 +58,9 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun App(
     modifier: Modifier = Modifier,
+    authViewModel: AuthViewModel = viewModel(
+        factory = ViewModelFactory(LocalContext.current)
+    ),
     navController: NavHostController = rememberNavController()
 ) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -59,6 +71,32 @@ fun App(
         Screen.Login.route,
         Screen.Register.route
     )
+
+    val scope = rememberCoroutineScope()
+
+    val authToken = authViewModel.authToken.collectAsState()
+    val userRole = authViewModel.userRole.collectAsState()
+
+    LaunchedEffect(Unit) {
+        Log.i("MainActivity", "authToken: ${authToken.value}")
+        if (authToken.value == null) {
+            navController.navigate(Screen.Login.route)
+        } else {
+            ApiConfig.setAuthToken(authToken.value as String)
+
+            val isExpired = !authViewModel.checkAuthToken()
+
+            if (isExpired) {
+                navController.navigate(Screen.Login.route)
+            } else {
+                if (userRole.value == "USER") {
+                    navController.navigate(Screen.UserHome.route)
+                } else if (userRole.value == "WORKER") {
+                    navController.navigate(Screen.WorkerHome.route)
+                }
+            }
+        }
+    }
 
     Scaffold(
         bottomBar = {

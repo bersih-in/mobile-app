@@ -19,7 +19,10 @@ class ViewModelFactory(private val context: Context) : ViewModelProvider.NewInst
         } else if (modelClass.isAssignableFrom(RegisterViewModel::class.java)) {
             return RegisterViewModel(Injection.provideAuthRepository()) as T
         } else if (modelClass.isAssignableFrom(AuthViewModel::class.java)) {
-            return AuthViewModel(AuthPreferences.getInstance(context.applicationContext.dataStore)) as T
+            return AuthViewModel(
+                pref = AuthPreferences.getInstance(context.applicationContext.dataStore),
+                repository = Injection.provideAuthRepository()
+            ) as T
         }
 
         throw IllegalArgumentException("Unknown ViewModel class")
