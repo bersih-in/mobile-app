@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -64,6 +65,7 @@ fun App(
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
     val snackbarHostState = remember { SnackbarHostState() }
+    val isLoading = remember { mutableStateOf(true) }
 
     val screenWithNoBottomBar = listOf(
         Screen.Login.route,
@@ -92,6 +94,8 @@ fun App(
                 }
             }
         }
+
+        isLoading.value = false
     }
 
     Scaffold(
@@ -104,6 +108,7 @@ fun App(
         },
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
     ) { innerPadding ->
+
         NavHost(
             navController = navController,
             startDestination = Screen.Login.route,
@@ -114,7 +119,8 @@ fun App(
                 LoginScreen(
                     modifier = Modifier.padding(innerPadding),
                     navController = navController,
-                    snackbarHostState = snackbarHostState
+                    snackbarHostState = snackbarHostState,
+                    isAuthLoading = isLoading.value
                 )
             }
             composable(Screen.Register.route) {

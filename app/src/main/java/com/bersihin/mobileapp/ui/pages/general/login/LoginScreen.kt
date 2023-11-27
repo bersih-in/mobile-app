@@ -6,7 +6,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -63,7 +63,8 @@ fun LoginScreen(
         factory = ViewModelFactory(LocalContext.current)
     ),
     navController: NavController? = null,
-    snackbarHostState: SnackbarHostState? = null
+    snackbarHostState: SnackbarHostState? = null,
+    isAuthLoading: Boolean = false
 ) {
     var email by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
@@ -120,7 +121,7 @@ fun LoginScreen(
     Scaffold { innerPadding ->
         Column(
             modifier = Modifier
-                .fillMaxHeight()
+                .fillMaxSize()
                 .verticalScroll(rememberScrollState())
                 .background(
                     brush = Brush.verticalGradient(
@@ -137,38 +138,41 @@ fun LoginScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            Text(
-                modifier = Modifier.padding(vertical = 64.dp),
-                text = stringResource(id = R.string.login),
-                style = MaterialTheme.typography.titleLarge
-            )
+            if (isAuthLoading) {
+                CircularProgressIndicator()
+            } else {
+                Text(
+                    modifier = Modifier.padding(vertical = 64.dp),
+                    text = stringResource(id = R.string.login),
+                    style = MaterialTheme.typography.titleLarge
+                )
 
-            props.forEach { prop ->
-                FormField(props = prop)
-            }
+                props.forEach { prop ->
+                    FormField(props = prop)
+                }
 
-            Button(
-                modifier = Modifier
-                    .width(320.dp)
-                    .height(80.dp)
-                    .padding(top = 32.dp),
-                onClick = {
-                    scope.launch {
-                        val isSuccess = viewModel.login(email, password)
-
+                Button(
+                    modifier = Modifier
+                        .width(320.dp)
+                        .height(80.dp)
+                        .padding(top = 32.dp),
+                    onClick = {
                         scope.launch {
-                            val message =
-                                if (isSuccess) loginSuccessMessage else loginFailedMessage + viewModel.errorMessage
-                            snackbarHostState?.showSnackbar(message)
-                        }
+                            val isSuccess = viewModel.login(email, password)
 
-                        if (isSuccess) {
-                            navController?.navigate(
-                                if (viewModel.userRole == "WORKER") Screen.WorkerHome.route
-                                else Screen.UserHome.route
-                            )
+                            scope.launch {
+                                val message =
+                                    if (isSuccess) loginSuccessMessage else loginFailedMessage + viewModel.errorMessage
+                                snackbarHostState?.showSnackbar(message)
+                            }
 
-                            ApiConfig.setAuthToken(viewModel.authToken)
+                            if (isSuccess) {
+                                navController?.navigate(
+                                    if (viewModel.userRole == "WORKER") Screen.WorkerHome.route
+                                    else Screen.UserHome.route
+                                )
+
+                                ApiConfig.setAuthToken(viewModel.authToken)
 
 //                            authViewModel.saveAuthInfo(
 //                                authToken = viewModel.authToken,
@@ -178,40 +182,41 @@ fun LoginScreen(
 //                                email = viewModel.userEmail
 //                            )
 
-                            Log.i("LoginScreen", "authToken: ${viewModel.authToken}")
+                                Log.i("LoginScreen", "authToken: ${viewModel.authToken}")
+                            }
                         }
+                    },
+                    enabled = isAllValid && !isLoading.value
+                ) {
+                    if (isLoading.value) {
+                        CircularProgressIndicator(modifier = Modifier.padding(4.dp))
+                    } else {
+                        Text(
+                            text = stringResource(id = R.string.login),
+                            style = MaterialTheme.typography.labelLarge
+                        )
                     }
-                },
-                enabled = isAllValid && !isLoading.value
-            ) {
-                if (isLoading.value) {
-                    CircularProgressIndicator(modifier = Modifier.padding(4.dp))
-                } else {
-                    Text(
-                        text = stringResource(id = R.string.login),
-                        style = MaterialTheme.typography.labelLarge
-                    )
+
                 }
 
-            }
-
-            Row(
-                modifier = Modifier.padding(vertical = 32.dp)
-            ) {
-                Text(
-                    text = stringResource(id = R.string.dont_have_account),
-                    style = MaterialTheme.typography.labelLarge.copy(
-                        fontWeight = FontWeight.Normal
+                Row(
+                    modifier = Modifier.padding(vertical = 32.dp)
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.dont_have_account),
+                        style = MaterialTheme.typography.labelLarge.copy(
+                            fontWeight = FontWeight.Normal
+                        )
                     )
-                )
-                ClickableText(
-                    text = AnnotatedString(stringResource(id = R.string.register)),
-                    onClick = { navController?.navigate(Screen.Register.route) },
-                    style = MaterialTheme.typography.labelLarge.copy(
-                        color = MaterialTheme.colorScheme.secondary,
-                        textDecoration = TextDecoration.Underline,
+                    ClickableText(
+                        text = AnnotatedString(stringResource(id = R.string.register)),
+                        onClick = { navController?.navigate(Screen.Register.route) },
+                        style = MaterialTheme.typography.labelLarge.copy(
+                            color = MaterialTheme.colorScheme.secondary,
+                            textDecoration = TextDecoration.Underline,
+                        )
                     )
-                )
+                }
             }
         }
     }
