@@ -168,12 +168,15 @@ fun LoginScreen(
                                 else Screen.UserHome.route
                             )
 
-                            authViewModel.saveAuthInfo(
-                                authToken = viewModel.authToken,
-                                userRole = viewModel.userRole
-                            )
-                            
                             ApiConfig.setAuthToken(viewModel.authToken)
+
+//                            authViewModel.saveAuthInfo(
+//                                authToken = viewModel.authToken,
+//                                userRole = viewModel.userRole,
+//                                firstName = viewModel.firstName,
+//                                lastName = viewModel.lastName,
+//                                email = viewModel.userEmail
+//                            )
 
                             Log.i("LoginScreen", "authToken: ${viewModel.authToken}")
                         }

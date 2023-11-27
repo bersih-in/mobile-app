@@ -1,5 +1,6 @@
 package com.bersihin.mobileapp.preferences.auth
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bersihin.mobileapp.api.services.LoginResponse
@@ -8,6 +9,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -21,7 +23,9 @@ class AuthViewModel(
     private val _userRole = MutableStateFlow<String?>(null)
 
     val authToken: StateFlow<String?> = _authToken.asStateFlow()
-    val userRole: StateFlow<String?> = _userRole.asStateFlow()
+
+    //    val userRole: StateFlow<String?> = _userRole.asStateFlow()
+    var userRole = ""
 
     init {
         viewModelScope.launch {
@@ -35,12 +39,29 @@ class AuthViewModel(
         }
     }
 
-    private fun getAuthToken() = pref.getAuthToken()
+    suspend fun waitForTokenLoad() {
+        Log.i("AuthViewModel", "Waiting for token load")
+        authToken.first { it != null }
+    }
+
+    fun getAuthToken() = pref.getAuthToken()
     fun getUserRole() = pref.getUserRole()
 
-    fun saveAuthInfo(authToken: String, userRole: String) {
+    fun saveAuthInfo(
+        authToken: String,
+        userRole: String,
+        firstName: String,
+        lastName: String,
+        email: String
+    ) {
         viewModelScope.launch {
-            pref.saveAuthInfo(authToken, userRole)
+            pref.saveAuthInfo(
+                authToken = authToken,
+                userRole = userRole,
+                firstName = firstName,
+                lastName = lastName,
+                email = email
+            )
         }
     }
 
@@ -50,12 +71,23 @@ class AuthViewModel(
         }
     }
 
+
     suspend fun checkAuthToken(): Boolean {
         return withContext(Dispatchers.IO) {
-            val response = repository.checkAuthToken()
+            when (val response = repository.checkAuthToken()) {
+                is LoginResponse.Success -> {
+                    userRole = response.response.data.role
 
-            when (response) {
-                is LoginResponse.Success -> true
+                    pref.saveAuthInfo(
+                        authToken = response.response.data.token,
+                        userRole = response.response.data.role,
+                        firstName = response.response.data.firstName,
+                        lastName = response.response.data.lastName,
+                        email = response.response.data.email
+                    )
+                    true
+                }
+
                 else -> false
             }
         }

@@ -1,8 +1,8 @@
 package com.bersihin.mobileapp.ui.pages.general.login
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.bersihin.mobileapp.api.services.LoginResponse
+import com.bersihin.mobileapp.preferences.auth.AuthPreferences
 import com.bersihin.mobileapp.repository.AuthRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.withContext
 
 class LoginViewModel(
+    private val pref: AuthPreferences,
     private val repository: AuthRepository
 ) : ViewModel() {
     private val _isLoading: MutableStateFlow<Boolean> = MutableStateFlow(false)
@@ -17,28 +18,46 @@ class LoginViewModel(
 
     lateinit var authToken: String
     lateinit var userRole: String
+    lateinit var firstName: String
+    lateinit var lastName: String
+    lateinit var userEmail: String
 
     var errorMessage: String? = null
 
     suspend fun login(email: String, password: String): Boolean {
         _isLoading.value = true
-        var response: LoginResponse
 
         return withContext(Dispatchers.IO) {
-            response = repository.login(email, password)
-            Log.i("LoginViewModel", "login: ${response}")
-
             _isLoading.value = false
-            
-            when (response) {
+
+            when (val response = repository.login(email, password)) {
                 is LoginResponse.Success -> {
-                    authToken = (response as LoginResponse.Success).response.data.token
-                    userRole = (response as LoginResponse.Success).response.data.role
+                    authToken = response.response.data.token
+                    userRole = response.response.data.role
+                    firstName = response.response.data.firstName
+                    lastName = response.response.data.lastName
+                    userEmail = response.response.data.email
+
+//                    pref.saveAuthInfo(
+//                        authToken = response.response.data.token,
+//                        userRole = response.response.data.role,
+//                        firstName = response.response.data.firstName,
+//                        lastName = response.response.data.lastName,
+//                        email = response.response.data.email
+//                    )
+
+                    pref.saveAuthInfo(
+                        authToken = authToken,
+                        userRole = userRole,
+                        firstName = firstName,
+                        lastName = lastName,
+                        email = userEmail
+                    )
                     true
                 }
 
                 is LoginResponse.Error -> {
-                    errorMessage = (response as LoginResponse.Error).errorMessage
+                    errorMessage = response.errorMessage
                     false
                 }
 

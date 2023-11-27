@@ -15,7 +15,10 @@ class ViewModelFactory(private val context: Context) : ViewModelProvider.NewInst
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(LoginViewModel::class.java)) {
-            return LoginViewModel(Injection.provideAuthRepository()) as T
+            return LoginViewModel(
+                pref = AuthPreferences.getInstance(context.applicationContext.dataStore),
+                repository = Injection.provideAuthRepository()
+            ) as T
         } else if (modelClass.isAssignableFrom(RegisterViewModel::class.java)) {
             return RegisterViewModel(Injection.provideAuthRepository()) as T
         } else if (modelClass.isAssignableFrom(AuthViewModel::class.java)) {

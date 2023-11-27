@@ -1,7 +1,6 @@
 package com.bersihin.mobileapp
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,7 +15,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -72,26 +70,24 @@ fun App(
         Screen.Register.route
     )
 
-    val scope = rememberCoroutineScope()
-
     val authToken = authViewModel.authToken.collectAsState()
-    val userRole = authViewModel.userRole.collectAsState()
 
     LaunchedEffect(Unit) {
-        Log.i("MainActivity", "authToken: ${authToken.value}")
+        authViewModel.waitForTokenLoad()
+
         if (authToken.value == null) {
             navController.navigate(Screen.Login.route)
         } else {
             ApiConfig.setAuthToken(authToken.value as String)
-
             val isExpired = !authViewModel.checkAuthToken()
 
             if (isExpired) {
                 navController.navigate(Screen.Login.route)
             } else {
-                if (userRole.value == "USER") {
+                val userRole = authViewModel.userRole
+                if (userRole == "USER") {
                     navController.navigate(Screen.UserHome.route)
-                } else if (userRole.value == "WORKER") {
+                } else if (userRole == "WORKER") {
                     navController.navigate(Screen.WorkerHome.route)
                 }
             }
