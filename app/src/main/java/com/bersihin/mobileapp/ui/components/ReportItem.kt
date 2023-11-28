@@ -1,6 +1,7 @@
 package com.bersihin.mobileapp.ui.components
 
 import android.content.res.Configuration
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -32,7 +33,8 @@ data class ReportItemProps(
 @Composable
 fun ReportItem(
     modifier: Modifier = Modifier,
-    props: ReportItemProps
+    props: ReportItemProps,
+    onClick: () -> Unit = {}
 ) {
     Column(
         modifier = modifier
@@ -44,6 +46,7 @@ fun ReportItem(
             )
             .clip(shape = RoundedCornerShape(8.dp))
             .padding(24.dp)
+            .clickable { onClick() }
     ) {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,

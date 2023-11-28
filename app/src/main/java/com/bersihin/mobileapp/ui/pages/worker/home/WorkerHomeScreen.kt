@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.bersihin.mobileapp.preferences.auth.AuthViewModel
 import com.bersihin.mobileapp.ui.common.UiState
 import com.bersihin.mobileapp.ui.components.FullscreenLoadingIndicator
@@ -17,6 +18,7 @@ import com.bersihin.mobileapp.ui.components.HomeHeader
 import com.bersihin.mobileapp.ui.components.HomeHeaderProps
 import com.bersihin.mobileapp.ui.components.ReportItem
 import com.bersihin.mobileapp.ui.components.ReportItemProps
+import com.bersihin.mobileapp.ui.navigation.Screen
 import com.bersihin.mobileapp.utils.ViewModelFactory
 
 @Composable
@@ -27,7 +29,8 @@ fun WorkerHomeScreen(
     ),
     authViewModel: AuthViewModel = viewModel(
         factory = ViewModelFactory(context = LocalContext.current)
-    )
+    ),
+    navController: NavController = NavController(LocalContext.current)
 ) {
     val reports = viewModel.reports.collectAsState()
     val firstName = authViewModel.getFirstName().collectAsState(initial = null)
@@ -68,7 +71,8 @@ fun WorkerHomeScreen(
 //                                1
 //                            )?.get(0)?.getAddressLine(0) ?: "",
                             status = it.status
-                        )
+                        ),
+                        onClick = { navController.navigate(Screen.ReportDetails.createRoute(it.id)) }
                     )
 
                 }

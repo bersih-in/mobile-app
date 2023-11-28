@@ -27,7 +27,7 @@ fun HomeHeader(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp)
+            .padding(20.dp)
     ) {
         Text(
             text = "Hello, ${props.firstName} ${props.lastName} 👋",

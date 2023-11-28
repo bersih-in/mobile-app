@@ -9,6 +9,7 @@ import com.bersihin.mobileapp.preferences.auth.AuthViewModel
 import com.bersihin.mobileapp.preferences.auth.dataStore
 import com.bersihin.mobileapp.ui.pages.general.login.LoginViewModel
 import com.bersihin.mobileapp.ui.pages.general.register.RegisterViewModel
+import com.bersihin.mobileapp.ui.pages.general.report_details.ReportDetailsViewModel
 import com.bersihin.mobileapp.ui.pages.worker.home.WorkerHomeViewModel
 
 class ViewModelFactory(private val context: Context) : ViewModelProvider.NewInstanceFactory() {
@@ -29,6 +30,8 @@ class ViewModelFactory(private val context: Context) : ViewModelProvider.NewInst
             ) as T
         } else if (modelClass.isAssignableFrom(WorkerHomeViewModel::class.java)) {
             return WorkerHomeViewModel(Injection.provideWorkerRepository()) as T
+        } else if (modelClass.isAssignableFrom(ReportDetailsViewModel::class.java)) {
+            return ReportDetailsViewModel(Injection.provideWorkerRepository(), context) as T
         }
 
         throw IllegalArgumentException("Unknown ViewModel class")

@@ -4,11 +4,14 @@ sealed class Screen(val route: String) {
     // general pages
     object Register : Screen("register")
     object Login : Screen("login")
+    object ReportDetails : Screen("report/{reportId}") {
+        fun createRoute(reportId: String) = "report/$reportId"
+    }
+    
     object Settings : Screen("settings")
 
     // user pages
     object UserHome : Screen("user-home")
-    object ReportDetails : Screen("report-details")
     object ReportUpload : Screen("report-upload")
 
 

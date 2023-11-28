@@ -19,4 +19,10 @@ class WorkerRepository {
     fun getReports(): Flow<List<Report>> {
         return flowOf(reportList)
     }
+
+    fun getReportDetails(reportId: String): Report {
+        return reportList.first {
+            it.id == reportId
+        }
+    }
 }

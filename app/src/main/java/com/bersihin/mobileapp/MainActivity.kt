@@ -20,10 +20,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.bersihin.mobileapp.api.ApiConfig
 import com.bersihin.mobileapp.models.UserRole
 import com.bersihin.mobileapp.preferences.auth.AuthViewModel
@@ -31,9 +33,10 @@ import com.bersihin.mobileapp.ui.components.BottomBar
 import com.bersihin.mobileapp.ui.navigation.Screen
 import com.bersihin.mobileapp.ui.pages.general.login.LoginScreen
 import com.bersihin.mobileapp.ui.pages.general.register.RegisterScreen
+import com.bersihin.mobileapp.ui.pages.general.report_details.ReportDetailsScreen
 import com.bersihin.mobileapp.ui.pages.general.settings.SettingsScreen
 import com.bersihin.mobileapp.ui.pages.user.home.UserHomeScreen
-import com.bersihin.mobileapp.ui.pages.user.report_details.ReportDetailsScreen
+import com.bersihin.mobileapp.ui.pages.user.report_upload.ReportUploadScreen
 import com.bersihin.mobileapp.ui.pages.worker.history.HistoryScreen
 import com.bersihin.mobileapp.ui.pages.worker.home.WorkerHomeScreen
 import com.bersihin.mobileapp.ui.pages.worker.progress.ProgressScreen
@@ -135,21 +138,28 @@ fun App(
             composable(Screen.Settings.route) {
                 SettingsScreen()
             }
+            composable(
+                route = Screen.ReportDetails.route,
+                arguments = listOf(navArgument("reportId") { type = NavType.StringType })
+            ) {
+                val reportId = it.arguments?.getString("reportId") ?: ""
+                ReportDetailsScreen(reportId = reportId)
+            }
 
             // user pages
             composable(Screen.UserHome.route) {
                 UserHomeScreen()
             }
-            composable(Screen.ReportDetails.route) {
-                ReportDetailsScreen()
-            }
+
             composable(Screen.ReportUpload.route) {
-                ReportDetailsScreen()
+                ReportUploadScreen()
             }
 
             // worker pages
             composable(Screen.WorkerHome.route) {
-                WorkerHomeScreen()
+                WorkerHomeScreen(
+                    navController = navController
+                )
             }
             composable(Screen.Progress.route) {
                 ProgressScreen()
