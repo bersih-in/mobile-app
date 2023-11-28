@@ -46,6 +46,9 @@ class AuthViewModel(
 
     fun getAuthToken() = pref.getAuthToken()
     fun getUserRole() = pref.getUserRole()
+    fun getFirstName() = pref.getFirstName()
+    fun getLastName() = pref.getLastName()
+    fun getEmail() = pref.getEmail()
 
     fun saveAuthInfo(
         authToken: String,

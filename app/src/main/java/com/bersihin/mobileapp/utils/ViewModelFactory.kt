@@ -9,6 +9,7 @@ import com.bersihin.mobileapp.preferences.auth.AuthViewModel
 import com.bersihin.mobileapp.preferences.auth.dataStore
 import com.bersihin.mobileapp.ui.pages.general.login.LoginViewModel
 import com.bersihin.mobileapp.ui.pages.general.register.RegisterViewModel
+import com.bersihin.mobileapp.ui.pages.worker.home.WorkerHomeViewModel
 
 class ViewModelFactory(private val context: Context) : ViewModelProvider.NewInstanceFactory() {
     @Suppress("UNCHECKED_CAST")
@@ -26,6 +27,8 @@ class ViewModelFactory(private val context: Context) : ViewModelProvider.NewInst
                 pref = AuthPreferences.getInstance(context.applicationContext.dataStore),
                 repository = Injection.provideAuthRepository()
             ) as T
+        } else if (modelClass.isAssignableFrom(WorkerHomeViewModel::class.java)) {
+            return WorkerHomeViewModel(Injection.provideWorkerRepository()) as T
         }
 
         throw IllegalArgumentException("Unknown ViewModel class")

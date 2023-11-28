@@ -23,7 +23,7 @@ val SecondaryFont = FontFamily(
     Font(googleFont = GoogleFont("Lato"), fontProvider = fontProvider),
 )
 
-fun createTypography(isDarkMode: Boolean) : Typography {
+fun createTypography(isDarkMode: Boolean): Typography {
     return Typography(
         titleLarge = TextStyle(
             fontFamily = PrimaryFont,
@@ -46,6 +46,16 @@ fun createTypography(isDarkMode: Boolean) : Typography {
         labelSmall = TextStyle(
             fontFamily = SecondaryFont,
             fontSize = 14.sp,
+            letterSpacing = 0.sp
+        ),
+        bodyLarge = TextStyle(
+            fontFamily = SecondaryFont,
+            fontSize = 16.sp,
+            letterSpacing = 0.sp
+        ),
+        bodyMedium = TextStyle(
+            fontFamily = SecondaryFont,
+            fontSize = 12.sp,
             letterSpacing = 0.sp
         ),
     )

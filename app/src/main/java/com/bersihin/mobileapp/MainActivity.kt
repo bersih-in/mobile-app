@@ -25,6 +25,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.bersihin.mobileapp.api.ApiConfig
+import com.bersihin.mobileapp.models.UserRole
 import com.bersihin.mobileapp.preferences.auth.AuthViewModel
 import com.bersihin.mobileapp.ui.components.BottomBar
 import com.bersihin.mobileapp.ui.navigation.Screen
@@ -34,6 +35,7 @@ import com.bersihin.mobileapp.ui.pages.general.settings.SettingsScreen
 import com.bersihin.mobileapp.ui.pages.user.home.UserHomeScreen
 import com.bersihin.mobileapp.ui.pages.user.report_details.ReportDetailsScreen
 import com.bersihin.mobileapp.ui.pages.worker.history.HistoryScreen
+import com.bersihin.mobileapp.ui.pages.worker.home.WorkerHomeScreen
 import com.bersihin.mobileapp.ui.pages.worker.progress.ProgressScreen
 import com.bersihin.mobileapp.ui.theme.BersihinTheme
 import com.bersihin.mobileapp.utils.ViewModelFactory
@@ -87,9 +89,9 @@ fun App(
                 navController.navigate(Screen.Login.route)
             } else {
                 val userRole = authViewModel.userRole
-                if (userRole == "USER") {
+                if (UserRole.valueOf(userRole) == UserRole.USER) {
                     navController.navigate(Screen.UserHome.route)
-                } else if (userRole == "WORKER") {
+                } else if (UserRole.valueOf(userRole) == UserRole.WORKER) {
                     navController.navigate(Screen.WorkerHome.route)
                 }
             }
@@ -147,7 +149,7 @@ fun App(
 
             // worker pages
             composable(Screen.WorkerHome.route) {
-                UserHomeScreen()
+                WorkerHomeScreen()
             }
             composable(Screen.Progress.route) {
                 ProgressScreen()

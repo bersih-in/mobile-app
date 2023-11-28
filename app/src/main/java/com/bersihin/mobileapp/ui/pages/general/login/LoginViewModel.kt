@@ -37,14 +37,7 @@ class LoginViewModel(
                     firstName = response.response.data.firstName
                     lastName = response.response.data.lastName
                     userEmail = response.response.data.email
-
-//                    pref.saveAuthInfo(
-//                        authToken = response.response.data.token,
-//                        userRole = response.response.data.role,
-//                        firstName = response.response.data.firstName,
-//                        lastName = response.response.data.lastName,
-//                        email = response.response.data.email
-//                    )
+                    
 
                     pref.saveAuthInfo(
                         authToken = authToken,

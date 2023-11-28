@@ -42,4 +42,11 @@
     <!-- related to pages -->
     <string name="menu_home">Home</string>
     <string name="menu_report">Report</string>
+
+    <!-- status -->
+    <string name="pending">Pending</string>
+    <string name="rejected">Rejected</string>
+    <string name="verified">Verified</string>
+    <string name="inprogress">In Progress</string>
+    <string name="finished">Finished</string>
 </resources>
