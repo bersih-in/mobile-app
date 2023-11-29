@@ -8,6 +8,6 @@ data class Report(
     val latitude: Double,
     val longitude: Double,
     val status: ReportStatus,
-    val statusReason: String?,
-    val finishedBy: String?
+    val statusReason: String? = "",
+    val finishedBy: String? = ""
 )

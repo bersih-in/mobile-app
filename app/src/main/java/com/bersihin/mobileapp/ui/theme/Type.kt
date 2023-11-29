@@ -50,12 +50,17 @@ fun createTypography(isDarkMode: Boolean): Typography {
         ),
         bodyLarge = TextStyle(
             fontFamily = SecondaryFont,
-            fontSize = 16.sp,
+            fontSize = 18.sp,
             letterSpacing = 0.sp
         ),
         bodyMedium = TextStyle(
             fontFamily = SecondaryFont,
-            fontSize = 12.sp,
+            fontSize = 16.sp,
+            letterSpacing = 0.sp
+        ),
+        bodySmall = TextStyle(
+            fontFamily = SecondaryFont,
+            fontSize = 14.sp,
             letterSpacing = 0.sp
         ),
     )

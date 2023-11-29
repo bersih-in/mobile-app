@@ -79,9 +79,7 @@ fun App(
 
     val authToken = authViewModel.authToken.collectAsState()
 
-    LaunchedEffect(Unit) {
-        authViewModel.waitForTokenLoad()
-
+    LaunchedEffect(authToken.value) {
         if (authToken.value == null) {
             navController.navigate(Screen.Login.route)
         } else {
@@ -98,9 +96,9 @@ fun App(
                     navController.navigate(Screen.WorkerHome.route)
                 }
             }
-        }
 
-        isLoading.value = false
+            isLoading.value = false
+        }
     }
 
     Scaffold(

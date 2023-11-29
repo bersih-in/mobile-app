@@ -71,8 +71,8 @@ fun ReportItem(
 
         Text(
             text = props.description,
-            style = MaterialTheme.typography.bodyLarge,
-            maxLines = 3
+            style = MaterialTheme.typography.bodyMedium,
+            maxLines = 2
         )
     }
 

@@ -85,6 +85,9 @@ dependencies {
     // preferences
     implementation("androidx.datastore:datastore-preferences:1.0.0")
 
+    // coil for loading async image
+    implementation("io.coil-kt:coil-compose:2.5.0")
+
     // test implementation dependencies
     testImplementation(libs.junit)
 
