@@ -19,6 +19,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -36,6 +38,7 @@ import com.bersihin.mobileapp.models.ReportStatus
 import com.bersihin.mobileapp.ui.common.UiState
 import com.bersihin.mobileapp.ui.components.FullscreenLoadingIndicator
 import com.bersihin.mobileapp.ui.components.StatusBox
+import com.bersihin.mobileapp.ui.components.StatusReasonDialog
 import com.bersihin.mobileapp.ui.theme.BersihinTheme
 import com.bersihin.mobileapp.utils.ViewModelFactory
 
@@ -86,6 +89,15 @@ fun ReportDetailsContent(
     navController: NavController?,
     props: ReportDetailsContentProps
 ) {
+    val showDialog = rememberSaveable { mutableStateOf(false) }
+
+    if (showDialog.value) {
+        StatusReasonDialog(
+            message = props.report.statusReason ?: "",
+            status = props.report.status,
+            onDismissRequest = { showDialog.value = false })
+    }
+
     Column(modifier = modifier) {
         Column(
             modifier = modifier
@@ -93,7 +105,6 @@ fun ReportDetailsContent(
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-
             Row(
                 modifier = modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.Start,
@@ -134,7 +145,11 @@ fun ReportDetailsContent(
                 )
 
                 Row(
-                    modifier = Modifier.padding(vertical = 24.dp),
+                    modifier = Modifier
+                        .padding(vertical = 24.dp)
+                        .clickable {
+                            showDialog.value = true
+                        },
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
@@ -166,8 +181,6 @@ fun ReportDetailsContent(
                 )
 
                 Spacer(modifier = modifier.height(32.dp))
-
-
             }
 
         }

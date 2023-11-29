@@ -99,9 +99,9 @@ fun App(
                     navController.navigate(Screen.WorkerHome.route)
                 }
             }
-
-            isLoading.value = false
         }
+
+        isLoading.value = false
     }
 
     Scaffold(

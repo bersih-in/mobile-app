@@ -49,4 +49,12 @@
     <string name="verified">Verified</string>
     <string name="inprogress">In Progress</string>
     <string name="finished">Finished</string>
+
+    <string name="pending_desc">Your report is still being processed by our system, please wait!</string>
+    <string name="rejected_by_ml_desc">We\'re sorry, but your report has been rejected by our system 🙏</string>
+    <string name="rejected_by_admin_desc">We\'re sorry, but our administrators have double-checked your report and has decided to reject your report 🙏</string>
+    <string name="rejected_by_worker_desc">We\'re sorry, but your report has been rejected by our worker 🙏</string>
+    <string name="verified_desc">Congratulations, your report has been verified by our system! 🥳</string>
+    <string name="inprogress_desc">Your report is currently being worked at by our worker, please wait!</string>
+    <string name="finished_desc">Congratulations, the trash spot has been cleared by the worker! 🥳</string>
 </resources>
