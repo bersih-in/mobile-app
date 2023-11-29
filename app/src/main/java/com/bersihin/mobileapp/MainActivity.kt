@@ -29,7 +29,7 @@ import androidx.navigation.navArgument
 import com.bersihin.mobileapp.api.ApiConfig
 import com.bersihin.mobileapp.models.UserRole
 import com.bersihin.mobileapp.preferences.auth.AuthViewModel
-import com.bersihin.mobileapp.ui.components.BottomBar
+import com.bersihin.mobileapp.ui.components.common.BottomBar
 import com.bersihin.mobileapp.ui.navigation.Screen
 import com.bersihin.mobileapp.ui.pages.general.login.LoginScreen
 import com.bersihin.mobileapp.ui.pages.general.register.RegisterScreen

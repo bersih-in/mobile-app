@@ -1,4 +1,4 @@
-package com.bersihin.mobileapp.ui.components
+package com.bersihin.mobileapp.ui.components.common
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize

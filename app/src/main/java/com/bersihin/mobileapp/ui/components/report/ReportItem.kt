@@ -1,4 +1,4 @@
-package com.bersihin.mobileapp.ui.components
+package com.bersihin.mobileapp.ui.components.report
 
 import android.content.res.Configuration
 import androidx.compose.foundation.clickable
@@ -38,15 +38,16 @@ fun ReportItem(
 ) {
     Column(
         modifier = modifier
+            .clickable { onClick() }
             .fillMaxWidth()
             .shadow(
-                elevation = 4.dp,
+                elevation = 2.dp,
                 ambientColor = MaterialTheme.colorScheme.secondary,
                 spotColor = MaterialTheme.colorScheme.secondary
             )
             .clip(shape = RoundedCornerShape(8.dp))
             .padding(24.dp)
-            .clickable { onClick() }
+
     ) {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,

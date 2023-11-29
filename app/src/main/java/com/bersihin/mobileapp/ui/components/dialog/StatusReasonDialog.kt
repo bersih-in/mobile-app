@@ -1,4 +1,4 @@
-package com.bersihin.mobileapp.ui.components
+package com.bersihin.mobileapp.ui.components.dialog
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.bersihin.mobileapp.R
 import com.bersihin.mobileapp.models.ReportStatus
+import com.bersihin.mobileapp.ui.components.report.StatusBox
 
 @Composable
 fun StatusReasonDialog(
@@ -30,6 +31,7 @@ fun StatusReasonDialog(
     status: ReportStatus,
     onDismissRequest: () -> Unit = {}
 ) {
+    
     val statusMsg = when (status) {
         ReportStatus.PENDING -> stringResource(id = R.string.pending_desc)
         ReportStatus.VERIFIED -> stringResource(id = R.string.verified_desc)

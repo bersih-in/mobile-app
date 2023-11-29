@@ -1,4 +1,4 @@
-package com.bersihin.mobileapp.ui.components
+package com.bersihin.mobileapp.ui.components.common
 
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -36,7 +36,7 @@ fun BottomBar(
             } else {
                 NavigationItems.userItems
             }
-        
+
         items.map { item ->
             NavigationBarItem(
                 icon = { Icon(imageVector = item.icon, contentDescription = item.title) },

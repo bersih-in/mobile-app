@@ -1,15 +1,17 @@
-package com.bersihin.mobileapp.ui.components
+package com.bersihin.mobileapp.ui.components.report
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -41,8 +43,10 @@ fun StatusBox(
                 shape = RoundedCornerShape(18.dp)
             )
             .width(150.dp)
+            .height(30.dp)
             .background(color = bgColor),
-        horizontalArrangement = Arrangement.Center
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
             modifier = Modifier.padding(horizontal = 8.dp),
@@ -68,7 +72,7 @@ fun StatusBox(
                 }
             },
             style = MaterialTheme.typography.labelLarge.copy(
-                color = Color.White
+                color = Color.White,
             )
         )
     }

@@ -1,4 +1,4 @@
-package com.bersihin.mobileapp.ui.components
+package com.bersihin.mobileapp.ui.components.common
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -38,7 +38,9 @@ data class FormFieldProps(
     val errorMessageId: Int,
     val isPassword: Boolean = false,
     val isPasswordVisible: Boolean = false,
-    val onPasswordToggle: () -> Unit = {}
+    val onPasswordToggle: () -> Unit = {},
+    val singleLine: Boolean = true,
+    val textFieldHeight: Int = 60
 )
 
 @Composable
@@ -66,7 +68,9 @@ fun FormField(
         )
 
         OutlinedTextField(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(props.textFieldHeight.dp),
             value = props.value.toString(),
             onValueChange = {
                 props.onValueChanged(it)
@@ -82,7 +86,7 @@ fun FormField(
                     )
                 )
             },
-            singleLine = true,
+            singleLine = props.singleLine,
             shape = RoundedCornerShape(12.dp),
             visualTransformation = visualTransformation,
             trailingIcon = {

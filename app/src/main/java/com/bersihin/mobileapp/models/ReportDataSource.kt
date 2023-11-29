@@ -31,7 +31,7 @@ object ReportDataSource {
             "https://i1.sndcdn.com/artworks-5ApRolfwUlCRJ2v4-bcG9jg-t500x500.jpg",
             -6.1753924,
             106.8249641,
-            ReportStatus.REJECTED_BY_SYSTEM,
+            ReportStatus.IN_PROGRESS,
             "Gambar tidak jelas",
             null
         ),

@@ -13,11 +13,11 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.bersihin.mobileapp.preferences.auth.AuthViewModel
 import com.bersihin.mobileapp.ui.common.UiState
-import com.bersihin.mobileapp.ui.components.FullscreenLoadingIndicator
-import com.bersihin.mobileapp.ui.components.HomeHeader
-import com.bersihin.mobileapp.ui.components.HomeHeaderProps
-import com.bersihin.mobileapp.ui.components.ReportItem
-import com.bersihin.mobileapp.ui.components.ReportItemProps
+import com.bersihin.mobileapp.ui.components.common.FullscreenLoadingIndicator
+import com.bersihin.mobileapp.ui.components.common.HomeHeader
+import com.bersihin.mobileapp.ui.components.common.HomeHeaderProps
+import com.bersihin.mobileapp.ui.components.report.ReportItem
+import com.bersihin.mobileapp.ui.components.report.ReportItemProps
 import com.bersihin.mobileapp.ui.navigation.Screen
 import com.bersihin.mobileapp.utils.ViewModelFactory
 
@@ -65,11 +65,6 @@ fun WorkerHomeScreen(
                             id = it.id,
                             title = it.title,
                             description = it.description,
-//                            location = geocoder.getFromLocation(
-//                                it.latitude,
-//                                it.longitude,
-//                                1
-//                            )?.get(0)?.getAddressLine(0) ?: "",
                             status = it.status
                         ),
                         onClick = { navController.navigate(Screen.ReportDetails.createRoute(it.id)) }

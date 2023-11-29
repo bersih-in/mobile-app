@@ -50,11 +50,28 @@
     <string name="inprogress">In Progress</string>
     <string name="finished">Finished</string>
 
-    <string name="pending_desc">Your report is still being processed by our system, please wait!</string>
+    <string name="pending_desc">Your report is still being processed by our system, kindly wait for further updates!</string>
     <string name="rejected_by_ml_desc">We\'re sorry, but your report has been rejected by our system 🙏</string>
     <string name="rejected_by_admin_desc">We\'re sorry, but our administrators have double-checked your report and has decided to reject your report 🙏</string>
     <string name="rejected_by_worker_desc">We\'re sorry, but your report has been rejected by our worker 🙏</string>
     <string name="verified_desc">Congratulations, your report has been verified by our system! 🥳</string>
-    <string name="inprogress_desc">Your report is currently being worked at by our worker, please wait!</string>
+    <string name="inprogress_desc">Your report is currently being examined by the worker, kindly wait for further updates!</string>
     <string name="finished_desc">Congratulations, the trash spot has been cleared by the worker! 🥳</string>
+
+    <string name="pickup_prompt">There hasn\'t been any worker that picked this report up. Would you like to pick this report up?</string>
+    <string name="pickup">Pick Up</string>
+
+    <string name="update_prompt">Would you like to update the progress on this report?</string>
+    <string name="mark_as_fake_report">Mark as Fake Report</string>
+    <string name="mark_as_finished">Mark as Finished</string>
+
+    <string name="fake_report_prompt">Please provide your reason of marking this report as a fake report.</string>
+
+    <string name="reason">Reason of Cancellation</string>
+    <string name="reason_placeholder">Enter your reason for cancelling this report...</string>
+    <string name="reason_invalid">Reason must not be empty!</string>
+
+    <string name="finish_report_prompt">Please provide an image as proof of finished cleaning work!</string>
+    <string name="upload_image">Upload Image</string>
+    <string name="finish_report">Finish Report</string>
 </resources>

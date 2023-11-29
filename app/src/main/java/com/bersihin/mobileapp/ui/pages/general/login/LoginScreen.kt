@@ -45,8 +45,8 @@ import androidx.navigation.NavController
 import com.bersihin.mobileapp.R
 import com.bersihin.mobileapp.api.ApiConfig
 import com.bersihin.mobileapp.preferences.auth.AuthViewModel
-import com.bersihin.mobileapp.ui.components.FormField
-import com.bersihin.mobileapp.ui.components.FormFieldProps
+import com.bersihin.mobileapp.ui.components.common.FormField
+import com.bersihin.mobileapp.ui.components.common.FormFieldProps
 import com.bersihin.mobileapp.ui.navigation.Screen
 import com.bersihin.mobileapp.ui.theme.BersihinTheme
 import com.bersihin.mobileapp.utils.FormFieldValidator
@@ -173,7 +173,7 @@ fun LoginScreen(
                                 )
 
                                 ApiConfig.setAuthToken(viewModel.authToken)
-                                
+
                                 Log.i("LoginScreen", "authToken: ${viewModel.authToken}")
                             }
                         }

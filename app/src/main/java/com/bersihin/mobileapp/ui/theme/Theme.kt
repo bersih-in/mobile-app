@@ -18,6 +18,7 @@ val darkColorScheme = darkColorScheme(
     secondary = Color(0xFF00D6C4),
     surface = Color(0XFF001826),
     error = Color(0xFFd10042),
+    onErrorContainer = Color(0xFFFFDBDB),
 )
 
 val lightColorScheme = lightColorScheme(
@@ -26,6 +27,7 @@ val lightColorScheme = lightColorScheme(
     secondary = Color(0xFF016b64),
     surface = Color(0xFFF2FAFA),
     error = Color(0xFFd10042),
+    onErrorContainer = Color(0xFFFFDBDB),
 )
 
 @Composable

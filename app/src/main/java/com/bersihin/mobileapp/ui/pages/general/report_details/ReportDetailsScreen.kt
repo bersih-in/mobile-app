@@ -1,5 +1,7 @@
 package com.bersihin.mobileapp.ui.pages.general.report_details
 
+import android.content.Intent
+import android.net.Uri
 import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -9,15 +11,19 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Map
+import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -35,21 +41,36 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.bersihin.mobileapp.models.Report
 import com.bersihin.mobileapp.models.ReportStatus
+import com.bersihin.mobileapp.models.UserRole
+import com.bersihin.mobileapp.preferences.auth.AuthViewModel
 import com.bersihin.mobileapp.ui.common.UiState
-import com.bersihin.mobileapp.ui.components.FullscreenLoadingIndicator
-import com.bersihin.mobileapp.ui.components.StatusBox
-import com.bersihin.mobileapp.ui.components.StatusReasonDialog
+import com.bersihin.mobileapp.ui.components.actions.WorkerPickupActions
+import com.bersihin.mobileapp.ui.components.actions.WorkerUpdateActions
+import com.bersihin.mobileapp.ui.components.common.FullscreenLoadingIndicator
+import com.bersihin.mobileapp.ui.components.dialog.FakeReportDialog
+import com.bersihin.mobileapp.ui.components.dialog.FinishReportDialog
+import com.bersihin.mobileapp.ui.components.dialog.StatusReasonDialog
+import com.bersihin.mobileapp.ui.components.report.StatusBox
 import com.bersihin.mobileapp.ui.theme.BersihinTheme
 import com.bersihin.mobileapp.utils.ViewModelFactory
 
 @Composable
 fun ReportDetailsScreen(
-    reportId: String, viewModel: ReportDetailsViewModel = viewModel(
+    reportId: String,
+    viewModel: ReportDetailsViewModel = viewModel(
+        factory = ViewModelFactory(context = LocalContext.current)
+    ),
+    authViewModel: AuthViewModel = viewModel(
         factory = ViewModelFactory(context = LocalContext.current)
     ),
     navController: NavController?
 ) {
     val reportInfo = viewModel.reportInfo.collectAsState(initial = UiState.Loading)
+    val userRole = authViewModel.getUserRole().collectAsState(initial = null)
+
+    LaunchedEffect(userRole.value) {
+        Log.i("ReportDetailsScreen", "User role: ${userRole.value}")
+    }
 
     when (val uiState = reportInfo.value) {
         is UiState.Loading -> {
@@ -67,7 +88,8 @@ fun ReportDetailsScreen(
                     report = data,
                     address = viewModel.address
                 ),
-                navController = navController
+                navController = navController,
+                userRole = UserRole.valueOf(userRole.value ?: "USER")
             )
         }
 
@@ -87,42 +109,62 @@ data class ReportDetailsContentProps(
 fun ReportDetailsContent(
     modifier: Modifier = Modifier,
     navController: NavController?,
-    props: ReportDetailsContentProps
+    props: ReportDetailsContentProps,
+    userRole: UserRole,
 ) {
-    val showDialog = rememberSaveable { mutableStateOf(false) }
+    val showStatusDialog = rememberSaveable { mutableStateOf(false) }
 
-    if (showDialog.value) {
+    val showFakeReportDialog = rememberSaveable { mutableStateOf(false) }
+    val showFinishedReportDialog = rememberSaveable { mutableStateOf(false) }
+
+    val context = LocalContext.current
+
+    if (showStatusDialog.value) {
         StatusReasonDialog(
             message = props.report.statusReason ?: "",
             status = props.report.status,
-            onDismissRequest = { showDialog.value = false })
+            onDismissRequest = { showStatusDialog.value = false })
     }
 
+    if (showFakeReportDialog.value) {
+        FakeReportDialog(
+            reportId = props.report.id,
+            onDismissRequest = { showFakeReportDialog.value = false })
+    }
+
+    if (showFinishedReportDialog.value) {
+        FinishReportDialog (
+            reportId = props.report.id,
+            onDismissRequest = { showFinishedReportDialog.value = false }
+        )
+    }
     Column(modifier = modifier) {
+
+        Row(
+            modifier = modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Start,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+                imageVector = Icons.Default.ArrowBack,
+                contentDescription = null,
+                modifier = Modifier
+                    .padding(16.dp)
+                    .clickable { navController?.navigateUp() }
+                    .testTag("backButton")
+            )
+            Text(
+                text = "Go Back"
+            )
+        }
+
         Column(
             modifier = modifier
                 .fillMaxWidth()
+                .padding(bottom = 32.dp)
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Row(
-                modifier = modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Start,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Icon(
-                    imageVector = Icons.Default.ArrowBack,
-                    contentDescription = null,
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .clickable { navController?.navigateUp() }
-                        .testTag("backButton")
-                )
-                Text(
-                    text = "Go Back"
-                )
-            }
-
             Spacer(modifier = modifier.height(24.dp))
 
             AsyncImage(
@@ -148,7 +190,7 @@ fun ReportDetailsContent(
                     modifier = Modifier
                         .padding(vertical = 24.dp)
                         .clickable {
-                            showDialog.value = true
+                            showStatusDialog.value = true
                         },
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -166,13 +208,6 @@ fun ReportDetailsContent(
                 }
 
                 Text(
-                    text = props.report.description,
-                    style = MaterialTheme.typography.bodyLarge
-                )
-
-                Spacer(modifier = modifier.height(32.dp))
-
-                Text(
                     text = "Location: ${props.address}",
                     style = MaterialTheme.typography.bodyMedium.copy(
                         fontWeight = FontWeight.SemiBold,
@@ -180,9 +215,57 @@ fun ReportDetailsContent(
                     )
                 )
 
-                Spacer(modifier = modifier.height(32.dp))
-            }
+                Spacer(modifier = modifier.height(8.dp))
 
+                ElevatedButton(
+                    onClick = {
+                        val zoomLevel = 15
+                        val uri =
+                            "http://maps.google.com/maps?q=loc:${props.report.latitude},${props.report.longitude}&z=$zoomLevel"
+
+                        context.startActivity(
+                            Intent(
+                                Intent.ACTION_VIEW,
+                                Uri.parse(uri)
+                            )
+                        )
+                    },
+                    modifier = modifier
+                        .fillMaxWidth()
+                        .height(50.dp)
+                ) {
+                    Icon(imageVector = Icons.Default.Map, contentDescription = null)
+                    Spacer(modifier = modifier.width(8.dp))
+                    Text(
+                        text = "Check Location",
+                        style = MaterialTheme.typography.labelLarge
+                    )
+                }
+
+                Spacer(modifier = modifier.height(32.dp))
+
+                Text(
+                    text = props.report.description,
+                    style = MaterialTheme.typography.bodyLarge
+                )
+
+                Spacer(modifier = modifier.height(32.dp))
+
+                if (userRole == UserRole.WORKER) {
+                    if (props.report.status == ReportStatus.VERIFIED) {
+                        WorkerPickupActions()
+                    } else if (props.report.status == ReportStatus.IN_PROGRESS) {
+                        WorkerUpdateActions(
+                            onFakeReportClick = {
+                                showFakeReportDialog.value = true
+                            },
+                            onFinishedClick = {
+                                showFinishedReportDialog.value = true
+                            }
+                        )
+                    }
+                }
+            }
         }
     }
 
@@ -206,7 +289,8 @@ fun ReportDetailsContentPreview() {
                 address = "Jalan Jalan",
 
                 ),
-            navController = null
+            navController = null,
+            userRole = UserRole.WORKER
         )
     }
 }
