@@ -72,9 +72,12 @@ fun App(
     val snackbarHostState = remember { SnackbarHostState() }
     val isLoading = remember { mutableStateOf(true) }
 
-    val screenWithNoBottomBar = listOf(
-        Screen.Login.route,
-        Screen.Register.route
+    val screenWithBottomBar = listOf(
+        Screen.UserHome.route,
+        Screen.WorkerHome.route,
+        Screen.Progress.route,
+        Screen.History.route,
+        Screen.Settings.route
     )
 
     val authToken = authViewModel.authToken.collectAsState()
@@ -103,7 +106,7 @@ fun App(
 
     Scaffold(
         bottomBar = {
-            if (!screenWithNoBottomBar.contains(currentRoute)) {
+            if (screenWithBottomBar.contains(currentRoute)) {
                 BottomBar(
                     navController = navController
                 )
@@ -141,7 +144,7 @@ fun App(
                 arguments = listOf(navArgument("reportId") { type = NavType.StringType })
             ) {
                 val reportId = it.arguments?.getString("reportId") ?: ""
-                ReportDetailsScreen(reportId = reportId)
+                ReportDetailsScreen(reportId = reportId, navController = navController)
             }
 
             // user pages
