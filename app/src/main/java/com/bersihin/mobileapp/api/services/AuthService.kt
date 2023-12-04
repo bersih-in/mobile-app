@@ -1,7 +1,8 @@
 package com.bersihin.mobileapp.api.services
 
-import com.bersihin.mobileapp.api.responses.AuthResponse
-import com.bersihin.mobileapp.api.responses.LoginSuccessResponse
+import com.bersihin.mobileapp.api.MessageResponse
+import com.bersihin.mobileapp.api.SuccessResponse
+import com.bersihin.mobileapp.models.LoginData
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -19,24 +20,22 @@ data class LoginRequest(
     val password: String
 )
 
-sealed class LoginResponse {
-    data class Success(val response: LoginSuccessResponse) : LoginResponse()
-    data class Error(val errorMessage: String) : LoginResponse()
-    object NetworkError : LoginResponse()
-}
-
 
 interface AuthService {
-    @POST("auth/register")
+    companion object {
+        const val PATH = "auth"
+    }
+
+    @POST("${PATH}/register")
     suspend fun register(
         @Body request: RegisterRequest
-    ): AuthResponse
+    ): MessageResponse
 
-    @POST("auth/login")
+    @POST("${PATH}/login")
     suspend fun login(
         @Body request: LoginRequest
-    ): LoginSuccessResponse
+    ): SuccessResponse<LoginData>
 
-    @GET("auth/credential-info")
-    suspend fun credentialInfo(): LoginSuccessResponse
+    @GET("${PATH}/credential-info")
+    suspend fun credentialInfo(): SuccessResponse<LoginData>
 }

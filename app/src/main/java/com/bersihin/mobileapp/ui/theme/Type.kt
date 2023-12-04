@@ -31,6 +31,12 @@ fun createTypography(isDarkMode: Boolean): Typography {
             fontSize = 34.sp,
             letterSpacing = 0.sp,
         ),
+        titleMedium = TextStyle(
+            fontFamily = PrimaryFont,
+            fontWeight = FontWeight.W700,
+            fontSize = 24.sp,
+            letterSpacing = 0.sp,
+        ),
         labelLarge = TextStyle(
             fontFamily = SecondaryFont,
             fontWeight = FontWeight.W600,

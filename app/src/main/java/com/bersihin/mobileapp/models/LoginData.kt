@@ -1,22 +1,6 @@
-package com.bersihin.mobileapp.api.responses
+package com.bersihin.mobileapp.models
 
 import com.google.gson.annotations.SerializedName
-
-data class AuthResponse(
-    @field:SerializedName("success")
-    val success: Boolean,
-
-    @field:SerializedName("message")
-    val message: String
-)
-
-data class LoginSuccessResponse(
-    @field:SerializedName("success")
-    val success: Boolean,
-
-    @field:SerializedName("data")
-    val data: LoginData
-)
 
 data class LoginData(
     @field:SerializedName("firstName")

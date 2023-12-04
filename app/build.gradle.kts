@@ -88,6 +88,9 @@ dependencies {
     // coil for loading async image
     implementation("io.coil-kt:coil-compose:2.5.0")
 
+    // location client
+    implementation("com.google.android.gms:play-services-location:17.0.0")
+
     // test implementation dependencies
     testImplementation(libs.junit)
 

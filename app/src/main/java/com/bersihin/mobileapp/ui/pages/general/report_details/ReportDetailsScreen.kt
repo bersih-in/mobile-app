@@ -81,7 +81,7 @@ fun ReportDetailsScreen(
         is UiState.Success -> {
             val data = uiState.data
 
-            Log.i("ReportDetailsScreen", "Report: ${data.pictureUrl}")
+            Log.i("ReportDetailsScreen", "Report: ${data.imageUrl}")
 
             ReportDetailsContent(
                 props = ReportDetailsContentProps(
@@ -133,7 +133,7 @@ fun ReportDetailsContent(
     }
 
     if (showFinishedReportDialog.value) {
-        FinishReportDialog (
+        FinishReportDialog(
             reportId = props.report.id,
             onDismissRequest = { showFinishedReportDialog.value = false }
         )
@@ -168,7 +168,7 @@ fun ReportDetailsContent(
             Spacer(modifier = modifier.height(24.dp))
 
             AsyncImage(
-                model = props.report.pictureUrl,
+                model = props.report.imageUrl,
                 contentDescription = null,
                 modifier = modifier
                     .height(300.dp)
@@ -284,7 +284,7 @@ fun ReportDetailsContentPreview() {
                     latitude = 0.0,
                     longitude = 0.0,
                     status = ReportStatus.PENDING,
-                    pictureUrl = "https://i1.sndcdn.com/artworks-5ApRolfwUlCRJ2v4-bcG9jg-t500x500.jpg"
+                    imageUrl = "https://i1.sndcdn.com/artworks-5ApRolfwUlCRJ2v4-bcG9jg-t500x500.jpg"
                 ),
                 address = "Jalan Jalan",
 

@@ -3,7 +3,7 @@ package com.bersihin.mobileapp.preferences.auth
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.bersihin.mobileapp.api.services.LoginResponse
+import com.bersihin.mobileapp.api.Response
 import com.bersihin.mobileapp.repository.AuthRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -78,7 +78,7 @@ class AuthViewModel(
     suspend fun checkAuthToken(): Boolean {
         return withContext(Dispatchers.IO) {
             when (val response = repository.checkAuthToken()) {
-                is LoginResponse.Success -> {
+                is Response.Success -> {
                     userRole = response.response.data.role
 
                     pref.saveAuthInfo(

@@ -1,7 +1,7 @@
 package com.bersihin.mobileapp.ui.pages.general.login
 
 import androidx.lifecycle.ViewModel
-import com.bersihin.mobileapp.api.services.LoginResponse
+import com.bersihin.mobileapp.api.Response
 import com.bersihin.mobileapp.preferences.auth.AuthPreferences
 import com.bersihin.mobileapp.repository.AuthRepository
 import kotlinx.coroutines.Dispatchers
@@ -31,13 +31,13 @@ class LoginViewModel(
             _isLoading.value = false
 
             when (val response = repository.login(email, password)) {
-                is LoginResponse.Success -> {
+                is Response.Success -> {
                     authToken = response.response.data.token
                     userRole = response.response.data.role
                     firstName = response.response.data.firstName
                     lastName = response.response.data.lastName
                     userEmail = response.response.data.email
-                    
+
 
                     pref.saveAuthInfo(
                         authToken = authToken,
@@ -49,12 +49,12 @@ class LoginViewModel(
                     true
                 }
 
-                is LoginResponse.Error -> {
+                is Response.Error -> {
                     errorMessage = response.errorMessage
                     false
                 }
 
-                is LoginResponse.NetworkError -> {
+                is Response.NetworkError -> {
                     errorMessage = "Network Error"
                     false
                 }

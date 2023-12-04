@@ -74,4 +74,8 @@
     <string name="finish_report_prompt">Please provide an image as proof of finished cleaning work!</string>
     <string name="upload_image">Upload Image</string>
     <string name="finish_report">Finish Report</string>
+
+    <string name="worker_home_header">Check the latest reports submitted by others here!</string>
+    <string name="no_reports_found">No reports found!</string>
+    <string name="worker_home_no_reports">There are no reports nearby right now! Please try again later...</string>
 </resources>

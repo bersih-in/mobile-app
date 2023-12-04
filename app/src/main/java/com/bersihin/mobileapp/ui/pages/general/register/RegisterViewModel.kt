@@ -2,7 +2,7 @@ package com.bersihin.mobileapp.ui.pages.general.register
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
-import com.bersihin.mobileapp.api.responses.AuthResponse
+import com.bersihin.mobileapp.api.MessageResponse
 import com.bersihin.mobileapp.repository.AuthRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,7 +25,7 @@ class RegisterViewModel(
 
         return try {
             withContext(Dispatchers.IO) {
-                var response: AuthResponse = repository.register(
+                val response: MessageResponse = repository.register(
                     firstName = firstName,
                     lastName = lastName,
                     email = email,

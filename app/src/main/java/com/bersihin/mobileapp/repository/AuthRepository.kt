@@ -1,9 +1,10 @@
 package com.bersihin.mobileapp.repository
 
+import com.bersihin.mobileapp.api.Response
 import com.bersihin.mobileapp.api.services.AuthService
 import com.bersihin.mobileapp.api.services.LoginRequest
-import com.bersihin.mobileapp.api.services.LoginResponse
 import com.bersihin.mobileapp.api.services.RegisterRequest
+import com.bersihin.mobileapp.models.LoginData
 import org.json.JSONObject
 import retrofit2.HttpException
 import java.io.IOException
@@ -28,29 +29,29 @@ class AuthRepository(
     )
 
 
-    suspend fun login(email: String, password: String): LoginResponse {
+    suspend fun login(email: String, password: String): Response<LoginData> {
         return try {
             val response = service.login(LoginRequest(email, password))
-            LoginResponse.Success(response)
+            Response.Success(response)
         } catch (e: HttpException) {
             val errorMessage =
                 JSONObject(e.response()?.errorBody()?.string()!!).getString("message")
-            LoginResponse.Error(errorMessage)
+            Response.Error(errorMessage)
         } catch (e: IOException) {
-            LoginResponse.NetworkError
+            Response.NetworkError
         }
     }
 
-    suspend fun checkAuthToken(): LoginResponse {
+    suspend fun checkAuthToken(): Response<LoginData> {
         return try {
             val response = service.credentialInfo()
-            LoginResponse.Success(response)
+            Response.Success(response)
         } catch (e: HttpException) {
             val errorMessage =
                 JSONObject(e.response()?.errorBody()?.string()!!).getString("message")
-            LoginResponse.Error(errorMessage)
+            Response.Error(errorMessage)
         } catch (e: IOException) {
-            LoginResponse.NetworkError
+            Response.NetworkError
         }
     }
 }
