@@ -14,15 +14,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bersihin.mobileapp.ui.theme.BersihinTheme
 
-data class HomeHeaderProps(
-    val firstName: String,
-    val lastName: String,
+data class PageHeaderProps(
+    val title: String,
     val description: String,
 )
 
 @Composable
-fun HomeHeader(
-    props: HomeHeaderProps
+fun PageHeader(
+    props: PageHeaderProps
 ) {
     Column(
         modifier = Modifier
@@ -30,7 +29,7 @@ fun HomeHeader(
             .padding(16.dp)
     ) {
         Text(
-            text = "Hello, ${props.firstName} ${props.lastName} 👋",
+            text = props.title,
             style = MaterialTheme.typography.titleLarge.copy(
                 fontSize = 24.sp,
                 lineHeight = 32.sp,
@@ -49,12 +48,11 @@ fun HomeHeader(
 
 @Preview(showBackground = true)
 @Composable
-fun HomeHeaderPreview() {
+fun PageHeaderPreview() {
     BersihinTheme {
-        HomeHeader(
-            props = HomeHeaderProps(
-                firstName = "John",
-                lastName = "Doe",
+        PageHeader(
+            props = PageHeaderProps(
+                title = "John Doe",
                 description = "Welcome to Bersihin!"
             )
         )

@@ -76,6 +76,10 @@
     <string name="finish_report">Finish Report</string>
 
     <string name="worker_home_header">Check the latest reports submitted by others here!</string>
-    <string name="no_reports_found">No reports found!</string>
-    <string name="worker_home_no_reports">There are no reports nearby right now! Please try again later...</string>
+    <string name="no_reports_found">No reports found nearby!</string>
+    <string name="no_reports_found_desc">There are no reports found near you right now! Please try again later...</string>
+    <string name="couldnt_get_reports">Couldn\'t get reports!</string>
+    <string name="couldnt_get_reports_desc">We\'re sorry, but we couldn\'t get the reports from our server. Please try again later...</string>
+    <string name="your_history">Your History 📃</string>
+    <string name="your_history_desc">See your previously finished reports and currently active reports here!</string>
 </resources>

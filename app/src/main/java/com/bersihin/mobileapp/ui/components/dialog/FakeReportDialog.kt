@@ -17,6 +17,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -26,14 +27,20 @@ import androidx.compose.ui.window.Dialog
 import com.bersihin.mobileapp.R
 import com.bersihin.mobileapp.ui.components.common.FormField
 import com.bersihin.mobileapp.ui.components.common.FormFieldProps
+import com.bersihin.mobileapp.ui.pages.general.report_details.ReportDetailsViewModel
 import com.bersihin.mobileapp.ui.theme.BersihinTheme
+import kotlinx.coroutines.launch
 
 @Composable
 fun FakeReportDialog(
     reportId: String = "",
+    viewModel: ReportDetailsViewModel? = null,
+    onSuccess: () -> Unit = {},
+    onFailure: () -> Unit = {},
     onDismissRequest: () -> Unit = {}
 ) {
     val reason = rememberSaveable { mutableStateOf("") }
+    val scope = rememberCoroutineScope()
 
     Dialog(onDismissRequest = { onDismissRequest() }) {
         Card(
@@ -64,7 +71,22 @@ fun FakeReportDialog(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(50.dp),
-                    onClick = { /** TODO **/ },
+                    onClick = {
+                        scope.launch {
+                            val isSuccess = viewModel?.updateReport(
+                                reportId = reportId,
+                                status = "REJECTED_BY_WORKER",
+                                statusReason = reason.value
+                            )
+
+                            if (isSuccess == true) {
+                                onSuccess()
+                            } else {
+                                onDismissRequest()
+                                onFailure()
+                            }
+                        }
+                    },
                     colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.onErrorContainer)
                 ) {
                     Icon(

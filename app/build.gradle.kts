@@ -91,6 +91,10 @@ dependencies {
     // location client
     implementation("com.google.android.gms:play-services-location:17.0.0")
 
+    // accompanist to request permission and swipe refresh
+    implementation("com.google.accompanist:accompanist-permissions:0.25.0")
+    implementation("com.google.accompanist:accompanist-swiperefresh:0.25.0")
+
     // test implementation dependencies
     testImplementation(libs.junit)
 

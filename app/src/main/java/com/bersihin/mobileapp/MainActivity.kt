@@ -1,5 +1,6 @@
 package com.bersihin.mobileapp
 
+import android.Manifest
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -42,6 +43,8 @@ import com.bersihin.mobileapp.ui.pages.worker.home.WorkerHomeScreen
 import com.bersihin.mobileapp.ui.pages.worker.progress.ProgressScreen
 import com.bersihin.mobileapp.ui.theme.BersihinTheme
 import com.bersihin.mobileapp.utils.ViewModelFactory
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.rememberMultiplePermissionsState
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,6 +62,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun App(
     modifier: Modifier = Modifier,
@@ -81,8 +85,20 @@ fun App(
     )
 
     val authToken = authViewModel.authToken.collectAsState()
+    val context = LocalContext.current
+
+    val permissionState = rememberMultiplePermissionsState(
+        permissions = listOf(
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION
+        )
+    )
+
+
 
     LaunchedEffect(authToken.value) {
+        permissionState.launchMultiplePermissionRequest()
+
         if (authToken.value == null) {
             navController.navigate(Screen.Login.route)
         } else {
@@ -159,6 +175,7 @@ fun App(
             // worker pages
             composable(Screen.WorkerHome.route) {
                 WorkerHomeScreen(
+                    modifier = Modifier.padding(bottom = innerPadding.calculateBottomPadding()),
                     navController = navController
                 )
             }
@@ -166,7 +183,10 @@ fun App(
                 ProgressScreen()
             }
             composable(Screen.History.route) {
-                HistoryScreen()
+                HistoryScreen(
+                    modifier = Modifier.padding(bottom = innerPadding.calculateBottomPadding()),
+                    navController = navController
+                )
             }
         }
     }

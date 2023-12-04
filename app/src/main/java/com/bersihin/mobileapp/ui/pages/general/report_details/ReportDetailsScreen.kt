@@ -3,6 +3,7 @@ package com.bersihin.mobileapp.ui.pages.general.report_details
 import android.content.Intent
 import android.net.Uri
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -88,6 +89,7 @@ fun ReportDetailsScreen(
                     report = data,
                     address = viewModel.address
                 ),
+                viewModel = viewModel,
                 navController = navController,
                 userRole = UserRole.valueOf(userRole.value ?: "USER")
             )
@@ -108,6 +110,7 @@ data class ReportDetailsContentProps(
 @Composable
 fun ReportDetailsContent(
     modifier: Modifier = Modifier,
+    viewModel: ReportDetailsViewModel?,
     navController: NavController?,
     props: ReportDetailsContentProps,
     userRole: UserRole,
@@ -129,7 +132,24 @@ fun ReportDetailsContent(
     if (showFakeReportDialog.value) {
         FakeReportDialog(
             reportId = props.report.id,
-            onDismissRequest = { showFakeReportDialog.value = false })
+            onDismissRequest = { showFakeReportDialog.value = false },
+            onSuccess = {
+                navController?.navigateUp()
+                Toast.makeText(
+                    context,
+                    "Successfully updated the report status!",
+                    Toast.LENGTH_SHORT
+                ).show()
+            },
+            onFailure = {
+                Toast.makeText(
+                    context,
+                    "Failed to update the report status!",
+                    Toast.LENGTH_SHORT
+                ).show()
+            },
+            viewModel = viewModel
+        )
     }
 
     if (showFinishedReportDialog.value) {
@@ -290,6 +310,7 @@ fun ReportDetailsContentPreview() {
 
                 ),
             navController = null,
+            viewModel = null,
             userRole = UserRole.WORKER
         )
     }
