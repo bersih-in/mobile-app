@@ -30,8 +30,9 @@ class WorkerRepository(
         sortByDate: Boolean = false,
         latitude: Double = 0.0,
         longitude: Double = 0.0,
-        statusName: String = ReportStatus.PENDING.name,
-        bySelf: Boolean = true
+        distanceLimit: Int = 10,
+        statusName: String = ReportStatus.VERIFIED.name,
+        bySelf: Boolean = false
     ): Response<List<Report>> {
 //        return flowOf(reportList)
 
@@ -43,7 +44,7 @@ class WorkerRepository(
                     sortByDate = sortByDate,
                     lat = latitude,
                     lon = longitude,
-                    distanceLimit = 10,
+                    distanceLimit = distanceLimit,
                     status = statusName,
                     bySelf = bySelf
                 )

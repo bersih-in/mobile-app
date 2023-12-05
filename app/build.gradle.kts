@@ -12,6 +12,7 @@ android {
     defaultConfig {
         applicationId = "com.bersihin.mobileapp"
         minSdk = 24
+        //noinspection ExpiredTargetSdkVersion
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -95,16 +96,21 @@ dependencies {
     implementation("com.google.accompanist:accompanist-permissions:0.25.0")
     implementation("com.google.accompanist:accompanist-swiperefresh:0.25.0")
 
-    // test implementation dependencies
-    testImplementation(libs.junit)
+    // firebase to upload images
+    implementation(platform("com.google.firebase:firebase-bom:32.6.0"))
+    implementation("com.google.firebase:firebase-storage")
 
-    // android test implementation dependencies
-    androidTestImplementation(libs.androidx.test.ext.junit)
-    androidTestImplementation(libs.espresso.core)
-    androidTestImplementation(platform(libs.compose.bom))
-    androidTestImplementation(libs.ui.test.junit4)
 
-    // debug implementation dependencies
-    debugImplementation(libs.ui.tooling)
-    debugImplementation(libs.ui.test.manifest)
+//    // test implementation dependencies
+//    testImplementation(libs.junit)
+//
+//    // android test implementation dependencies
+//    androidTestImplementation(libs.androidx.test.ext.junit)
+//    androidTestImplementation(libs.espresso.core)
+//    androidTestImplementation(platform(libs.compose.bom))
+//    androidTestImplementation(libs.ui.test.junit4)
+//
+//    // debug implementation dependencies
+//    debugImplementation(libs.ui.tooling)
+//    debugImplementation(libs.ui.test.manifest)
 }

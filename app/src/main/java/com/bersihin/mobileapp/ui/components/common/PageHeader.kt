@@ -42,7 +42,7 @@ fun PageHeader(
                 fontSize = 18.sp
             )
         )
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(8.dp))
     }
 }
 

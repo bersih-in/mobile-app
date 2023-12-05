@@ -4,15 +4,29 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.util.Log
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material3.ElevatedButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -27,6 +41,7 @@ import com.bersihin.mobileapp.ui.components.common.FullscreenLoadingIndicator
 import com.bersihin.mobileapp.ui.components.common.InfoItem
 import com.bersihin.mobileapp.ui.components.common.PageHeader
 import com.bersihin.mobileapp.ui.components.common.PageHeaderProps
+import com.bersihin.mobileapp.ui.components.dialog.FilterDialog
 import com.bersihin.mobileapp.ui.components.report.ReportItem
 import com.bersihin.mobileapp.ui.components.report.ReportItemProps
 import com.bersihin.mobileapp.ui.navigation.Screen
@@ -55,6 +70,10 @@ fun WorkerHomeScreen(
     val fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
     val scope = rememberCoroutineScope()
 
+    var isFilterDialogShown by rememberSaveable { mutableStateOf(false) }
+    var sortByDate by rememberSaveable { mutableStateOf(false) }
+    var distanceLimit by rememberSaveable { mutableIntStateOf(10) }
+
     LaunchedEffect(Unit) {
         if (ActivityCompat.checkSelfPermission(
                 context,
@@ -69,14 +88,36 @@ fun WorkerHomeScreen(
                     "WorkerPageScreen",
                     "onCreate: ${location.latitude} ${location.longitude}"
                 )
-                viewModel.latitude.value = location.latitude
-                viewModel.longitude.value = location.longitude
+                viewModel.latitude = location.latitude
+                viewModel.longitude = location.longitude
 
                 scope.launch {
                     viewModel.getReports()
                 }
             }
         }
+    }
+
+    if (isFilterDialogShown) {
+        FilterDialog(
+            onDismissRequest = { isFilterDialogShown = false },
+            onDropdownClick = {
+                sortByDate = it == "Date"
+            },
+            onSliderChange = {
+                distanceLimit = it
+            },
+            onApply = {
+                scope.launch {
+                    viewModel.getReports(
+                        sortByDate = sortByDate,
+                        distanceLimit = distanceLimit
+                    )
+                }
+
+                isFilterDialogShown = false
+            }
+        )
     }
 
     SwipeRefresh(
@@ -120,6 +161,27 @@ fun WorkerHomeScreen(
                                 )
                             }
                         } else {
+                            item {
+                                ElevatedButton(
+                                    onClick = { isFilterDialogShown = true },
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(bottom = 16.dp)
+                                        .height(50.dp)
+                                        .padding(horizontal = 16.dp)
+
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Default.Settings,
+                                        contentDescription = null
+                                    )
+                                    Spacer(modifier = Modifier.width(8.dp))
+                                    Text(
+                                        text = "Adjust Filters",
+                                        style = MaterialTheme.typography.labelLarge
+                                    )
+                                }
+                            }
                             items(uiState.data) {
                                 ReportItem(
                                     props = ReportItemProps(
