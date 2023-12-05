@@ -12,12 +12,13 @@ import com.bersihin.mobileapp.ui.pages.general.register.RegisterViewModel
 import com.bersihin.mobileapp.ui.pages.general.report_details.ReportDetailsViewModel
 import com.bersihin.mobileapp.ui.pages.worker.history.HistoryViewModel
 import com.bersihin.mobileapp.ui.pages.worker.home.WorkerHomeViewModel
+import com.bersihin.mobileapp.ui.pages.worker.progress.ProgressViewModel
 
 class ViewModelFactory(private val context: Context) : ViewModelProvider.NewInstanceFactory() {
     @Suppress("UNCHECKED_CAST")
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        
+
         val authRepository = Injection.provideAuthRepository()
         val workerRepository = Injection.provideWorkerRepository()
         val preferences = AuthPreferences.getInstance(context.applicationContext.dataStore)
@@ -47,6 +48,10 @@ class ViewModelFactory(private val context: Context) : ViewModelProvider.NewInst
             ) as T
         } else if (modelClass.isAssignableFrom(HistoryViewModel::class.java)) {
             return HistoryViewModel(
+                repository = Injection.provideWorkerRepository()
+            ) as T
+        } else if (modelClass.isAssignableFrom(ProgressViewModel::class.java)) {
+            return ProgressViewModel(
                 repository = Injection.provideWorkerRepository()
             ) as T
         }

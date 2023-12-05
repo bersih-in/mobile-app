@@ -30,5 +30,6 @@ data class Report(
     @field:SerializedName("distance")
     val distance: Double? = 0.0,
 
-    val finishedBy: String? = ""
+    @field:SerializedName("workedBy")
+    val workedBy: String? = ""
 )

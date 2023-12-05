@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
@@ -23,18 +24,27 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.bersihin.mobileapp.R
 import com.bersihin.mobileapp.models.ReportStatus
+import com.bersihin.mobileapp.models.UserRole
 import com.bersihin.mobileapp.ui.components.report.StatusBox
 
 @Composable
 fun StatusReasonDialog(
     message: String,
     status: ReportStatus,
-    onDismissRequest: () -> Unit = {}
+    onDismissRequest: () -> Unit = {},
+    userRole: UserRole = UserRole.WORKER
 ) {
-    
+
     val statusMsg = when (status) {
         ReportStatus.PENDING -> stringResource(id = R.string.pending_desc)
-        ReportStatus.VERIFIED -> stringResource(id = R.string.verified_desc)
+        ReportStatus.VERIFIED -> "${stringResource(id = R.string.verified_desc)} \n\n ${
+            stringResource(
+                id = if (userRole == UserRole.WORKER)
+                    R.string.verified_desc_worker
+                else R.string.verified_desc_user
+            )
+        }"
+
         ReportStatus.REJECTED_BY_ADMIN -> stringResource(id = R.string.rejected_by_admin_desc)
         ReportStatus.REJECTED_BY_WORKER -> stringResource(id = R.string.rejected_by_worker_desc)
         ReportStatus.REJECTED_BY_SYSTEM -> stringResource(id = R.string.rejected_by_ml_desc)
@@ -46,7 +56,7 @@ fun StatusReasonDialog(
         Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(200.dp)
+                .heightIn(min = 200.dp, max = 300.dp)
                 .padding(16.dp),
             shape = RoundedCornerShape(16.dp)
         ) {
@@ -57,6 +67,14 @@ fun StatusReasonDialog(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                Text(
+                    text = stringResource(id = R.string.your_report_status),
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        fontWeight = FontWeight.SemiBold,
+                        lineHeight = 15.sp
+                    ),
+                    textAlign = TextAlign.Center
+                )
                 StatusBox(status = status)
 
                 Spacer(modifier = Modifier.height(16.dp))

@@ -27,12 +27,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -40,6 +42,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import com.bersihin.mobileapp.R
 import com.bersihin.mobileapp.models.Report
 import com.bersihin.mobileapp.models.ReportStatus
 import com.bersihin.mobileapp.models.UserRole
@@ -48,12 +51,15 @@ import com.bersihin.mobileapp.ui.common.UiState
 import com.bersihin.mobileapp.ui.components.actions.WorkerPickupActions
 import com.bersihin.mobileapp.ui.components.actions.WorkerUpdateActions
 import com.bersihin.mobileapp.ui.components.common.FullscreenLoadingIndicator
+import com.bersihin.mobileapp.ui.components.common.InfoItem
 import com.bersihin.mobileapp.ui.components.dialog.FakeReportDialog
 import com.bersihin.mobileapp.ui.components.dialog.FinishReportDialog
 import com.bersihin.mobileapp.ui.components.dialog.StatusReasonDialog
 import com.bersihin.mobileapp.ui.components.report.StatusBox
+import com.bersihin.mobileapp.ui.navigation.Screen
 import com.bersihin.mobileapp.ui.theme.BersihinTheme
 import com.bersihin.mobileapp.utils.ViewModelFactory
+import kotlinx.coroutines.launch
 
 @Composable
 fun ReportDetailsScreen(
@@ -68,14 +74,17 @@ fun ReportDetailsScreen(
 ) {
     val reportInfo = viewModel.reportInfo.collectAsState(initial = UiState.Loading)
     val userRole = authViewModel.getUserRole().collectAsState(initial = null)
+    val scope = rememberCoroutineScope()
 
     LaunchedEffect(userRole.value) {
         Log.i("ReportDetailsScreen", "User role: ${userRole.value}")
+        scope.launch {
+            viewModel.getReportDetails(reportId)
+        }
     }
 
     when (val uiState = reportInfo.value) {
         is UiState.Loading -> {
-            viewModel.getReportDetails(reportId)
             FullscreenLoadingIndicator()
         }
 
@@ -96,7 +105,11 @@ fun ReportDetailsScreen(
         }
 
         is UiState.Error -> {
-
+            InfoItem(
+                emoji = "🙏",
+                title = stringResource(id = R.string.couldnt_get_reports),
+                description = stringResource(id = R.string.couldnt_get_reports_desc)
+            )
         }
     }
 }
@@ -116,9 +129,11 @@ fun ReportDetailsContent(
     userRole: UserRole,
 ) {
     val showStatusDialog = rememberSaveable { mutableStateOf(false) }
-
     val showFakeReportDialog = rememberSaveable { mutableStateOf(false) }
     val showFinishedReportDialog = rememberSaveable { mutableStateOf(false) }
+
+    val pickupSuccess = stringResource(id = R.string.pickup_success)
+    val pickupFailed = stringResource(id = R.string.pickup_failed)
 
     val context = LocalContext.current
 
@@ -126,7 +141,9 @@ fun ReportDetailsContent(
         StatusReasonDialog(
             message = props.report.statusReason ?: "",
             status = props.report.status,
-            onDismissRequest = { showStatusDialog.value = false })
+            onDismissRequest = { showStatusDialog.value = false },
+            userRole = userRole
+        )
     }
 
     if (showFakeReportDialog.value) {
@@ -158,8 +175,8 @@ fun ReportDetailsContent(
             onDismissRequest = { showFinishedReportDialog.value = false }
         )
     }
-    Column(modifier = modifier) {
 
+    Column(modifier = modifier) {
         Row(
             modifier = modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Start,
@@ -181,7 +198,6 @@ fun ReportDetailsContent(
         Column(
             modifier = modifier
                 .fillMaxWidth()
-                .padding(bottom = 32.dp)
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -273,7 +289,25 @@ fun ReportDetailsContent(
 
                 if (userRole == UserRole.WORKER) {
                     if (props.report.status == ReportStatus.VERIFIED) {
-                        WorkerPickupActions()
+                        WorkerPickupActions(
+                            reportId = props.report.id,
+                            viewModel = viewModel,
+                            onSuccess = {
+                                navController?.navigate(Screen.Progress.route)
+                                Toast.makeText(
+                                    context,
+                                    pickupSuccess,
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            },
+                            onFailure = {
+                                Toast.makeText(
+                                    context,
+                                    pickupFailed,
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            },
+                        )
                     } else if (props.report.status == ReportStatus.IN_PROGRESS) {
                         WorkerUpdateActions(
                             onFakeReportClick = {
@@ -285,6 +319,8 @@ fun ReportDetailsContent(
                         )
                     }
                 }
+
+                Spacer(modifier = modifier.height(32.dp))
             }
         }
     }

@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">bersih.in</string>
 
     <!-- nouns -->
@@ -54,7 +54,9 @@
     <string name="rejected_by_ml_desc">We\'re sorry, but your report has been rejected by our system 🙏</string>
     <string name="rejected_by_admin_desc">We\'re sorry, but our administrators have double-checked your report and has decided to reject your report 🙏</string>
     <string name="rejected_by_worker_desc">We\'re sorry, but your report has been rejected by our worker 🙏</string>
-    <string name="verified_desc">Congratulations, your report has been verified by our system! 🥳</string>
+    <string name="verified_desc">Congratulations, the report has been verified by the system! 🥳 </string>
+    <string name="verified_desc_user" tools:ignore="ExtraTranslation">Please wait until the report is being worked on by the workers!</string>
+    <string name="verified_desc_worker" tools:ignore="ExtraTranslation">You can pick up this task and work on cleaning the trash pile!</string>
     <string name="inprogress_desc">Your report is currently being examined by the worker, kindly wait for further updates!</string>
     <string name="finished_desc">Congratulations, the trash spot has been cleared by the worker! 🥳</string>
 
@@ -68,7 +70,7 @@
     <string name="fake_report_prompt">Please provide your reason of marking this report as a fake report.</string>
 
     <string name="reason">Reason of Cancellation</string>
-    <string name="reason_placeholder">Enter your reason for cancelling this report...</string>
+    <string name="reason_placeholder">Enter your reason for cancelling this report…</string>
     <string name="reason_invalid">Reason must not be empty!</string>
 
     <string name="finish_report_prompt">Please provide an image as proof of finished cleaning work!</string>
@@ -77,9 +79,21 @@
 
     <string name="worker_home_header">Check the latest reports submitted by others here!</string>
     <string name="no_reports_found">No reports found nearby!</string>
-    <string name="no_reports_found_desc">There are no reports found near you right now! Please try again later...</string>
+    <string name="no_reports_found_desc">There are no reports found near you right now! Please try again later…</string>
     <string name="couldnt_get_reports">Couldn\'t get reports!</string>
-    <string name="couldnt_get_reports_desc">We\'re sorry, but we couldn\'t get the reports from our server. Please try again later...</string>
+    <string name="couldnt_get_reports_desc">We\'re sorry, but we couldn\'t get the reports from our server. Please try again later…</string>
     <string name="your_history">Your History 📃</string>
     <string name="your_history_desc">See your previously finished reports and currently active reports here!</string>
+
+
+    <string name="couldnt_get_details" tools:ignore="ExtraTranslation">Couldn\'t get details!</string>
+    <string name="couldnt_get_details_desc" tools:ignore="ExtraTranslation">We\'re sorry, but we couldn\'t get the details of the report from our server. Please try again later…</string>
+    <string name="your_report_status">Your report status is: </string>
+
+    <string name="pickup_success" tools:ignore="ExtraTranslation">Successfully picked up the task!</string>
+    <string name="pickup_failed">Failed to pick up the task, please try again later!</string>
+
+    <string name="progress_header" tools:ignore="ExtraTranslation">Here are the submitted reports that you\'ve picked up. Don\'t forget to complete them!</string>
+    <string name="no_progress" tools:ignore="ExtraTranslation">No claimed reports yet!</string>
+    <string name="no_progress_desc" tools:ignore="ExtraTranslation">You haven\'t picked up any reports yet! Head to the Home Page to start picking up reports…</string>
 </resources>

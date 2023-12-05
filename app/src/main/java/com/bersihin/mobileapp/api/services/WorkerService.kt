@@ -6,12 +6,16 @@ import com.bersihin.mobileapp.models.Report
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.PUT
+import retrofit2.http.Path
 
 data class ReportsRequest(
     val sortByDate: Boolean,
-    val lat: Double,
-    val lon: Double,
-    val distanceLimit: Int = 10
+    val lat: Double? = 0.0,
+    val lon: Double? = 0.0,
+    val distanceLimit: Int = 10,
+    val status: String = "PENDING",
+    val bySelf: Boolean = false
 )
 
 data class UpdateRequest(
@@ -33,9 +37,13 @@ interface WorkerService {
     @GET("${PATH}/history")
     suspend fun getHistory(): SuccessResponse<List<Report>>
 
-    // TODO: update jadi PUT kalo udah up
-    @POST("${PATH}/report-update")
+    @PUT("${PATH}/report-update")
     suspend fun updateReport(
         @Body request: UpdateRequest
     ): MessageResponse
+
+    @GET("${PATH}/report/{id}")
+    suspend fun getReportDetails(
+        @Path("id") reportId: String
+    ): SuccessResponse<Report>
 }

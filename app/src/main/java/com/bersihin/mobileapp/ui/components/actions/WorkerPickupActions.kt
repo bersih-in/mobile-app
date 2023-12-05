@@ -16,16 +16,26 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.bersihin.mobileapp.R
+import com.bersihin.mobileapp.ui.pages.general.report_details.ReportDetailsViewModel
 import com.bersihin.mobileapp.ui.theme.BersihinTheme
+import kotlinx.coroutines.launch
 
 @Composable
-fun WorkerPickupActions() {
+fun WorkerPickupActions(
+    reportId: String = "",
+    viewModel: ReportDetailsViewModel?,
+    onSuccess: () -> Unit = {},
+    onFailure: () -> Unit = {}
+) {
+    val scope = rememberCoroutineScope()
+
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -48,7 +58,21 @@ fun WorkerPickupActions() {
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(50.dp),
-                onClick = { /*TODO*/ }
+                onClick = {
+                    scope.launch {
+                        val isSuccess = viewModel?.updateReport(
+                            reportId = reportId,
+                            status = "IN_PROGRESS",
+                            statusReason = ""
+                        )
+
+                        if (isSuccess == true) {
+                            onSuccess()
+                        } else {
+                            onFailure()
+                        }
+                    }
+                }
             ) {
                 Icon(imageVector = Icons.Default.CheckCircle, contentDescription = null)
                 Spacer(modifier = Modifier.width(8.dp))
@@ -66,6 +90,8 @@ fun WorkerPickupActions() {
 @Composable
 fun WorkerPickupActionsPreview() {
     BersihinTheme {
-        WorkerPickupActions()
+        WorkerPickupActions(
+            viewModel = null
+        )
     }
 }

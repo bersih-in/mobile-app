@@ -180,7 +180,10 @@ fun App(
                 )
             }
             composable(Screen.Progress.route) {
-                ProgressScreen()
+                ProgressScreen(
+                    modifier = Modifier.padding(bottom = innerPadding.calculateBottomPadding()),
+                    navController = navController
+                )
             }
             composable(Screen.History.route) {
                 HistoryScreen(

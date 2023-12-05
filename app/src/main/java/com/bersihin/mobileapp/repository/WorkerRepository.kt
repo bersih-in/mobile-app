@@ -6,6 +6,7 @@ import com.bersihin.mobileapp.api.services.ReportsRequest
 import com.bersihin.mobileapp.api.services.UpdateRequest
 import com.bersihin.mobileapp.api.services.WorkerService
 import com.bersihin.mobileapp.models.Report
+import com.bersihin.mobileapp.models.ReportStatus
 import org.json.JSONObject
 import retrofit2.HttpException
 import java.io.IOException
@@ -26,9 +27,11 @@ class WorkerRepository(
     }
 
     suspend fun getReports(
-        sortByDate: Boolean,
-        latitude: Double,
-        longitude: Double
+        sortByDate: Boolean = false,
+        latitude: Double = 0.0,
+        longitude: Double = 0.0,
+        statusName: String = ReportStatus.PENDING.name,
+        bySelf: Boolean = true
     ): Response<List<Report>> {
 //        return flowOf(reportList)
 
@@ -40,7 +43,9 @@ class WorkerRepository(
                     sortByDate = sortByDate,
                     lat = latitude,
                     lon = longitude,
-                    distanceLimit = 10
+                    distanceLimit = 10,
+                    status = statusName,
+                    bySelf = bySelf
                 )
             )
 
@@ -58,10 +63,22 @@ class WorkerRepository(
         }
     }
 
-    fun getReportDetails(reportId: String): Report {
-        Log.i("WorkerRepository", "getReportDetails: ${reportList}")
-        return reportList.first {
-            it.id == reportId
+    suspend fun getReportDetails(reportId: String): Response<Report> {
+//        Log.i("WorkerRepository", "getReportDetails: ${reportList}")
+//        return reportList.first {
+//            it.id == reportId
+//        }
+
+        return try {
+            val response = service.getReportDetails(reportId)
+
+            Response.Success(response)
+        } catch (e: HttpException) {
+            val errorMessage =
+                JSONObject(e.response()?.errorBody()?.string()!!).getString("message")
+            Response.Error(errorMessage)
+        } catch (e: IOException) {
+            Response.NetworkError
         }
     }
 
@@ -99,5 +116,5 @@ class WorkerRepository(
                 statusReason = statusReason
             )
         )
-    
+
 }
