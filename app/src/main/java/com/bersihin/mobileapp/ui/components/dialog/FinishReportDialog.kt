@@ -49,16 +49,12 @@ fun FinishReportDialog(
     var isUploading by rememberSaveable { mutableStateOf(false) }
     var imageUrl by rememberSaveable { mutableStateOf("") }
     val context = LocalContext.current
-
     val scope = rememberCoroutineScope()
-
-
+    
     Dialog(onDismissRequest = { onDismissRequest() }) {
-
         Card(
             modifier = Modifier
                 .fillMaxWidth(),
-//                .padding(16.dp),
             shape = RoundedCornerShape(16.dp)
         ) {
 

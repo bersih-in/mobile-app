@@ -15,8 +15,8 @@ object NavigationItems {
             icon = Icons.Default.Home
         ),
         NavigationItem(
-            title = "Report",
-            screen = Screen.ReportDetails,
+            title = "Submit",
+            screen = Screen.ReportUpload,
             icon = Icons.Default.UploadFile
         ),
         NavigationItem(

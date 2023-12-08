@@ -1,5 +1,6 @@
 package com.bersihin.mobileapp.repository
 
+import com.bersihin.mobileapp.api.ApiConfig
 import com.bersihin.mobileapp.api.Response
 import com.bersihin.mobileapp.api.services.AuthService
 import com.bersihin.mobileapp.api.services.LoginRequest
@@ -12,6 +13,20 @@ import java.io.IOException
 class AuthRepository(
     private val service: AuthService
 ) {
+    companion object {
+        @Volatile
+        private var INSTANCE: AuthRepository? = null
+
+        fun getInstance(): AuthRepository {
+            return INSTANCE ?: synchronized(this) {
+                val service = ApiConfig.getService(AuthService::class.java)
+                AuthRepository(service).also {
+                    INSTANCE = it
+                }
+            }
+        }
+    }
+
     suspend fun register(
         firstName: String,
         lastName: String,

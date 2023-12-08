@@ -1,11 +1,9 @@
 package com.bersihin.mobileapp.ui.components.common
 
-import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Spacer
@@ -25,9 +23,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import com.google.accompanist.permissions.ExperimentalPermissionsApi
-import com.google.accompanist.permissions.isGranted
-import com.google.accompanist.permissions.rememberPermissionState
 import com.google.firebase.storage.FirebaseStorage
 import java.io.InputStream
 
@@ -57,11 +52,8 @@ fun uploadImage(
     }
 }
 
-
-@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun ImageUploadButton(
-    modifier: Modifier = Modifier,
     onUploading: () -> Unit = {},
     onSuccess: (String) -> Unit = {},
     onError: () -> Unit = {}
@@ -71,8 +63,6 @@ fun ImageUploadButton(
         mutableStateOf<Uri?>(null)
     }
 
-    val storageState =
-        rememberPermissionState(permission = Manifest.permission.READ_EXTERNAL_STORAGE)
 
     val launcher =
         rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -94,13 +84,9 @@ fun ImageUploadButton(
 
     ElevatedButton(
         onClick = {
-            Log.i("COK", "ImageUploadButton: ${storageState.status.isGranted}")
-
-
             val intent = Intent(Intent.ACTION_PICK)
             intent.type = "image/*"
             launcher.launch(intent)
-
         },
         modifier = Modifier.fillMaxWidth()
     ) {

@@ -81,11 +81,11 @@ fun App(
         Screen.WorkerHome.route,
         Screen.Progress.route,
         Screen.History.route,
-        Screen.Settings.route
+        Screen.Settings.route,
+        Screen.ReportUpload.route,
     )
 
     val authToken = authViewModel.authToken.collectAsState()
-    val context = LocalContext.current
 
     val permissionState = rememberMultiplePermissionsState(
         permissions = listOf(

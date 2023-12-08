@@ -78,6 +78,7 @@
     <string name="finish_report">Finish Report</string>
 
     <string name="worker_home_header">Check the latest reports submitted by others here!</string>
+    <string name="user_home_header">See the history of your previous reports here!</string>
     <string name="no_reports_found">No reports found nearby!</string>
     <string name="no_reports_found_desc">There are no reports found near you right now! Please try again later…</string>
     <string name="couldnt_get_reports">Couldn\'t get reports!</string>
