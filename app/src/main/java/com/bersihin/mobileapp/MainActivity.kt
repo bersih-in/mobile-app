@@ -90,11 +90,10 @@ fun App(
     val permissionState = rememberMultiplePermissionsState(
         permissions = listOf(
             Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.ACCESS_COARSE_LOCATION
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.READ_EXTERNAL_STORAGE
         )
     )
-
-
 
     LaunchedEffect(authToken.value) {
         permissionState.launchMultiplePermissionRequest()

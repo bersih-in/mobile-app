@@ -172,7 +172,23 @@ fun ReportDetailsContent(
     if (showFinishedReportDialog.value) {
         FinishReportDialog(
             reportId = props.report.id,
-            onDismissRequest = { showFinishedReportDialog.value = false }
+            onDismissRequest = { showFinishedReportDialog.value = false },
+            onSuccess = {
+                navController?.navigateUp()
+                Toast.makeText(
+                    context,
+                    "Successfully updated the report status!",
+                    Toast.LENGTH_SHORT
+                ).show()
+            },
+            onFailure = {
+                Toast.makeText(
+                    context,
+                    "Failed to update the report status!",
+                    Toast.LENGTH_SHORT
+                ).show()
+            },
+            viewModel = viewModel
         )
     }
 

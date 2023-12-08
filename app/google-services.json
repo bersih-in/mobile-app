@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "683313252048",
+    "project_id": "bersihin",
+    "storage_bucket": "bersihin.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:683313252048:android:f08bc68164534462f600d5",
+        "android_client_info": {
+          "package_name": "com.bersihin.mobileapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_nugH0qsx5mWaSpTl718ImXDetMMAU8o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
