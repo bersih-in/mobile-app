@@ -139,7 +139,7 @@ fun ReportDetailsContent(
 
     if (showStatusDialog.value) {
         StatusReasonDialog(
-            message = props.report.statusReason ?: "",
+            reason = props.report.statusReason ?: "",
             status = props.report.status,
             onDismissRequest = { showStatusDialog.value = false },
             userRole = userRole
