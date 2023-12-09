@@ -28,9 +28,10 @@ class LoginViewModel(
         _isLoading.value = true
 
         return withContext(Dispatchers.IO) {
+            val response = repository.login(email, password)
             _isLoading.value = false
-
-            when (val response = repository.login(email, password)) {
+            
+            when (response) {
                 is Response.Success -> {
                     authToken = response.response.data.token
                     userRole = response.response.data.role
@@ -60,6 +61,8 @@ class LoginViewModel(
                 }
             }
         }
+
+
     }
 
 

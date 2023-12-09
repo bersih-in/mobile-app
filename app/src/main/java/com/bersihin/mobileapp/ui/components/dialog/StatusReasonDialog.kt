@@ -24,9 +24,9 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import coil.compose.AsyncImage
 import com.bersihin.mobileapp.R
-import com.bersihin.mobileapp.models.ReportStatus
-import com.bersihin.mobileapp.models.UserRole
 import com.bersihin.mobileapp.ui.components.report.StatusBox
+import com.bersihin.mobileapp.utils.ReportStatus
+import com.bersihin.mobileapp.utils.UserRole
 
 @Composable
 fun StatusReasonDialog(

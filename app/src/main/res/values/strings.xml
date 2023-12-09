@@ -1,9 +1,10 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <string name="app_name">bersih.in</string>
 
     <!-- nouns -->
     <string name="register">Register</string>
     <string name="login">Log In</string>
+    <string name="logout">Log Out</string>
 
     <!-- form-related -->
     <string name="first_name">First Name</string>
@@ -55,8 +56,8 @@
     <string name="rejected_by_admin_desc">We\'re sorry, but our administrators have double-checked your report and has decided to reject your report 🙏</string>
     <string name="rejected_by_worker_desc">We\'re sorry, but your report has been rejected by our worker 🙏</string>
     <string name="verified_desc">Congratulations, the report has been verified by the system! 🥳 </string>
-    <string name="verified_desc_user" tools:ignore="ExtraTranslation">Please wait until the report is being worked on by the workers!</string>
-    <string name="verified_desc_worker" tools:ignore="ExtraTranslation">You can pick up this task and work on cleaning the trash pile!</string>
+    <string name="verified_desc_user">Please wait until the report is being worked on by the workers!</string>
+    <string name="verified_desc_worker">You can pick up this task and work on cleaning the trash pile!</string>
     <string name="inprogress_desc">Your report is currently being examined by the worker, kindly wait for further updates!</string>
     <string name="finished_desc">Congratulations, the trash spot has been cleared by the worker! 🥳</string>
 
@@ -87,14 +88,26 @@
     <string name="your_history_desc">See your previously finished reports and currently active reports here!</string>
 
 
-    <string name="couldnt_get_details" tools:ignore="ExtraTranslation">Couldn\'t get details!</string>
-    <string name="couldnt_get_details_desc" tools:ignore="ExtraTranslation">We\'re sorry, but we couldn\'t get the details of the report from our server. Please try again later…</string>
+    <string name="couldnt_get_details">Couldn\'t get details!</string>
+    <string name="couldnt_get_details_desc">We\'re sorry, but we couldn\'t get the details of the report from our server. Please try again later…</string>
     <string name="your_report_status">Your report status is: </string>
 
-    <string name="pickup_success" tools:ignore="ExtraTranslation">Successfully picked up the task!</string>
+    <string name="pickup_success">Successfully picked up the task!</string>
     <string name="pickup_failed">Failed to pick up the task, please try again later!</string>
 
-    <string name="progress_header" tools:ignore="ExtraTranslation">Here are the submitted reports that you\'ve picked up. Don\'t forget to complete them!</string>
-    <string name="no_progress" tools:ignore="ExtraTranslation">No claimed reports yet!</string>
-    <string name="no_progress_desc" tools:ignore="ExtraTranslation">You haven\'t picked up any reports yet! Head to the Home Page to start picking up reports…</string>
+    <string name="progress_header">Here are the submitted reports that you\'ve picked up. Don\'t forget to complete them!</string>
+    <string name="no_progress">No claimed reports yet!</string>
+    <string name="no_progress_desc">You haven\'t picked up any reports yet! Head to the Home Page to start picking up reports…</string>
+
+    <string name="title">Title</string>
+    <string name="title_placeholder">Enter the title of your report…</string>
+    <string name="title_invalid">Title must not be empty!</string>
+    <string name="description">Description</string>
+    <string name="description_placeholder">Enter the description of your report…</string>
+    <string name="description_invalid">Description must not be empty!</string>
+    <string name="submit_report_here">Submit your report here! 📝</string>
+    <string name="submit_report">Submit Report</string>
+    <string name="submit_report_desc">Fill in the form below to submit your report! Our system will check the validity of your report. </string>
+    <string name="submit_success">Successfully submitted your report!</string>
+    <string name="submit_failed">Failed to submit your report, please try again later!</string>
 </resources>

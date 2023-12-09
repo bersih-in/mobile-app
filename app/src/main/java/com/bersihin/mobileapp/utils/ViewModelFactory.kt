@@ -13,6 +13,7 @@ import com.bersihin.mobileapp.ui.pages.general.login.LoginViewModel
 import com.bersihin.mobileapp.ui.pages.general.register.RegisterViewModel
 import com.bersihin.mobileapp.ui.pages.general.report_details.ReportDetailsViewModel
 import com.bersihin.mobileapp.ui.pages.user.home.UserHomeViewModel
+import com.bersihin.mobileapp.ui.pages.user.report_upload.ReportUploadViewModel
 import com.bersihin.mobileapp.ui.pages.worker.history.HistoryViewModel
 import com.bersihin.mobileapp.ui.pages.worker.home.WorkerHomeViewModel
 import com.bersihin.mobileapp.ui.pages.worker.progress.ProgressViewModel
@@ -60,6 +61,10 @@ class ViewModelFactory(private val context: Context) : ViewModelProvider.NewInst
             ) as T
 
             modelClass.isAssignableFrom(UserHomeViewModel::class.java) -> UserHomeViewModel(
+                repository = userRepository
+            ) as T
+
+            modelClass.isAssignableFrom(ReportUploadViewModel::class.java) -> ReportUploadViewModel(
                 repository = userRepository
             ) as T
 

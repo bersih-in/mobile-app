@@ -6,7 +6,7 @@ import com.bersihin.mobileapp.api.services.ReportsRequest
 import com.bersihin.mobileapp.api.services.UpdateRequest
 import com.bersihin.mobileapp.api.services.WorkerService
 import com.bersihin.mobileapp.models.Report
-import com.bersihin.mobileapp.models.ReportStatus
+import com.bersihin.mobileapp.utils.ReportStatus
 import org.json.JSONObject
 import retrofit2.HttpException
 import java.io.IOException

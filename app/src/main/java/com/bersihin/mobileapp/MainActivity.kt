@@ -28,7 +28,6 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.bersihin.mobileapp.api.ApiConfig
-import com.bersihin.mobileapp.models.UserRole
 import com.bersihin.mobileapp.preferences.auth.AuthViewModel
 import com.bersihin.mobileapp.ui.components.common.BottomBar
 import com.bersihin.mobileapp.ui.navigation.Screen
@@ -42,6 +41,7 @@ import com.bersihin.mobileapp.ui.pages.worker.history.HistoryScreen
 import com.bersihin.mobileapp.ui.pages.worker.home.WorkerHomeScreen
 import com.bersihin.mobileapp.ui.pages.worker.progress.ProgressScreen
 import com.bersihin.mobileapp.ui.theme.BersihinTheme
+import com.bersihin.mobileapp.utils.UserRole
 import com.bersihin.mobileapp.utils.ViewModelFactory
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
@@ -152,7 +152,9 @@ fun App(
                 )
             }
             composable(Screen.Settings.route) {
-                SettingsScreen()
+                SettingsScreen(
+                    navController = navController,
+                )
             }
             composable(
                 route = Screen.ReportDetails.route,
@@ -168,7 +170,10 @@ fun App(
             }
 
             composable(Screen.ReportUpload.route) {
-                ReportUploadScreen()
+                ReportUploadScreen(
+                    modifier = Modifier.padding(bottom = innerPadding.calculateBottomPadding()),
+                    navController = navController
+                )
             }
 
             // worker pages

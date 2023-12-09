@@ -1,7 +1,6 @@
-package com.bersihin.mobileapp.repository
+package com.bersihin.mobileapp.utils
 
 import com.bersihin.mobileapp.models.Report
-import com.bersihin.mobileapp.models.ReportStatus
 
 object ReportDataSource {
     val reports = listOf(

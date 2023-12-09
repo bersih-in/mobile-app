@@ -54,15 +54,16 @@ fun uploadImage(
 
 @Composable
 fun ImageUploadButton(
+    modifier: Modifier = Modifier,
     onUploading: () -> Unit = {},
     onSuccess: (String) -> Unit = {},
     onError: () -> Unit = {}
 ) {
     val context = LocalContext.current
+
     var imageUri by rememberSaveable {
         mutableStateOf<Uri?>(null)
     }
-
 
     val launcher =
         rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -88,7 +89,7 @@ fun ImageUploadButton(
             intent.type = "image/*"
             launcher.launch(intent)
         },
-        modifier = Modifier.fillMaxWidth()
+        modifier = modifier.fillMaxWidth()
     ) {
         Icon(imageVector = Icons.Default.CloudUpload, contentDescription = null)
         Spacer(modifier = Modifier.width(8.dp))

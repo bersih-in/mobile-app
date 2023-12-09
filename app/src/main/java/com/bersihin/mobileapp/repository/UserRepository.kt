@@ -3,6 +3,7 @@ package com.bersihin.mobileapp.repository
 import android.util.Log
 import com.bersihin.mobileapp.api.ApiConfig
 import com.bersihin.mobileapp.api.Response
+import com.bersihin.mobileapp.api.services.SubmitRequest
 import com.bersihin.mobileapp.api.services.UserService
 import com.bersihin.mobileapp.models.Report
 import retrofit2.HttpException
@@ -25,6 +26,7 @@ class UserRepository(
         }
     }
 
+
     suspend fun getSelfSubmissions(): Response<List<Report>> {
         return try {
             val response = service.getSelfSubmission()
@@ -35,6 +37,22 @@ class UserRepository(
             Response.Error(errorMessage)
         } catch (e: IOException) {
             Log.i("UserHomeViewModel", "getSelfSubmissions: $e")
+            Response.NetworkError
+        }
+    }
+
+    suspend fun submitReport(
+        request: SubmitRequest
+    ): Response<Report> {
+        return try {
+            val response = service.submitReport(request)
+
+            Response.Success(response)
+        } catch (e: HttpException) {
+            val errorMessage = e.message()
+            Response.Error(errorMessage)
+        } catch (e: IOException) {
+            Log.i("UserHomeViewModel", "submitReport: $e")
             Response.NetworkError
         }
     }

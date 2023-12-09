@@ -14,6 +14,7 @@ class RegisterViewModel(
 ) : ViewModel() {
     private val _isLoading: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> get() = _isLoading
+    
     suspend fun register(
         firstName: String,
         lastName: String,

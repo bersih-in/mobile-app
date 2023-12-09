@@ -3,9 +3,9 @@ package com.bersihin.mobileapp.ui.pages.worker.home
 import androidx.lifecycle.ViewModel
 import com.bersihin.mobileapp.api.Response
 import com.bersihin.mobileapp.models.Report
-import com.bersihin.mobileapp.models.ReportStatus
 import com.bersihin.mobileapp.repository.WorkerRepository
 import com.bersihin.mobileapp.ui.common.UiState
+import com.bersihin.mobileapp.utils.ReportStatus
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.withContext

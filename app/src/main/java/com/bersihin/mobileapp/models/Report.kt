@@ -1,5 +1,6 @@
 package com.bersihin.mobileapp.models
 
+import com.bersihin.mobileapp.utils.ReportStatus
 import com.google.gson.annotations.SerializedName
 
 data class Report(

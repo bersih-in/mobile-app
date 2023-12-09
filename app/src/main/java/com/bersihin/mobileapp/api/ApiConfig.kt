@@ -1,7 +1,7 @@
 package com.bersihin.mobileapp.api
 
 import com.bersihin.mobileapp.BuildConfig
-import com.bersihin.mobileapp.models.ReportStatus
+import com.bersihin.mobileapp.utils.ReportStatus
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer

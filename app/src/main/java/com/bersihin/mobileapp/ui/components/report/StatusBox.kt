@@ -19,8 +19,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.bersihin.mobileapp.R
-import com.bersihin.mobileapp.models.ReportStatus
 import com.bersihin.mobileapp.ui.theme.BersihinTheme
+import com.bersihin.mobileapp.utils.ReportStatus
 
 
 @Composable

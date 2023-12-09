@@ -2,7 +2,6 @@ package com.bersihin.mobileapp.ui.pages.worker.home
 
 import android.Manifest
 import android.content.pm.PackageManager
-import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -67,12 +66,13 @@ fun WorkerHomeScreen(
     val lastName = authViewModel.getLastName().collectAsState(initial = null)
     val context = LocalContext.current
 
-    val fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
     val scope = rememberCoroutineScope()
 
     var isFilterDialogShown by rememberSaveable { mutableStateOf(false) }
     var sortByDate by rememberSaveable { mutableStateOf(false) }
     var distanceLimit by rememberSaveable { mutableIntStateOf(10) }
+
+    val fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
 
     LaunchedEffect(Unit) {
         if (ActivityCompat.checkSelfPermission(
@@ -84,10 +84,6 @@ fun WorkerHomeScreen(
             ) == PackageManager.PERMISSION_GRANTED
         ) {
             fusedLocationClient.lastLocation.addOnSuccessListener { location ->
-                Log.i(
-                    "WorkerPageScreen",
-                    "onCreate: ${location.latitude} ${location.longitude}"
-                )
                 viewModel.latitude = location.latitude
                 viewModel.longitude = location.longitude
 

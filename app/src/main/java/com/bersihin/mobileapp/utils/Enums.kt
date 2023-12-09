@@ -1,4 +1,4 @@
-package com.bersihin.mobileapp.models
+package com.bersihin.mobileapp.utils
 
 enum class UserRole(val role: String) {
     WORKER("WORKER"),

@@ -44,8 +44,6 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.bersihin.mobileapp.R
 import com.bersihin.mobileapp.models.Report
-import com.bersihin.mobileapp.models.ReportStatus
-import com.bersihin.mobileapp.models.UserRole
 import com.bersihin.mobileapp.preferences.auth.AuthViewModel
 import com.bersihin.mobileapp.ui.common.UiState
 import com.bersihin.mobileapp.ui.components.actions.WorkerPickupActions
@@ -58,6 +56,8 @@ import com.bersihin.mobileapp.ui.components.dialog.StatusReasonDialog
 import com.bersihin.mobileapp.ui.components.report.StatusBox
 import com.bersihin.mobileapp.ui.navigation.Screen
 import com.bersihin.mobileapp.ui.theme.BersihinTheme
+import com.bersihin.mobileapp.utils.ReportStatus
+import com.bersihin.mobileapp.utils.UserRole
 import com.bersihin.mobileapp.utils.ViewModelFactory
 import kotlinx.coroutines.launch
 
