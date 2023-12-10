@@ -166,7 +166,10 @@ fun App(
 
             // user pages
             composable(Screen.UserHome.route) {
-                UserHomeScreen()
+                UserHomeScreen(
+                    modifier = Modifier.padding(bottom = innerPadding.calculateBottomPadding()),
+                    navController = navController
+                )
             }
 
             composable(Screen.ReportUpload.route) {

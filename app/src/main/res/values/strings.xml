@@ -34,7 +34,7 @@
 
     <string name="register_success_user">Successfully registered your account!</string>
     <string name="register_success_worker">Successfully registered your account, kindly wait for your account confirmation in your e-mail!</string>
-    <string name="register_failed">Failed to register your account, please try again later!</string>
+    <string name="register_failed">Failed to register your account:&#160;</string>
 
     <string name="login_success">Successfully logged in!</string>
     <string name="login_failed">Failed to log in:&#160;</string>

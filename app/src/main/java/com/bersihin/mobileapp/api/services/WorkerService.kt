@@ -42,7 +42,7 @@ interface WorkerService {
         @Body request: UpdateRequest
     ): MessageResponse
 
-    @GET("${PATH}/report/{id}")
+    @GET("submission/{id}")
     suspend fun getReportDetails(
         @Path("id") reportId: String
     ): SuccessResponse<Report>

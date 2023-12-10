@@ -77,7 +77,6 @@ fun HistoryScreen(
                     LazyColumn(
                         modifier = Modifier
                             .fillMaxSize()
-                            .padding(bottom = 80.dp)
                     ) {
                         if (uiState.data.isEmpty()) {
                             item {

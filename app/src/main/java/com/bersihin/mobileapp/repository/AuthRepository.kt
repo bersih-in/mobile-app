@@ -33,15 +33,27 @@ class AuthRepository(
         email: String,
         password: String,
         role: String,
-    ) = service.register(
-        RegisterRequest(
-            firstName = firstName,
-            lastName = lastName,
-            email = email,
-            password = password,
-            role = role
-        )
-    )
+    ): Response<String> {
+        return try {
+            val response = service.register(
+                RegisterRequest(
+                    firstName = firstName,
+                    lastName = lastName,
+                    email = email,
+                    password = password,
+                    role = role
+                )
+            )
+
+            Response.Success(response)
+        } catch (e: HttpException) {
+            val errorMessage =
+                JSONObject(e.response()?.errorBody()?.string()!!).getString("message")
+            Response.Error(errorMessage)
+        } catch (e: IOException) {
+            Response.NetworkError
+        }
+    }
 
 
     suspend fun login(email: String, password: String): Response<LoginData> {

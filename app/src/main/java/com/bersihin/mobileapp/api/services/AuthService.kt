@@ -1,6 +1,5 @@
 package com.bersihin.mobileapp.api.services
 
-import com.bersihin.mobileapp.api.MessageResponse
 import com.bersihin.mobileapp.api.SuccessResponse
 import com.bersihin.mobileapp.models.LoginData
 import retrofit2.http.Body
@@ -29,7 +28,7 @@ interface AuthService {
     @POST("${PATH}/register")
     suspend fun register(
         @Body request: RegisterRequest
-    ): MessageResponse
+    ): SuccessResponse<String>
 
     @POST("${PATH}/login")
     suspend fun login(

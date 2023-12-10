@@ -71,7 +71,7 @@ fun UserHomeScreen(
         ) {
             PageHeader(
                 props = PageHeaderProps(
-                    title = "Hello, ${firstName.value ?: ""} ${lastName.value ?: ""} 👋!",
+                    title = "Hello, ${firstName.value ?: ""} ${lastName.value ?: ""} 👋",
                     description = stringResource(id = R.string.user_home_header)
                 )
             )
@@ -85,7 +85,6 @@ fun UserHomeScreen(
                     LazyColumn(
                         modifier = Modifier
                             .fillMaxSize()
-                            .padding(bottom = 80.dp)
                     ) {
                         if (uiState.data.isEmpty()) {
                             item {

@@ -49,6 +49,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.bersihin.mobileapp.R
+import com.bersihin.mobileapp.api.Response
 import com.bersihin.mobileapp.ui.components.common.FormField
 import com.bersihin.mobileapp.ui.components.common.FormFieldProps
 import com.bersihin.mobileapp.ui.theme.BersihinTheme
@@ -254,13 +255,15 @@ fun RegisterScreen(
                     .padding(top = 32.dp),
                 onClick = {
                     scope.launch {
-                        val isSuccess = viewModel.register(
+                        val response = viewModel.register(
                             firstName = firstName,
                             lastName = lastName,
                             email = email,
                             password = password,
                             role = if (selectedRole == publicReporter) "USER" else "WORKER"
                         )
+
+                        val isSuccess = response is Response.Success
 
                         scope.launch {
                             val message = if (isSuccess) {
@@ -270,7 +273,7 @@ fun RegisterScreen(
                                     registerWorkerSuccessMessage
                                 }
                             } else {
-                                registerFailedMessage
+                                registerFailedMessage + (response as Response.Error).errorMessage
                             }
 
                             snackbarHostState?.showSnackbar(message)

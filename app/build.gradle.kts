@@ -102,16 +102,16 @@ dependencies {
     implementation("com.google.firebase:firebase-storage")
 
 
-//    // test implementation dependencies
-//    testImplementation(libs.junit)
-//
-//    // android test implementation dependencies
-//    androidTestImplementation(libs.androidx.test.ext.junit)
-//    androidTestImplementation(libs.espresso.core)
-//    androidTestImplementation(platform(libs.compose.bom))
-//    androidTestImplementation(libs.ui.test.junit4)
-//
-//    // debug implementation dependencies
-//    debugImplementation(libs.ui.tooling)
-//    debugImplementation(libs.ui.test.manifest)
+    // test implementation dependencies
+    testImplementation(libs.junit)
+
+    // android test implementation dependencies
+    androidTestImplementation(libs.androidx.test.ext.junit)
+    androidTestImplementation(libs.espresso.core)
+    androidTestImplementation(platform("androidx.compose:compose-bom:2023.03.00"))
+    androidTestImplementation(libs.ui.test.junit4)
+
+    // debug implementation dependencies
+    debugImplementation(libs.ui.tooling)
+    debugImplementation(libs.ui.test.manifest)
 }
