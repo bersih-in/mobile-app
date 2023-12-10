@@ -170,7 +170,11 @@ fun LoginScreen(
                                 navController?.navigate(
                                     if (viewModel.userRole == "WORKER") Screen.WorkerHome.route
                                     else Screen.UserHome.route
-                                )
+                                ) {
+                                    popUpTo(Screen.Login.route) {
+                                        inclusive = true
+                                    }
+                                }
 
                                 ApiConfig.setAuthToken(viewModel.authToken)
 

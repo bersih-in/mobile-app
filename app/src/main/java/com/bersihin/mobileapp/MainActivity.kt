@@ -109,14 +109,22 @@ fun App(
             } else {
                 val userRole = authViewModel.userRole
                 if (UserRole.valueOf(userRole) == UserRole.USER) {
-                    navController.navigate(Screen.UserHome.route)
+                    navController.navigate(Screen.UserHome.route) {
+                        popUpTo(Screen.Login.route) {
+                            inclusive = true
+                        }
+                    }
                 } else if (UserRole.valueOf(userRole) == UserRole.WORKER) {
-                    navController.navigate(Screen.WorkerHome.route)
+                    navController.navigate(Screen.WorkerHome.route) {
+                        popUpTo(Screen.Login.route) {
+                            inclusive = true
+                        }
+                    }
                 }
             }
-        }
 
-        isLoading.value = false
+            isLoading.value = false
+        }
     }
 
     Scaffold(
@@ -201,3 +209,4 @@ fun App(
         }
     }
 }
+
