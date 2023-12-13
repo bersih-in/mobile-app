@@ -7,7 +7,9 @@ sealed class Screen(val route: String) {
     object ReportDetails : Screen("report/{reportId}") {
         fun createRoute(reportId: String) = "report/$reportId"
     }
-    
+
+    object LoadingScreen : Screen("loading")
+
     object Settings : Screen("settings")
 
     // user pages

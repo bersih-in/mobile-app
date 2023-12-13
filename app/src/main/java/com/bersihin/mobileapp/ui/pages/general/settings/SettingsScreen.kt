@@ -3,13 +3,11 @@ package com.bersihin.mobileapp.ui.pages.general.settings
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Logout
 import androidx.compose.material3.ButtonDefaults
@@ -31,53 +29,51 @@ import com.bersihin.mobileapp.R
 import com.bersihin.mobileapp.preferences.auth.AuthViewModel
 import com.bersihin.mobileapp.ui.navigation.Screen
 import com.bersihin.mobileapp.utils.ViewModelFactory
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @Composable
 fun SettingsScreen(
     modifier: Modifier = Modifier,
-    navController: NavController? = null,
+    navController: NavController = NavController(LocalContext.current),
     viewModel: AuthViewModel = viewModel(
         factory = ViewModelFactory(context = LocalContext.current)
-    )
+    ),
+    scope: CoroutineScope = rememberCoroutineScope()
 ) {
-    val scope = rememberCoroutineScope()
 
-    Scaffold { innerPadding ->
-        Column(
+    Column(
+        modifier = modifier
+            .padding(16.dp)
+            .fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Top
+    ) {
+        ElevatedButton(
             modifier = Modifier
-                .fillMaxHeight()
-                .verticalScroll(rememberScrollState())
-                .padding(innerPadding)
-                .padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+                .fillMaxWidth()
+                .height(50.dp),
+            onClick = {
+                scope.launch {
+                    viewModel.clearAuthInfo()
+                    navController.navigate(Screen.Login.route)
+                }
+            },
+            colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.onErrorContainer)
         ) {
-            ElevatedButton(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(50.dp),
-                onClick = {
-                    scope.launch {
-                        viewModel.clearAuthInfo()
-                        navController?.navigate(Screen.Login.route)
-                    }
-                },
-                colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.onErrorContainer)
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Logout,
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.error
+            Icon(
+                imageVector = Icons.Default.Logout,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.error
+            )
+            Spacer(modifier = Modifier.width(8.dp))
+            Text(
+                text = stringResource(id = R.string.logout),
+                style = MaterialTheme.typography.labelLarge.copy(
+                    color = MaterialTheme.colorScheme.error
                 )
-                Spacer(modifier = Modifier.width(8.dp))
-                Text(
-                    text = stringResource(id = R.string.logout),
-                    style = MaterialTheme.typography.labelLarge.copy(
-                        color = MaterialTheme.colorScheme.error
-                    )
-                )
-            }
+            )
         }
     }
+
 }

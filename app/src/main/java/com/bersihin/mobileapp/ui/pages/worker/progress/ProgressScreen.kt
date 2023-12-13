@@ -32,6 +32,7 @@ import com.bersihin.mobileapp.utils.ViewModelFactory
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.google.android.gms.location.LocationServices
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @Composable
@@ -40,12 +41,11 @@ fun ProgressScreen(
     viewModel: ProgressViewModel = viewModel(
         factory = ViewModelFactory(context = LocalContext.current)
     ),
-    navController: NavController = NavController(LocalContext.current)
+    navController: NavController = NavController(LocalContext.current),
+    scope: CoroutineScope = rememberCoroutineScope()
 ) {
     val reports = viewModel.reports.collectAsState()
     val context = LocalContext.current
-    val scope = rememberCoroutineScope()
-
     val fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
 
     LaunchedEffect(Unit) {

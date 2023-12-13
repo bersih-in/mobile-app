@@ -21,7 +21,7 @@ class ReportDetailsViewModel(
     val reportInfo: StateFlow<UiState<Report>> get() = _reportInfo
     val isLoading: StateFlow<Boolean> get() = _isLoading
 
-    var address: String = ""
+    var address: String = "Unknown Address"
 
     suspend fun getReportDetails(reportId: String) {
         return withContext(Dispatchers.IO) {
@@ -30,11 +30,17 @@ class ReportDetailsViewModel(
                     _reportInfo.value = UiState.Success(response.response.data)
 
                     val geocoder = Geocoder(context)
-                    address = geocoder.getFromLocation(
+                    val addressArray = geocoder.getFromLocation(
                         (_reportInfo.value as UiState.Success<Report>).data.latitude,
                         (_reportInfo.value as UiState.Success<Report>).data.longitude,
                         1
-                    )?.get(0)?.getAddressLine(0) ?: ""
+                    )
+
+                    if (addressArray != null) {
+                        if (addressArray.isNotEmpty()) {
+                            address = addressArray[0].getAddressLine(0)
+                        }
+                    }
                 }
 
                 is Response.Error -> {

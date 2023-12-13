@@ -48,6 +48,7 @@ import com.bersihin.mobileapp.utils.ViewModelFactory
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.google.android.gms.location.LocationServices
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @Composable
@@ -59,14 +60,14 @@ fun WorkerHomeScreen(
     authViewModel: AuthViewModel = viewModel(
         factory = ViewModelFactory(context = LocalContext.current)
     ),
-    navController: NavController = NavController(LocalContext.current)
+    navController: NavController = NavController(LocalContext.current),
+    scope: CoroutineScope = rememberCoroutineScope()
 ) {
     val reports = viewModel.reports.collectAsState()
     val firstName = authViewModel.getFirstName().collectAsState(initial = null)
     val lastName = authViewModel.getLastName().collectAsState(initial = null)
     val context = LocalContext.current
 
-    val scope = rememberCoroutineScope()
 
     var isFilterDialogShown by rememberSaveable { mutableStateOf(false) }
     var sortByDate by rememberSaveable { mutableStateOf(false) }

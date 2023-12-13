@@ -52,6 +52,7 @@ import com.bersihin.mobileapp.ui.navigation.Screen
 import com.bersihin.mobileapp.ui.theme.BersihinTheme
 import com.bersihin.mobileapp.utils.ViewModelFactory
 import com.google.android.gms.location.LocationServices
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @Composable
@@ -60,7 +61,8 @@ fun ReportUploadScreen(
     viewModel: ReportUploadViewModel = viewModel(
         factory = ViewModelFactory(context = LocalContext.current)
     ),
-    navController: NavController? = null
+    navController: NavController? = null,
+    scope: CoroutineScope = rememberCoroutineScope()
 ) {
     var title by rememberSaveable { mutableStateOf("") }
     var description by rememberSaveable { mutableStateOf("") }
@@ -72,7 +74,6 @@ fun ReportUploadScreen(
     val isLoading = viewModel.isLoading.collectAsState()
 
     val context = LocalContext.current
-    val scope = rememberCoroutineScope()
 
     val submitSuccess = stringResource(id = R.string.submit_success)
     val submitFailed = stringResource(id = R.string.submit_failed)

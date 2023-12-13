@@ -2,6 +2,7 @@ package com.bersihin.mobileapp
 
 import android.Manifest
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,8 +16,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -31,6 +32,7 @@ import com.bersihin.mobileapp.api.ApiConfig
 import com.bersihin.mobileapp.preferences.auth.AuthViewModel
 import com.bersihin.mobileapp.ui.components.common.BottomBar
 import com.bersihin.mobileapp.ui.navigation.Screen
+import com.bersihin.mobileapp.ui.pages.general.loading.LoadingScreen
 import com.bersihin.mobileapp.ui.pages.general.login.LoginScreen
 import com.bersihin.mobileapp.ui.pages.general.register.RegisterScreen
 import com.bersihin.mobileapp.ui.pages.general.report_details.ReportDetailsScreen
@@ -74,7 +76,7 @@ fun App(
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
     val snackbarHostState = remember { SnackbarHostState() }
-    val isLoading = remember { mutableStateOf(true) }
+    val scope = rememberCoroutineScope()
 
     val screenWithBottomBar = listOf(
         Screen.UserHome.route,
@@ -96,34 +98,32 @@ fun App(
     )
 
     LaunchedEffect(authToken.value) {
+        Log.i("MainActivity", "authToken.value: ${authToken.value}")
+
         permissionState.launchMultiplePermissionRequest()
 
-        if (authToken.value == null) {
+        if (authToken.value == null || authToken.value == "") {
             navController.navigate(Screen.Login.route)
         } else {
             ApiConfig.setAuthToken(authToken.value as String)
             val isExpired = !authViewModel.checkAuthToken()
+            val userRole = authViewModel.userRole
 
-            if (isExpired) {
-                navController.navigate(Screen.Login.route)
-            } else {
-                val userRole = authViewModel.userRole
-                if (UserRole.valueOf(userRole) == UserRole.USER) {
-                    navController.navigate(Screen.UserHome.route) {
-                        popUpTo(Screen.Login.route) {
-                            inclusive = true
-                        }
-                    }
-                } else if (UserRole.valueOf(userRole) == UserRole.WORKER) {
-                    navController.navigate(Screen.WorkerHome.route) {
-                        popUpTo(Screen.Login.route) {
-                            inclusive = true
-                        }
+            navController.navigate(
+                if (isExpired) {
+                    Screen.Login.route
+                } else {
+                    if (UserRole.valueOf(userRole) == UserRole.USER) {
+                        Screen.UserHome.route
+                    } else {
+                        Screen.WorkerHome.route
                     }
                 }
+            ) {
+                popUpTo(Screen.Login.route) {
+                    inclusive = true
+                }
             }
-
-            isLoading.value = false
         }
     }
 
@@ -137,31 +137,38 @@ fun App(
         },
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
     ) { innerPadding ->
-
         NavHost(
             navController = navController,
-            startDestination = Screen.Login.route,
+            startDestination = Screen.LoadingScreen.route,
             modifier = modifier
         ) {
             // general pages
+            composable(Screen.LoadingScreen.route) {
+                LoadingScreen()
+            }
+
             composable(Screen.Login.route) {
                 LoginScreen(
                     modifier = Modifier.padding(innerPadding),
                     navController = navController,
                     snackbarHostState = snackbarHostState,
-                    isAuthLoading = isLoading.value
+                    scope = scope
                 )
             }
+
             composable(Screen.Register.route) {
                 RegisterScreen(
                     modifier = Modifier.padding(innerPadding),
                     navController = navController,
-                    snackbarHostState = snackbarHostState
+                    snackbarHostState = snackbarHostState,
+                    scope = scope
                 )
             }
             composable(Screen.Settings.route) {
                 SettingsScreen(
+                    modifier = Modifier.padding(bottom = innerPadding.calculateBottomPadding()),
                     navController = navController,
+                    scope = scope
                 )
             }
             composable(
@@ -169,21 +176,27 @@ fun App(
                 arguments = listOf(navArgument("reportId") { type = NavType.StringType })
             ) {
                 val reportId = it.arguments?.getString("reportId") ?: ""
-                ReportDetailsScreen(reportId = reportId, navController = navController)
+                ReportDetailsScreen(
+                    reportId = reportId,
+                    navController = navController,
+                    scope = scope
+                )
             }
 
             // user pages
             composable(Screen.UserHome.route) {
                 UserHomeScreen(
                     modifier = Modifier.padding(bottom = innerPadding.calculateBottomPadding()),
-                    navController = navController
+                    navController = navController,
+                    scope = scope
                 )
             }
 
             composable(Screen.ReportUpload.route) {
                 ReportUploadScreen(
                     modifier = Modifier.padding(bottom = innerPadding.calculateBottomPadding()),
-                    navController = navController
+                    navController = navController,
+                    scope = scope
                 )
             }
 
@@ -191,19 +204,22 @@ fun App(
             composable(Screen.WorkerHome.route) {
                 WorkerHomeScreen(
                     modifier = Modifier.padding(bottom = innerPadding.calculateBottomPadding()),
-                    navController = navController
+                    navController = navController,
+                    scope = scope
                 )
             }
             composable(Screen.Progress.route) {
                 ProgressScreen(
                     modifier = Modifier.padding(bottom = innerPadding.calculateBottomPadding()),
-                    navController = navController
+                    navController = navController,
+                    scope = scope
                 )
             }
             composable(Screen.History.route) {
                 HistoryScreen(
                     modifier = Modifier.padding(bottom = innerPadding.calculateBottomPadding()),
-                    navController = navController
+                    navController = navController,
+                    scope = scope
                 )
             }
         }

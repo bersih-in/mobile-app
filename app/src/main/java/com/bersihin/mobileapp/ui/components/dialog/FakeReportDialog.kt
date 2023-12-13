@@ -41,7 +41,7 @@ fun FakeReportDialog(
     onFailure: () -> Unit = {},
     onDismissRequest: () -> Unit = {}
 ) {
-    val reason = rememberSaveable { mutableStateOf("") }
+    var reason by rememberSaveable { mutableStateOf("") }
     val scope = rememberCoroutineScope()
 
 
@@ -60,8 +60,8 @@ fun FakeReportDialog(
                     props = FormFieldProps(
                         labelId = R.string.reason,
                         placeholderId = R.string.reason_placeholder,
-                        value = reason.value,
-                        onValueChanged = { reason.value = it.toString() },
+                        value = reason,
+                        onValueChanged = { reason = it.toString() },
                         validator = { it.toString().isNotEmpty() },
                         errorMessageId = R.string.reason_invalid,
                         textFieldHeight = 300,
@@ -78,7 +78,7 @@ fun FakeReportDialog(
                             val isSuccess = viewModel?.updateReport(
                                 reportId = reportId,
                                 status = "REJECTED_BY_WORKER",
-                                statusReason = reason.value
+                                statusReason = reason
                             )
 
                             if (isSuccess == true) {

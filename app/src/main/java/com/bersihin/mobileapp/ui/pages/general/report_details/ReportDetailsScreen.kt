@@ -26,9 +26,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -59,6 +61,7 @@ import com.bersihin.mobileapp.ui.theme.BersihinTheme
 import com.bersihin.mobileapp.utils.ReportStatus
 import com.bersihin.mobileapp.utils.UserRole
 import com.bersihin.mobileapp.utils.ViewModelFactory
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @Composable
@@ -70,11 +73,11 @@ fun ReportDetailsScreen(
     authViewModel: AuthViewModel = viewModel(
         factory = ViewModelFactory(context = LocalContext.current)
     ),
-    navController: NavController?
+    navController: NavController = NavController(LocalContext.current),
+    scope: CoroutineScope = rememberCoroutineScope()
 ) {
     val reportInfo = viewModel.reportInfo.collectAsState(initial = UiState.Loading)
     val userRole = authViewModel.getUserRole().collectAsState(initial = null)
-    val scope = rememberCoroutineScope()
 
     LaunchedEffect(userRole.value) {
         Log.i("ReportDetailsScreen", "User role: ${userRole.value}")
@@ -128,28 +131,28 @@ fun ReportDetailsContent(
     props: ReportDetailsContentProps,
     userRole: UserRole,
 ) {
-    val showStatusDialog = rememberSaveable { mutableStateOf(false) }
-    val showFakeReportDialog = rememberSaveable { mutableStateOf(false) }
-    val showFinishedReportDialog = rememberSaveable { mutableStateOf(false) }
+    var showStatusDialog by rememberSaveable { mutableStateOf(false) }
+    var showFakeReportDialog by rememberSaveable { mutableStateOf(false) }
+    var showFinishedReportDialog by rememberSaveable { mutableStateOf(false) }
 
     val pickupSuccess = stringResource(id = R.string.pickup_success)
     val pickupFailed = stringResource(id = R.string.pickup_failed)
 
     val context = LocalContext.current
 
-    if (showStatusDialog.value) {
+    if (showStatusDialog) {
         StatusReasonDialog(
             reason = props.report.statusReason ?: "",
             status = props.report.status,
-            onDismissRequest = { showStatusDialog.value = false },
+            onDismissRequest = { showStatusDialog = false },
             userRole = userRole
         )
     }
 
-    if (showFakeReportDialog.value) {
+    if (showFakeReportDialog) {
         FakeReportDialog(
             reportId = props.report.id,
-            onDismissRequest = { showFakeReportDialog.value = false },
+            onDismissRequest = { showFakeReportDialog = false },
             onSuccess = {
                 navController?.navigateUp()
                 Toast.makeText(
@@ -169,10 +172,10 @@ fun ReportDetailsContent(
         )
     }
 
-    if (showFinishedReportDialog.value) {
+    if (showFinishedReportDialog) {
         FinishReportDialog(
             reportId = props.report.id,
-            onDismissRequest = { showFinishedReportDialog.value = false },
+            onDismissRequest = { showFinishedReportDialog = false },
             onSuccess = {
                 navController?.navigateUp()
                 Toast.makeText(
@@ -242,7 +245,7 @@ fun ReportDetailsContent(
                     modifier = Modifier
                         .padding(vertical = 24.dp)
                         .clickable {
-                            showStatusDialog.value = true
+                            showStatusDialog = true
                         },
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -327,10 +330,10 @@ fun ReportDetailsContent(
                     } else if (props.report.status == ReportStatus.IN_PROGRESS) {
                         WorkerUpdateActions(
                             onFakeReportClick = {
-                                showFakeReportDialog.value = true
+                                showFakeReportDialog = true
                             },
                             onFinishedClick = {
-                                showFinishedReportDialog.value = true
+                                showFinishedReportDialog = true
                             }
                         )
                     }

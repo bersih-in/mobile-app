@@ -28,6 +28,7 @@ import com.bersihin.mobileapp.ui.navigation.Screen
 import com.bersihin.mobileapp.utils.ViewModelFactory
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @Composable
@@ -36,10 +37,10 @@ fun HistoryScreen(
     viewModel: HistoryViewModel = viewModel(
         factory = ViewModelFactory(context = LocalContext.current)
     ),
-    navController: NavController = NavController(LocalContext.current)
+    navController: NavController = NavController(LocalContext.current),
+    scope: CoroutineScope = rememberCoroutineScope()
 ) {
     val reports = viewModel.reports.collectAsState()
-    val scope = rememberCoroutineScope()
 
     LaunchedEffect(Unit) {
         scope.launch {

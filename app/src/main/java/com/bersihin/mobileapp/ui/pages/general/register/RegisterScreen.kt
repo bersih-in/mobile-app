@@ -55,6 +55,7 @@ import com.bersihin.mobileapp.ui.components.common.FormFieldProps
 import com.bersihin.mobileapp.ui.theme.BersihinTheme
 import com.bersihin.mobileapp.utils.FormFieldValidator
 import com.bersihin.mobileapp.utils.ViewModelFactory
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -65,7 +66,8 @@ fun RegisterScreen(
         factory = ViewModelFactory(LocalContext.current)
     ),
     navController: NavController? = null,
-    snackbarHostState: SnackbarHostState? = null
+    snackbarHostState: SnackbarHostState? = null,
+    scope: CoroutineScope = rememberCoroutineScope()
 ) {
     var firstName by rememberSaveable { mutableStateOf("") }
     var lastName by rememberSaveable { mutableStateOf("") }
@@ -91,7 +93,6 @@ fun RegisterScreen(
     var isAllValid by rememberSaveable { mutableStateOf(false) }
 
     val validator = FormFieldValidator
-    val scope = rememberCoroutineScope()
 
     val tileSize = with(LocalDensity.current) {
         2000.dp.toPx()

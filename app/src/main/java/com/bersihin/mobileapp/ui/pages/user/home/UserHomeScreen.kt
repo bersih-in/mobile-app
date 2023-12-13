@@ -29,6 +29,7 @@ import com.bersihin.mobileapp.ui.navigation.Screen
 import com.bersihin.mobileapp.utils.ViewModelFactory
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @Composable
@@ -40,14 +41,12 @@ fun UserHomeScreen(
     authViewModel: AuthViewModel = viewModel(
         factory = ViewModelFactory(context = LocalContext.current)
     ),
-    navController: NavController = NavController(LocalContext.current)
+    navController: NavController = NavController(LocalContext.current),
+    scope: CoroutineScope = rememberCoroutineScope()
 ) {
     val reports = viewModel.reports.collectAsState()
     val firstName = authViewModel.getFirstName().collectAsState(initial = null)
     val lastName = authViewModel.getLastName().collectAsState(initial = null)
-
-    val scope = rememberCoroutineScope()
-
 
     LaunchedEffect(Unit) {
         scope.launch {

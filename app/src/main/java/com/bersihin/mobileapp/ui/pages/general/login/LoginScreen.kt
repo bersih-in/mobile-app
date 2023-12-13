@@ -51,6 +51,7 @@ import com.bersihin.mobileapp.ui.navigation.Screen
 import com.bersihin.mobileapp.ui.theme.BersihinTheme
 import com.bersihin.mobileapp.utils.FormFieldValidator
 import com.bersihin.mobileapp.utils.ViewModelFactory
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @Composable
@@ -64,7 +65,7 @@ fun LoginScreen(
     ),
     navController: NavController? = null,
     snackbarHostState: SnackbarHostState? = null,
-    isAuthLoading: Boolean = false
+    scope: CoroutineScope = rememberCoroutineScope()
 ) {
     var email by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
@@ -73,7 +74,6 @@ fun LoginScreen(
     var isAllValid by rememberSaveable { mutableStateOf(false) }
 
     val validator = FormFieldValidator
-    val scope = rememberCoroutineScope()
 
     val loginSuccessMessage = stringResource(id = R.string.login_success)
     val loginFailedMessage = stringResource(id = R.string.login_failed)
@@ -138,89 +138,86 @@ fun LoginScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            if (isAuthLoading) {
-                CircularProgressIndicator()
-            } else {
-                Text(
-                    modifier = Modifier.padding(vertical = 64.dp),
-                    text = stringResource(id = R.string.login),
-                    style = MaterialTheme.typography.titleLarge
-                )
+            Text(
+                modifier = Modifier.padding(vertical = 64.dp),
+                text = stringResource(id = R.string.login),
+                style = MaterialTheme.typography.titleLarge
+            )
 
-                props.forEach { prop ->
-                    FormField(props = prop)
-                }
+            props.forEach { prop ->
+                FormField(props = prop)
+            }
 
-                Button(
-                    modifier = Modifier
-                        .width(320.dp)
-                        .height(80.dp)
-                        .padding(top = 32.dp),
-                    onClick = {
+            Button(
+                modifier = Modifier
+                    .width(320.dp)
+                    .height(80.dp)
+                    .padding(top = 32.dp),
+                onClick = {
+                    scope.launch {
+                        val isSuccess = viewModel.login(email, password)
+
                         scope.launch {
-                            val isSuccess = viewModel.login(email, password)
-
-                            scope.launch {
-                                val message =
-                                    if (isSuccess) loginSuccessMessage else loginFailedMessage + viewModel.errorMessage
-                                snackbarHostState?.showSnackbar(message)
-                            }
-
-                            if (isSuccess) {
-                                navController?.navigate(
-                                    if (viewModel.userRole == "WORKER") Screen.WorkerHome.route
-                                    else Screen.UserHome.route
-                                ) {
-                                    popUpTo(Screen.Login.route) {
-                                        inclusive = true
-                                    }
-                                }
-
-                                ApiConfig.setAuthToken(viewModel.authToken)
-
-                                Log.i("LoginScreen", "authToken: ${viewModel.authToken}")
-                            }
+                            val message =
+                                if (isSuccess) loginSuccessMessage else loginFailedMessage + viewModel.errorMessage
+                            snackbarHostState?.showSnackbar(message)
                         }
-                    },
-                    enabled = isAllValid && !isLoading.value
-                ) {
-                    if (isLoading.value) {
-                        CircularProgressIndicator(
-                            modifier = Modifier
-                                .padding(4.dp)
-                                .height(24.dp)
-                                .width(24.dp)
-                        )
-                    } else {
-                        Text(
-                            text = stringResource(id = R.string.login),
-                            style = MaterialTheme.typography.labelLarge
-                        )
+
+                        if (isSuccess) {
+                            navController?.navigate(
+                                if (viewModel.userRole == "WORKER") Screen.WorkerHome.route
+                                else Screen.UserHome.route
+                            ) {
+                                popUpTo(Screen.Login.route) {
+                                    inclusive = true
+                                }
+                            }
+
+                            ApiConfig.setAuthToken(viewModel.authToken)
+
+                            Log.i("LoginScreen", "authToken: ${viewModel.authToken}")
+                        }
                     }
-
-                }
-
-                Row(
-                    modifier = Modifier.padding(vertical = 32.dp)
-                ) {
+                },
+                enabled = isAllValid && !isLoading.value
+            ) {
+                if (isLoading.value) {
+                    CircularProgressIndicator(
+                        modifier = Modifier
+                            .padding(4.dp)
+                            .height(24.dp)
+                            .width(24.dp)
+                    )
+                } else {
                     Text(
-                        text = stringResource(id = R.string.dont_have_account),
-                        style = MaterialTheme.typography.labelLarge.copy(
-                            fontWeight = FontWeight.Normal
-                        )
-                    )
-                    ClickableText(
-                        text = AnnotatedString(stringResource(id = R.string.register)),
-                        onClick = { navController?.navigate(Screen.Register.route) },
-                        style = MaterialTheme.typography.labelLarge.copy(
-                            color = MaterialTheme.colorScheme.secondary,
-                            textDecoration = TextDecoration.Underline,
-                        )
+                        text = stringResource(id = R.string.login),
+                        style = MaterialTheme.typography.labelLarge
                     )
                 }
+
+            }
+
+            Row(
+                modifier = Modifier.padding(vertical = 32.dp)
+            ) {
+                Text(
+                    text = stringResource(id = R.string.dont_have_account),
+                    style = MaterialTheme.typography.labelLarge.copy(
+                        fontWeight = FontWeight.Normal
+                    )
+                )
+                ClickableText(
+                    text = AnnotatedString(stringResource(id = R.string.register)),
+                    onClick = { navController?.navigate(Screen.Register.route) },
+                    style = MaterialTheme.typography.labelLarge.copy(
+                        color = MaterialTheme.colorScheme.secondary,
+                        textDecoration = TextDecoration.Underline,
+                    )
+                )
             }
         }
     }
+
 }
 
 

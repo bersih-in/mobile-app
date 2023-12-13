@@ -27,7 +27,7 @@ import com.bersihin.mobileapp.utils.ReportStatus
 fun StatusBox(
     status: ReportStatus
 ) {
-    var bgColor =
+    val bgColor =
         when (status) {
             ReportStatus.PENDING -> Color(0xFF949494)
             ReportStatus.VERIFIED -> Color(0xFF00acf7)
@@ -71,7 +71,7 @@ fun StatusBox(
                     stringResource(id = R.string.rejected).uppercase()
                 }
             },
-            style = MaterialTheme.typography.labelLarge.copy(
+            style = MaterialTheme.typography.labelMedium.copy(
                 color = Color.White,
             )
         )
