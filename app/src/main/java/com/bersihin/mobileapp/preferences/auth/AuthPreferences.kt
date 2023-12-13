@@ -33,10 +33,13 @@ class AuthPreferences private constructor(
     private val FIRST_NAME = stringPreferencesKey("first_name")
     private val LAST_NAME = stringPreferencesKey("last_name")
     private val EMAIL = stringPreferencesKey("email")
-
     fun getAuthToken(): Flow<String?> {
         return dataStore.data.map { preferences ->
-            preferences[AUTH_TOKEN]
+            if (preferences.contains(AUTH_TOKEN)) {
+                preferences[AUTH_TOKEN]
+            } else {
+                ""
+            }
         }
     }
 

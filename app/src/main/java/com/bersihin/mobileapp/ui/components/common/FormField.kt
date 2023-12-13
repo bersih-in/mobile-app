@@ -1,7 +1,6 @@
 package com.bersihin.mobileapp.ui.components.common
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -9,17 +8,21 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -40,9 +43,11 @@ data class FormFieldProps(
     val isPasswordVisible: Boolean = false,
     val onPasswordToggle: () -> Unit = {},
     val singleLine: Boolean = true,
-    val textFieldHeight: Int = 60
+    val textFieldHeight: Int = 60,
+    val icon: ImageVector? = null
 )
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FormField(
     props: FormFieldProps
@@ -60,14 +65,13 @@ fun FormField(
     ) {
         Text(
             text = stringResource(id = props.labelId),
-            style = MaterialTheme.typography.labelMedium
+            style = MaterialTheme.typography.labelMedium.copy(
+                fontWeight = FontWeight.Bold
+            ),
+            modifier = Modifier.padding(start = 12.dp)
         )
 
-        Spacer(
-            modifier = Modifier.height(16.dp)
-        )
-
-        OutlinedTextField(
+        TextField(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(props.textFieldHeight.dp),
@@ -76,6 +80,11 @@ fun FormField(
                 props.onValueChanged(it)
                 isError = !props.validator(it)
             },
+            colors = TextFieldDefaults.colors(
+                focusedContainerColor = Color.Transparent,
+                unfocusedContainerColor = Color.Transparent,
+                errorContainerColor = Color.Transparent,
+            ),
             textStyle = MaterialTheme.typography.labelMedium,
             isError = isError,
             placeholder = {
@@ -89,6 +98,16 @@ fun FormField(
             singleLine = props.singleLine,
             shape = RoundedCornerShape(12.dp),
             visualTransformation = visualTransformation,
+            leadingIcon = {
+                if (props.icon != null) {
+                    Icon(
+                        imageVector = props.icon,
+                        contentDescription = null,
+                    )
+                } else {
+                    null
+                }
+            },
             trailingIcon = {
                 if (props.isPassword) {
                     val icon =

@@ -102,29 +102,32 @@ fun App(
 
         permissionState.launchMultiplePermissionRequest()
 
-        if (authToken.value == null || authToken.value == "") {
-            navController.navigate(Screen.Login.route)
-        } else {
-            ApiConfig.setAuthToken(authToken.value as String)
-            val isExpired = !authViewModel.checkAuthToken()
-            val userRole = authViewModel.userRole
+        if (authToken.value != null) {
+            if (authToken.value == "") {
+                navController.navigate(Screen.Login.route)
+            } else {
+                ApiConfig.setAuthToken(authToken.value as String)
+                val isExpired = !authViewModel.checkAuthToken()
+                val userRole = authViewModel.userRole
 
-            navController.navigate(
-                if (isExpired) {
-                    Screen.Login.route
-                } else {
-                    if (UserRole.valueOf(userRole) == UserRole.USER) {
-                        Screen.UserHome.route
+                navController.navigate(
+                    if (isExpired) {
+                        Screen.Login.route
                     } else {
-                        Screen.WorkerHome.route
+                        if (UserRole.valueOf(userRole) == UserRole.USER) {
+                            Screen.UserHome.route
+                        } else {
+                            Screen.WorkerHome.route
+                        }
                     }
-                }
-            ) {
-                popUpTo(Screen.Login.route) {
-                    inclusive = true
+                ) {
+                    popUpTo(Screen.Login.route) {
+                        inclusive = true
+                    }
                 }
             }
         }
+
     }
 
     Scaffold(

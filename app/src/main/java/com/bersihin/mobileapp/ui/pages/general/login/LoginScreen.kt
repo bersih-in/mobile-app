@@ -13,6 +13,9 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Email
+import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -100,7 +103,8 @@ fun LoginScreen(
                 email = it as String
                 updateValid()
             },
-            errorMessageId = R.string.email_invalid
+            errorMessageId = R.string.email_invalid,
+            icon = Icons.Outlined.Email
         ),
         FormFieldProps(
             labelId = R.string.password,
@@ -114,7 +118,8 @@ fun LoginScreen(
             isPassword = true,
             isPasswordVisible = passwordVisible,
             onPasswordToggle = { passwordVisible = !passwordVisible },
-            errorMessageId = R.string.password_invalid
+            errorMessageId = R.string.password_invalid,
+            icon = Icons.Outlined.Lock
         )
     )
 

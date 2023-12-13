@@ -13,6 +13,12 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.outlined.Email
+import androidx.compose.material.icons.outlined.Lock
+import androidx.compose.material.icons.outlined.LockPerson
+import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenuItem
@@ -119,7 +125,8 @@ fun RegisterScreen(
                 firstName = it as String
                 updateValid()
             },
-            errorMessageId = R.string.first_name_invalid
+            errorMessageId = R.string.first_name_invalid,
+            icon = Icons.Outlined.Person
         ),
         FormFieldProps(
             labelId = R.string.last_name,
@@ -130,7 +137,8 @@ fun RegisterScreen(
                 lastName = it as String
                 updateValid()
             },
-            errorMessageId = R.string.last_name_invalid
+            errorMessageId = R.string.last_name_invalid,
+            icon = Icons.Default.Person
         ),
         FormFieldProps(
             labelId = R.string.email,
@@ -141,7 +149,8 @@ fun RegisterScreen(
                 email = it as String
                 updateValid()
             },
-            errorMessageId = R.string.email_invalid
+            errorMessageId = R.string.email_invalid,
+            icon = Icons.Outlined.Email
         ),
         FormFieldProps(
             labelId = R.string.password,
@@ -155,7 +164,8 @@ fun RegisterScreen(
             isPassword = true,
             isPasswordVisible = passwordVisible,
             onPasswordToggle = { passwordVisible = !passwordVisible },
-            errorMessageId = R.string.password_invalid
+            errorMessageId = R.string.password_invalid,
+            icon = Icons.Outlined.Lock
         ),
         FormFieldProps(
             labelId = R.string.confirm_password,
@@ -170,7 +180,8 @@ fun RegisterScreen(
             isPassword = true,
             isPasswordVisible = confirmPasswordVisible,
             onPasswordToggle = { confirmPasswordVisible = !confirmPasswordVisible },
-            errorMessageId = R.string.confirm_password_invalid
+            errorMessageId = R.string.confirm_password_invalid,
+            icon = Icons.Outlined.LockPerson
         )
     )
     Scaffold { innerPadding ->
