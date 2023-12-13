@@ -1,7 +1,6 @@
 package com.bersihin.mobileapp.ui.components.common
 
-import android.app.Activity
-import android.content.Intent
+import android.Manifest
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -9,12 +8,13 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CloudUpload
+import androidx.compose.material.icons.filled.Camera
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -22,11 +22,18 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.core.content.FileProvider
 import com.bersihin.mobileapp.utils.uploadImage
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.rememberPermissionState
+import java.io.File
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
-
+@OptIn(ExperimentalPermissionsApi::class)
 @Composable
-fun ImageUploadButton(
+fun CameraUploadButton(
     modifier: Modifier = Modifier,
     onUploading: () -> Unit = {},
     onSuccess: (String) -> Unit = {},
@@ -34,16 +41,36 @@ fun ImageUploadButton(
 ) {
     val context = LocalContext.current
 
+    val permissionState = rememberPermissionState(
+        Manifest.permission.CAMERA
+    )
+
+
     var imageUri by rememberSaveable {
         mutableStateOf<Uri?>(null)
     }
 
-    val launcher =
-        rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                val uri: Uri? = result.data?.data
-                uri?.let {
-                    imageUri = it
+    LaunchedEffect(Unit) {
+        permissionState.launchPermissionRequest()
+    }
+
+    fun createImageFile(): File {
+        val timeStamp: String =
+            SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+        val storageDir: File? = context.getExternalFilesDir(null)
+        return File.createTempFile(
+            "JPEG_${timeStamp}_",
+            ".jpg",
+            storageDir
+        ).apply {
+            imageUri = Uri.fromFile(this)
+        }
+    }
+
+    val takePictureLauncher =
+        rememberLauncherForActivityResult(ActivityResultContracts.TakePicture()) { success ->
+            if (success) {
+                imageUri?.let {
                     onUploading()
                     uploadImage(
                         imageUri = it,
@@ -55,21 +82,24 @@ fun ImageUploadButton(
             }
         }
 
-
     ElevatedButton(
         onClick = {
-            val intent = Intent(Intent.ACTION_PICK)
-            intent.type = "image/*"
-            launcher.launch(intent)
+            val photoFile: File = createImageFile()
+            takePictureLauncher.launch(
+                FileProvider.getUriForFile(
+                    context,
+                    context.packageName + ".provider",
+                    photoFile
+                )
+            )
         },
         modifier = modifier.fillMaxWidth()
     ) {
-        Icon(imageVector = Icons.Default.CloudUpload, contentDescription = null)
+        Icon(imageVector = Icons.Default.Camera, contentDescription = null)
         Spacer(modifier = Modifier.width(8.dp))
         Text(
-            text = "Upload Image",
+            text = "Take Picture",
             style = MaterialTheme.typography.labelLarge
         )
     }
-
 }

@@ -35,6 +35,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.app.ActivityCompat
@@ -43,6 +44,7 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.bersihin.mobileapp.R
 import com.bersihin.mobileapp.api.Response
+import com.bersihin.mobileapp.ui.components.common.CameraUploadButton
 import com.bersihin.mobileapp.ui.components.common.FormField
 import com.bersihin.mobileapp.ui.components.common.FormFieldProps
 import com.bersihin.mobileapp.ui.components.common.ImageUploadButton
@@ -152,24 +154,54 @@ fun ReportUploadScreen(
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(text = "Uploading image...")
             } else {
-                ImageUploadButton(
-                    modifier = Modifier.padding(top = 16.dp),
-                    onUploading = {
-                        isUploading = true
-                    },
-                    onSuccess = {
-                        imageUrl = it
-                        isUploading = false
-                        updateValid()
-                    },
-                    onError = {
-                        Toast.makeText(
-                            context,
-                            "Failed to upload image; please try again later!",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                )
+                Column(
+                    verticalArrangement = Arrangement.Center,
+                    modifier = Modifier.padding(bottom = 32.dp)
+                ) {
+                    CameraUploadButton(
+                        modifier = Modifier.padding(top = 16.dp),
+                        onUploading = {
+                            isUploading = true
+                        },
+                        onSuccess = {
+                            imageUrl = it
+                            isUploading = false
+                            updateValid()
+                        },
+                        onError = {
+                            Toast.makeText(
+                                context,
+                                "Failed to upload image; please try again later!",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    )
+
+                    Text(
+                        modifier = Modifier.fillMaxWidth(),
+                        text = "or",
+                        textAlign = TextAlign.Center
+                    )
+
+                    ImageUploadButton(
+                        onUploading = {
+                            isUploading = true
+                        },
+                        onSuccess = {
+                            imageUrl = it
+                            isUploading = false
+                            updateValid()
+                        },
+                        onError = {
+                            Toast.makeText(
+                                context,
+                                "Failed to upload image; please try again later!",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    )
+                }
+
 
                 AsyncImage(
                     model = imageUrl,

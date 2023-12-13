@@ -64,7 +64,7 @@ fun FormField(
         Text(
             text = stringResource(id = props.labelId),
             style = MaterialTheme.typography.labelMedium.copy(
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.W900
             ),
             modifier = Modifier.padding(start = 12.dp)
         )

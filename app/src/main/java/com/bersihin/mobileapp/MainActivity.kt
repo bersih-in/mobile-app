@@ -37,6 +37,7 @@ import com.bersihin.mobileapp.ui.pages.general.login.LoginScreen
 import com.bersihin.mobileapp.ui.pages.general.register.RegisterScreen
 import com.bersihin.mobileapp.ui.pages.general.report_details.ReportDetailsScreen
 import com.bersihin.mobileapp.ui.pages.general.settings.SettingsScreen
+import com.bersihin.mobileapp.ui.pages.general.splash.SplashScreen
 import com.bersihin.mobileapp.ui.pages.user.home.UserHomeScreen
 import com.bersihin.mobileapp.ui.pages.user.report_upload.ReportUploadScreen
 import com.bersihin.mobileapp.ui.pages.worker.history.HistoryScreen
@@ -104,7 +105,11 @@ fun App(
 
         if (authToken.value != null) {
             if (authToken.value == "") {
-                navController.navigate(Screen.Login.route)
+                navController.navigate(Screen.Login.route) {
+                    popUpTo(Screen.LoadingScreen.route) {
+                        inclusive = true
+                    }
+                }
             } else {
                 ApiConfig.setAuthToken(authToken.value as String)
                 val isExpired = !authViewModel.checkAuthToken()
@@ -146,6 +151,10 @@ fun App(
             modifier = modifier
         ) {
             // general pages
+            composable(Screen.SplashScreen.route) {
+                SplashScreen()
+            }
+
             composable(Screen.LoadingScreen.route) {
                 LoadingScreen()
             }

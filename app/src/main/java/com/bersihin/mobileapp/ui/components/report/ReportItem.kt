@@ -54,7 +54,9 @@ fun ReportItem(
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.Top,
-            modifier = Modifier.height(50.dp)
+            modifier = Modifier
+                .height(50.dp)
+                .padding(top = 8.dp)
         ) {
             Column(
                 modifier = Modifier

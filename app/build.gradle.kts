@@ -96,6 +96,8 @@ dependencies {
     // accompanist to request permission and swipe refresh
     implementation("com.google.accompanist:accompanist-permissions:0.25.0")
     implementation("com.google.accompanist:accompanist-swiperefresh:0.25.0")
+    implementation("com.google.accompanist:accompanist-pager:0.25.0")
+    implementation("com.google.accompanist:accompanist-pager-indicators:0.25.0")
 
     // firebase to upload images
     implementation(platform("com.google.firebase:firebase-bom:32.6.0"))
