@@ -103,7 +103,7 @@ fun ProgressScreen(
                         if (uiState.data.isEmpty()) {
                             item {
                                 InfoItem(
-                                    emoji = "🪹",
+                                    emoji = "😭",
                                     title = stringResource(id = R.string.no_progress),
                                     description = stringResource(id = R.string.no_progress_desc)
                                 )

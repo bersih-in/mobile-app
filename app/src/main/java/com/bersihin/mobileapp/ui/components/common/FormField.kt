@@ -8,7 +8,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -47,7 +46,6 @@ data class FormFieldProps(
     val icon: ImageVector? = null
 )
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FormField(
     props: FormFieldProps
@@ -98,16 +96,14 @@ fun FormField(
             singleLine = props.singleLine,
             shape = RoundedCornerShape(12.dp),
             visualTransformation = visualTransformation,
-            leadingIcon = {
-                if (props.icon != null) {
+            leadingIcon = if (props.icon != null) {
+                {
                     Icon(
                         imageVector = props.icon,
-                        contentDescription = null,
+                        contentDescription = null
                     )
-                } else {
-                    null
                 }
-            },
+            } else null,
             trailingIcon = {
                 if (props.isPassword) {
                     val icon =

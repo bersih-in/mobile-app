@@ -65,7 +65,7 @@ fun FakeReportDialog(
                         validator = { it.toString().isNotEmpty() },
                         errorMessageId = R.string.reason_invalid,
                         textFieldHeight = 300,
-                        singleLine = false
+                        singleLine = false,
                     )
                 )
 

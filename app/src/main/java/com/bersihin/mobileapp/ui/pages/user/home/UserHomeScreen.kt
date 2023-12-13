@@ -66,7 +66,8 @@ fun UserHomeScreen(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp)
+                .padding(horizontal = 16.dp)
+                .padding(top = 16.dp)
         ) {
             PageHeader(
                 props = PageHeaderProps(

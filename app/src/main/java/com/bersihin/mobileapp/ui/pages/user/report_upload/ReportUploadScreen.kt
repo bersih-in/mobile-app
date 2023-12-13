@@ -105,7 +105,7 @@ fun ReportUploadScreen(
             },
             errorMessageId = R.string.description_invalid,
             singleLine = false,
-            textFieldHeight = 120
+            textFieldHeight = 120,
         ),
     )
     val fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
@@ -176,7 +176,7 @@ fun ReportUploadScreen(
                     contentDescription = null,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(vertical = 16.dp)
+                        .padding(vertical = 8.dp)
                         .height(if (imageUrl.isEmpty()) 0.dp else 400.dp)
                         .clip(RoundedCornerShape(16.dp))
                 )
@@ -185,7 +185,7 @@ fun ReportUploadScreen(
 
             ElevatedButton(
                 modifier = Modifier
-                    .padding(top = if (isUploading) 0.dp else 32.dp)
+                    .padding(top = 4.dp)
                     .fillMaxWidth()
                     .height(50.dp),
 

@@ -88,7 +88,9 @@ fun ReportItem(
             text = props.description,
             style = MaterialTheme.typography.bodyMedium,
             maxLines = 2,
-            modifier = Modifier.heightIn(min = 24.dp, max = 48.dp)
+            modifier = Modifier
+                .heightIn(min = 24.dp, max = 48.dp)
+                .padding(bottom = 8.dp)
         )
     }
 
