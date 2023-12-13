@@ -2,6 +2,7 @@ package com.bersihin.mobileapp.ui.pages.user.report_upload
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -236,7 +237,13 @@ fun ReportUploadScreen(
                                 submitSuccess,
                                 Toast.LENGTH_SHORT
                             ).show()
-                            navController?.navigate(Screen.UserHome.route)
+                            Log.i("ReportUploadScreen", "response: $response")
+                            navController?.navigate(Screen.UserHome.route) {
+                                popUpTo(Screen.ReportUpload.route) {
+                                    inclusive = true
+                                }
+                            }
+
                         } else {
                             Toast.makeText(
                                 context,
