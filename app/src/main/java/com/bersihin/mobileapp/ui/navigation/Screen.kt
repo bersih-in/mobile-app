@@ -10,6 +10,7 @@ sealed class Screen(val route: String) {
 
     object LoadingScreen : Screen("loading")
     object SplashScreen : Screen("splash")
+    object LocationPickerScreen : Screen("location_picker")
 
     object Settings : Screen("settings")
 

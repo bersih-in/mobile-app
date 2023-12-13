@@ -64,8 +64,7 @@ class ViewModelFactory(private val context: Context) : ViewModelProvider.NewInst
                 repository = userRepository
             ) as T
 
-            modelClass.isAssignableFrom(ReportUploadViewModel::class.java) -> ReportUploadViewModel(
-                repository = userRepository
+            modelClass.isAssignableFrom(ReportUploadViewModel::class.java) -> ReportUploadViewModel.getInstance(
             ) as T
 
             else -> throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")

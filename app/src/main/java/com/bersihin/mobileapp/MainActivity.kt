@@ -33,6 +33,7 @@ import com.bersihin.mobileapp.preferences.auth.AuthViewModel
 import com.bersihin.mobileapp.ui.components.common.BottomBar
 import com.bersihin.mobileapp.ui.navigation.Screen
 import com.bersihin.mobileapp.ui.pages.general.loading.LoadingScreen
+import com.bersihin.mobileapp.ui.pages.general.location_picker.LocationPickerScreen
 import com.bersihin.mobileapp.ui.pages.general.login.LoginScreen
 import com.bersihin.mobileapp.ui.pages.general.register.RegisterScreen
 import com.bersihin.mobileapp.ui.pages.general.report_details.ReportDetailsScreen
@@ -157,6 +158,12 @@ fun App(
 
             composable(Screen.LoadingScreen.route) {
                 LoadingScreen()
+            }
+
+            composable(Screen.LocationPickerScreen.route) {
+                LocationPickerScreen(
+                    navController = navController
+                )
             }
 
             composable(Screen.Login.route) {

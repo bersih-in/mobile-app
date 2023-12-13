@@ -2,6 +2,7 @@ package com.bersihin.mobileapp.ui.components.dialog
 
 import android.util.Log
 import android.widget.Toast
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -28,11 +29,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import coil.compose.AsyncImage
 import com.bersihin.mobileapp.R
+import com.bersihin.mobileapp.ui.components.common.CameraUploadButton
 import com.bersihin.mobileapp.ui.components.common.ImageUploadButton
 import com.bersihin.mobileapp.ui.pages.general.report_details.ReportDetailsViewModel
 import com.bersihin.mobileapp.ui.theme.BersihinTheme
@@ -50,7 +53,7 @@ fun FinishReportDialog(
     var imageUrl by rememberSaveable { mutableStateOf("") }
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
-    
+
     Dialog(onDismissRequest = { onDismissRequest() }) {
         Card(
             modifier = Modifier
@@ -71,22 +74,49 @@ fun FinishReportDialog(
                     Spacer(modifier = Modifier.height(16.dp))
                     Text(text = "Uploading image...")
                 } else {
-                    ImageUploadButton(
-                        onUploading = { isUploading = true },
-                        onSuccess = {
-                            imageUrl = it
-                            isUploading = false
-                        },
-                        onError = {
-                            isUploading = false
-                            Toast.makeText(
-                                context,
-                                "Failed to upload image, please try again later!",
-                                Toast.LENGTH_SHORT
-                            ).show(
-                            )
-                        }
-                    )
+                    Column(verticalArrangement = Arrangement.Center) {
+
+                        CameraUploadButton(
+                            onUploading = { isUploading = true },
+                            onSuccess = {
+                                imageUrl = it
+                                isUploading = false
+                            },
+                            onError = {
+                                isUploading = false
+                                Toast.makeText(
+                                    context,
+                                    "Failed to upload image, please try again later!",
+                                    Toast.LENGTH_SHORT
+                                ).show(
+                                )
+                            }
+                        )
+
+                        Text(
+                            modifier = Modifier.fillMaxWidth(),
+                            text = "or",
+                            textAlign = TextAlign.Center
+                        )
+
+                        ImageUploadButton(
+                            onUploading = { isUploading = true },
+                            onSuccess = {
+                                imageUrl = it
+                                isUploading = false
+                            },
+                            onError = {
+                                isUploading = false
+                                Toast.makeText(
+                                    context,
+                                    "Failed to upload image, please try again later!",
+                                    Toast.LENGTH_SHORT
+                                ).show(
+                                )
+                            }
+                        )
+                    }
+
                 }
 
                 AsyncImage(
