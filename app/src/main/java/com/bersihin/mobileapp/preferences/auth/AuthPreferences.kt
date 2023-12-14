@@ -33,7 +33,8 @@ class AuthPreferences private constructor(
     private val FIRST_NAME = stringPreferencesKey("first_name")
     private val LAST_NAME = stringPreferencesKey("last_name")
     private val EMAIL = stringPreferencesKey("email")
-    
+    private val USER_ID = stringPreferencesKey("user_id")
+
     fun getAuthToken(): Flow<String?> {
         return dataStore.data.map { preferences ->
             if (preferences.contains(AUTH_TOKEN)) {
@@ -68,12 +69,19 @@ class AuthPreferences private constructor(
         }
     }
 
+    fun getUserId(): Flow<String?> {
+        return dataStore.data.map { preferences ->
+            preferences[USER_ID]
+        }
+    }
+
     suspend fun saveAuthInfo(
         authToken: String?,
         userRole: String?,
         firstName: String?,
         lastName: String?,
-        email: String?
+        email: String?,
+        userId: String?
     ) {
         if (authToken != null) {
             dataStore.edit { preferences ->
@@ -102,6 +110,12 @@ class AuthPreferences private constructor(
         if (email != null) {
             dataStore.edit { preferences ->
                 preferences[EMAIL] = email
+            }
+        }
+
+        if (userId != null) {
+            dataStore.edit { preferences ->
+                preferences[USER_ID] = userId
             }
         }
     }

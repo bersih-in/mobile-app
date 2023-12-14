@@ -17,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -26,6 +27,7 @@ import androidx.core.content.FileProvider
 import com.bersihin.mobileapp.utils.uploadImage
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberPermissionState
+import kotlinx.coroutines.launch
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -40,7 +42,7 @@ fun CameraUploadButton(
     onError: () -> Unit = {}
 ) {
     val context = LocalContext.current
-
+    val scope = rememberCoroutineScope()
     val permissionState = rememberPermissionState(
         Manifest.permission.CAMERA
     )
@@ -72,12 +74,14 @@ fun CameraUploadButton(
             if (success) {
                 imageUri?.let {
                     onUploading()
-                    uploadImage(
-                        imageUri = it,
-                        context = context,
-                        onSuccess = onSuccess,
-                        onError = onError
-                    )
+                    scope.launch {
+                        uploadImage(
+                            imageUri = it,
+                            context = context,
+                            onSuccess = onSuccess,
+                            onError = onError
+                        )
+                    }
                 }
             }
         }

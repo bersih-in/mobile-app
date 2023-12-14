@@ -49,13 +49,15 @@ class AuthViewModel(
     fun getFirstName() = pref.getFirstName()
     fun getLastName() = pref.getLastName()
     fun getEmail() = pref.getEmail()
+    fun getUserId() = pref.getUserId()
 
     fun saveAuthInfo(
         authToken: String,
         userRole: String,
         firstName: String,
         lastName: String,
-        email: String
+        email: String,
+        userId: String
     ) {
         viewModelScope.launch {
             pref.saveAuthInfo(
@@ -63,7 +65,8 @@ class AuthViewModel(
                 userRole = userRole,
                 firstName = firstName,
                 lastName = lastName,
-                email = email
+                email = email,
+                userId = userId,
             )
         }
     }
@@ -86,7 +89,8 @@ class AuthViewModel(
                         userRole = response.response.data.role,
                         firstName = response.response.data.firstName,
                         lastName = response.response.data.lastName,
-                        email = response.response.data.email
+                        email = response.response.data.email,
+                        userId = response.response.data.id,
                     )
                     true
                 }

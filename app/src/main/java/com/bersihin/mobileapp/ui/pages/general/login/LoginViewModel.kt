@@ -21,6 +21,7 @@ class LoginViewModel(
     lateinit var firstName: String
     lateinit var lastName: String
     lateinit var userEmail: String
+    lateinit var userId: String
 
     var errorMessage: String? = null
 
@@ -30,7 +31,7 @@ class LoginViewModel(
         return withContext(Dispatchers.IO) {
             val response = repository.login(email, password)
             _isLoading.value = false
-            
+
             when (response) {
                 is Response.Success -> {
                     authToken = response.response.data.token
@@ -38,6 +39,8 @@ class LoginViewModel(
                     firstName = response.response.data.firstName
                     lastName = response.response.data.lastName
                     userEmail = response.response.data.email
+                    userId = response.response.data.id
+
 
 
                     pref.saveAuthInfo(
@@ -45,7 +48,8 @@ class LoginViewModel(
                         userRole = userRole,
                         firstName = firstName,
                         lastName = lastName,
-                        email = userEmail
+                        email = userEmail,
+                        userId = userId
                     )
                     true
                 }

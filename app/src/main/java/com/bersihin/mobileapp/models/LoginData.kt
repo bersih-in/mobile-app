@@ -16,5 +16,8 @@ data class LoginData(
     val email: String,
 
     @field:SerializedName("token")
-    val token: String
+    val token: String,
+
+    @field:SerializedName("id")
+    val id: String
 )

@@ -17,12 +17,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.bersihin.mobileapp.utils.uploadImage
+import kotlinx.coroutines.launch
 
 
 @Composable
@@ -33,7 +35,7 @@ fun ImageUploadButton(
     onError: () -> Unit = {}
 ) {
     val context = LocalContext.current
-
+    val scope = rememberCoroutineScope()
     var imageUri by rememberSaveable {
         mutableStateOf<Uri?>(null)
     }
@@ -45,12 +47,14 @@ fun ImageUploadButton(
                 uri?.let {
                     imageUri = it
                     onUploading()
-                    uploadImage(
-                        imageUri = it,
-                        context = context,
-                        onSuccess = onSuccess,
-                        onError = onError
-                    )
+                    scope.launch {
+                        uploadImage(
+                            imageUri = it,
+                            context = context,
+                            onSuccess = onSuccess,
+                            onError = onError
+                        )
+                    }
                 }
             }
         }
