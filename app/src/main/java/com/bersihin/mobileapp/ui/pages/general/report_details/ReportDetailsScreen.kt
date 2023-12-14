@@ -46,6 +46,7 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.bersihin.mobileapp.R
 import com.bersihin.mobileapp.models.Report
+import com.bersihin.mobileapp.preferences.auth.AuthPreferences.Companion.USER_ROLE
 import com.bersihin.mobileapp.preferences.auth.AuthViewModel
 import com.bersihin.mobileapp.ui.common.UiState
 import com.bersihin.mobileapp.ui.components.actions.WorkerPickupActions
@@ -77,7 +78,7 @@ fun ReportDetailsScreen(
     scope: CoroutineScope = rememberCoroutineScope()
 ) {
     val reportInfo = viewModel.reportInfo.collectAsState(initial = UiState.Loading)
-    val userRole = authViewModel.getUserRole().collectAsState(initial = null)
+    val userRole = authViewModel.getPrefValue(USER_ROLE).collectAsState(initial = null)
 
     LaunchedEffect(userRole.value) {
         Log.i("ReportDetailsScreen", "User role: ${userRole.value}")

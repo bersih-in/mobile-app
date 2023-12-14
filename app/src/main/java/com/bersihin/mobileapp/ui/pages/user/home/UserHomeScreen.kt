@@ -17,6 +17,8 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.bersihin.mobileapp.R
+import com.bersihin.mobileapp.preferences.auth.AuthPreferences.Companion.FIRST_NAME
+import com.bersihin.mobileapp.preferences.auth.AuthPreferences.Companion.LAST_NAME
 import com.bersihin.mobileapp.preferences.auth.AuthViewModel
 import com.bersihin.mobileapp.ui.common.UiState
 import com.bersihin.mobileapp.ui.components.common.FullscreenLoadingIndicator
@@ -45,8 +47,8 @@ fun UserHomeScreen(
     scope: CoroutineScope = rememberCoroutineScope()
 ) {
     val reports = viewModel.reports.collectAsState()
-    val firstName = authViewModel.getFirstName().collectAsState(initial = null)
-    val lastName = authViewModel.getLastName().collectAsState(initial = null)
+    val firstName = authViewModel.getPrefValue(FIRST_NAME).collectAsState(initial = null)
+    val lastName = authViewModel.getPrefValue(LAST_NAME).collectAsState(initial = null)
 
     LaunchedEffect(Unit) {
         scope.launch {

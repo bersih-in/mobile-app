@@ -2,6 +2,7 @@ package com.bersihin.mobileapp.utils
 
 import android.content.Context
 import android.net.Uri
+import com.bersihin.mobileapp.preferences.auth.AuthPreferences.Companion.USER_ID
 import com.bersihin.mobileapp.preferences.auth.AuthViewModel
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageMetadata
@@ -20,7 +21,7 @@ suspend fun uploadImage(
     val authViewModel = ViewModelFactory(context).create(AuthViewModel::class.java)
 
     withContext(Dispatchers.IO) {
-        authViewModel.getUserId().collect {
+        authViewModel.getPrefValue(USER_ID).collect {
             val metadata = StorageMetadata.Builder()
                 .setCustomMetadata("userID", it)
                 .build()

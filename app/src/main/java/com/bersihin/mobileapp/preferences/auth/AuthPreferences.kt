@@ -26,14 +26,24 @@ class AuthPreferences private constructor(
                 instance
             }
         }
+
+        val AUTH_TOKEN = stringPreferencesKey("auth_token")
+        val USER_ROLE = stringPreferencesKey("user_role")
+        val FIRST_NAME = stringPreferencesKey("first_name")
+        val LAST_NAME = stringPreferencesKey("last_name")
+        val EMAIL = stringPreferencesKey("email")
+        val USER_ID = stringPreferencesKey("user_id")
     }
 
-    private val AUTH_TOKEN = stringPreferencesKey("auth_token")
-    private val USER_ROLE = stringPreferencesKey("user_role")
-    private val FIRST_NAME = stringPreferencesKey("first_name")
-    private val LAST_NAME = stringPreferencesKey("last_name")
-    private val EMAIL = stringPreferencesKey("email")
-    private val USER_ID = stringPreferencesKey("user_id")
+    fun getPrefValue(key: Preferences.Key<String>): Flow<String> {
+        return dataStore.data.map { preferences ->
+            if (preferences.contains(key)) {
+                preferences[key] ?: ""
+            } else {
+                ""
+            }
+        }
+    }
 
     fun getAuthToken(): Flow<String?> {
         return dataStore.data.map { preferences ->
@@ -45,36 +55,6 @@ class AuthPreferences private constructor(
         }
     }
 
-    fun getUserRole(): Flow<String?> {
-        return dataStore.data.map { preferences ->
-            preferences[USER_ROLE]
-        }
-    }
-
-    fun getFirstName(): Flow<String?> {
-        return dataStore.data.map { preferences ->
-            preferences[FIRST_NAME]
-        }
-    }
-
-    fun getLastName(): Flow<String?> {
-        return dataStore.data.map { preferences ->
-            preferences[LAST_NAME]
-        }
-    }
-
-    fun getEmail(): Flow<String?> {
-        return dataStore.data.map { preferences ->
-            preferences[EMAIL]
-        }
-    }
-
-    fun getUserId(): Flow<String?> {
-        return dataStore.data.map { preferences ->
-            preferences[USER_ID]
-        }
-    }
-
     suspend fun saveAuthInfo(
         authToken: String?,
         userRole: String?,
@@ -83,6 +63,7 @@ class AuthPreferences private constructor(
         email: String?,
         userId: String?
     ) {
+
         if (authToken != null) {
             dataStore.edit { preferences ->
                 preferences[AUTH_TOKEN] = authToken

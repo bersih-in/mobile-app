@@ -13,6 +13,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.bersihin.mobileapp.preferences.auth.AuthPreferences.Companion.USER_ROLE
 import com.bersihin.mobileapp.preferences.auth.AuthViewModel
 import com.bersihin.mobileapp.ui.navigation.NavigationItems
 import com.bersihin.mobileapp.utils.ViewModelFactory
@@ -25,7 +26,7 @@ fun BottomBar(
         factory = ViewModelFactory(LocalContext.current)
     )
 ) {
-    val userRole = authViewModel.getUserRole().collectAsState(initial = "")
+    val userRole = authViewModel.getPrefValue(USER_ROLE).collectAsState(initial = "")
 
     NavigationBar(modifier = modifier) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()

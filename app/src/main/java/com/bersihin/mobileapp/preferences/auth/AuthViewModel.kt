@@ -1,15 +1,17 @@
 package com.bersihin.mobileapp.preferences.auth
 
-import android.util.Log
+import androidx.datastore.preferences.core.Preferences
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bersihin.mobileapp.api.Response
+import com.bersihin.mobileapp.preferences.auth.AuthPreferences.Companion.AUTH_TOKEN
+import com.bersihin.mobileapp.preferences.auth.AuthPreferences.Companion.USER_ROLE
 import com.bersihin.mobileapp.repository.AuthRepository
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -29,47 +31,20 @@ class AuthViewModel(
 
     init {
         viewModelScope.launch {
-            getAuthToken().collect { token ->
+            getPrefValue(AUTH_TOKEN).collect { token ->
                 _authToken.value = token
             }
 
-            getUserRole().collect { role ->
+            getPrefValue(USER_ROLE).collect { role ->
                 _userRole.value = role
             }
         }
     }
 
-    suspend fun waitForTokenLoad() {
-        Log.i("AuthViewModel", "Waiting for token load")
-        authToken.first { it != null }
+    fun getPrefValue(key: Preferences.Key<String>): Flow<String> {
+        return pref.getPrefValue(key)
     }
-
-    fun getAuthToken() = pref.getAuthToken()
-    fun getUserRole() = pref.getUserRole()
-    fun getFirstName() = pref.getFirstName()
-    fun getLastName() = pref.getLastName()
-    fun getEmail() = pref.getEmail()
-    fun getUserId() = pref.getUserId()
-
-    fun saveAuthInfo(
-        authToken: String,
-        userRole: String,
-        firstName: String,
-        lastName: String,
-        email: String,
-        userId: String
-    ) {
-        viewModelScope.launch {
-            pref.saveAuthInfo(
-                authToken = authToken,
-                userRole = userRole,
-                firstName = firstName,
-                lastName = lastName,
-                email = email,
-                userId = userId,
-            )
-        }
-    }
+    
 
     fun clearAuthInfo() {
         viewModelScope.launch {
