@@ -110,7 +110,8 @@ dependencies {
 ////    implementation("com.google.android.libraries.maps:maps:3.1.0")
 //    implementation("com.google.maps.android:maps-v3-ktx:2.2.0")
     implementation("androidx.fragment:fragment:1.3.2")
-
+    implementation("androidx.core:core-splashscreen:1.0.0-beta02")
+    
     // test implementation dependencies
     testImplementation(libs.junit)
 

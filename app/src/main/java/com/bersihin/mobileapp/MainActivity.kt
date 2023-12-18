@@ -2,9 +2,9 @@ package com.bersihin.mobileapp
 
 import android.Manifest
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
@@ -20,6 +20,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -32,13 +33,14 @@ import com.bersihin.mobileapp.api.ApiConfig
 import com.bersihin.mobileapp.preferences.auth.AuthViewModel
 import com.bersihin.mobileapp.ui.components.common.BottomBar
 import com.bersihin.mobileapp.ui.navigation.Screen
+import com.bersihin.mobileapp.ui.pages.general.intro.IntroScreen
 import com.bersihin.mobileapp.ui.pages.general.loading.LoadingScreen
 import com.bersihin.mobileapp.ui.pages.general.location_picker.LocationPickerScreen
 import com.bersihin.mobileapp.ui.pages.general.login.LoginScreen
 import com.bersihin.mobileapp.ui.pages.general.register.RegisterScreen
 import com.bersihin.mobileapp.ui.pages.general.report_details.ReportDetailsScreen
 import com.bersihin.mobileapp.ui.pages.general.settings.SettingsScreen
-import com.bersihin.mobileapp.ui.pages.general.splash.SplashScreen
+import com.bersihin.mobileapp.ui.pages.splash.SplashViewModel
 import com.bersihin.mobileapp.ui.pages.user.home.UserHomeScreen
 import com.bersihin.mobileapp.ui.pages.user.report_upload.ReportUploadScreen
 import com.bersihin.mobileapp.ui.pages.worker.history.HistoryScreen
@@ -51,7 +53,15 @@ import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 
 class MainActivity : ComponentActivity() {
+
+    private val viewModel: SplashViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
+        val splashScreen = installSplashScreen()
+
+        splashScreen.setKeepOnScreenCondition {
+            viewModel.isLoading.value
+        }
+
         super.onCreate(savedInstanceState)
         setContent {
             BersihinTheme {
@@ -100,13 +110,11 @@ fun App(
     )
 
     LaunchedEffect(authToken.value) {
-        Log.i("MainActivity", "authToken.value: ${authToken.value}")
-
         permissionState.launchMultiplePermissionRequest()
 
         if (authToken.value != null) {
             if (authToken.value == "") {
-                navController.navigate(Screen.Login.route) {
+                navController.navigate(Screen.SplashScreen.route) {
                     popUpTo(Screen.LoadingScreen.route) {
                         inclusive = true
                     }
@@ -115,6 +123,10 @@ fun App(
                 ApiConfig.setAuthToken(authToken.value as String)
                 val isExpired = !authViewModel.checkAuthToken()
                 val userRole = authViewModel.userRole
+
+                if (isExpired) {
+                    authViewModel.clearAuthInfo()
+                }
 
                 navController.navigate(
                     if (isExpired) {
@@ -153,7 +165,9 @@ fun App(
         ) {
             // general pages
             composable(Screen.SplashScreen.route) {
-                SplashScreen()
+                IntroScreen(
+                    navController = navController
+                )
             }
 
             composable(Screen.LoadingScreen.route) {
