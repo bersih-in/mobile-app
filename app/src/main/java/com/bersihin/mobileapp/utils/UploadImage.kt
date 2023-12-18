@@ -2,8 +2,8 @@ package com.bersihin.mobileapp.utils
 
 import android.content.Context
 import android.net.Uri
-import com.bersihin.mobileapp.preferences.auth.AuthPreferences.Companion.USER_ID
-import com.bersihin.mobileapp.preferences.auth.AuthViewModel
+import com.bersihin.mobileapp.preferences.settings.SettingsPreferences.Companion.USER_ID
+import com.bersihin.mobileapp.preferences.settings.SettingsViewModel
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageMetadata
 import kotlinx.coroutines.Dispatchers
@@ -18,10 +18,10 @@ suspend fun uploadImage(
     val storageRef = FirebaseStorage.getInstance().reference
     val imageRef = storageRef.child("images/${imageUri.lastPathSegment}")
 
-    val authViewModel = ViewModelFactory(context).create(AuthViewModel::class.java)
+    val settingsViewModel = ViewModelFactory(context).create(SettingsViewModel::class.java)
 
     withContext(Dispatchers.IO) {
-        authViewModel.getPrefValue(USER_ID).collect {
+        settingsViewModel.getPrefValue(USER_ID).collect {
             val metadata = StorageMetadata.Builder()
                 .setCustomMetadata("userID", it)
                 .build()

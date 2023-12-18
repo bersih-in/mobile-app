@@ -7,6 +7,7 @@ import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
@@ -30,11 +31,13 @@ val lightColorScheme = lightColorScheme(
     onErrorContainer = Color(0xFFFFDBDB),
 )
 
+data class ColorTheme(val isDarkMode: Boolean = false)
+
+val LocalTheme = compositionLocalOf { ColorTheme() }
+
 @Composable
 fun BersihinTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 ) {
     val colorScheme =

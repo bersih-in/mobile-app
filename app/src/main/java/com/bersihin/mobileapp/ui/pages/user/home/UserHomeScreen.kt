@@ -17,9 +17,9 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.bersihin.mobileapp.R
-import com.bersihin.mobileapp.preferences.auth.AuthPreferences.Companion.FIRST_NAME
-import com.bersihin.mobileapp.preferences.auth.AuthPreferences.Companion.LAST_NAME
-import com.bersihin.mobileapp.preferences.auth.AuthViewModel
+import com.bersihin.mobileapp.preferences.settings.SettingsPreferences.Companion.FIRST_NAME
+import com.bersihin.mobileapp.preferences.settings.SettingsPreferences.Companion.LAST_NAME
+import com.bersihin.mobileapp.preferences.settings.SettingsViewModel
 import com.bersihin.mobileapp.ui.common.UiState
 import com.bersihin.mobileapp.ui.components.common.FullscreenLoadingIndicator
 import com.bersihin.mobileapp.ui.components.common.InfoItem
@@ -40,15 +40,15 @@ fun UserHomeScreen(
     viewModel: UserHomeViewModel = viewModel(
         factory = ViewModelFactory(context = LocalContext.current)
     ),
-    authViewModel: AuthViewModel = viewModel(
+    settingsViewModel: SettingsViewModel = viewModel(
         factory = ViewModelFactory(context = LocalContext.current)
     ),
     navController: NavController = NavController(LocalContext.current),
     scope: CoroutineScope = rememberCoroutineScope()
 ) {
     val reports = viewModel.reports.collectAsState()
-    val firstName = authViewModel.getPrefValue(FIRST_NAME).collectAsState(initial = null)
-    val lastName = authViewModel.getPrefValue(LAST_NAME).collectAsState(initial = null)
+    val firstName = settingsViewModel.getPrefValue(FIRST_NAME).collectAsState(initial = null)
+    val lastName = settingsViewModel.getPrefValue(LAST_NAME).collectAsState(initial = null)
 
     LaunchedEffect(Unit) {
         scope.launch {

@@ -110,4 +110,9 @@
     <string name="submit_report_desc">Fill in the form below to submit your report! Our system will check the validity of your report. </string>
     <string name="submit_success">Successfully submitted your report!</string>
     <string name="submit_failed">Failed to submit your report, please try again later!</string>
+
+    <string name="dark_mode">Dark Mode</string>
+    <string name="light_mode">Light Mode</string>
+    <string name="use_system_default">Use System Default</string>
+    <string name="dark_mode_summary">Color Mode</string>
 </resources>

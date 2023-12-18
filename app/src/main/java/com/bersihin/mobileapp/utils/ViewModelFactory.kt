@@ -3,9 +3,9 @@ package com.bersihin.mobileapp.utils
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.bersihin.mobileapp.preferences.auth.AuthPreferences
-import com.bersihin.mobileapp.preferences.auth.AuthViewModel
-import com.bersihin.mobileapp.preferences.auth.dataStore
+import com.bersihin.mobileapp.preferences.settings.SettingsPreferences
+import com.bersihin.mobileapp.preferences.settings.SettingsViewModel
+import com.bersihin.mobileapp.preferences.settings.dataStore
 import com.bersihin.mobileapp.repository.AuthRepository
 import com.bersihin.mobileapp.repository.UserRepository
 import com.bersihin.mobileapp.repository.WorkerRepository
@@ -26,7 +26,7 @@ class ViewModelFactory(private val context: Context) : ViewModelProvider.NewInst
         val authRepository = AuthRepository.getInstance()
         val workerRepository = WorkerRepository.getInstance()
         val userRepository = UserRepository.getInstance()
-        val preferences = AuthPreferences.getInstance(context.applicationContext.dataStore)
+        val preferences = SettingsPreferences.getInstance(context.applicationContext.dataStore)
 
         return when {
             modelClass.isAssignableFrom(LoginViewModel::class.java) -> LoginViewModel(
@@ -38,7 +38,7 @@ class ViewModelFactory(private val context: Context) : ViewModelProvider.NewInst
                 repository = authRepository
             ) as T
 
-            modelClass.isAssignableFrom(AuthViewModel::class.java) -> AuthViewModel(
+            modelClass.isAssignableFrom(SettingsViewModel::class.java) -> SettingsViewModel(
                 pref = preferences,
                 repository = authRepository
             ) as T

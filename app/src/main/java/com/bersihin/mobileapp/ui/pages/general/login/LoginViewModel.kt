@@ -2,7 +2,7 @@ package com.bersihin.mobileapp.ui.pages.general.login
 
 import androidx.lifecycle.ViewModel
 import com.bersihin.mobileapp.api.Response
-import com.bersihin.mobileapp.preferences.auth.AuthPreferences
+import com.bersihin.mobileapp.preferences.settings.SettingsPreferences
 import com.bersihin.mobileapp.repository.AuthRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.withContext
 
 class LoginViewModel(
-    private val pref: AuthPreferences,
+    private val pref: SettingsPreferences,
     private val repository: AuthRepository
 ) : ViewModel() {
     private val _isLoading: MutableStateFlow<Boolean> = MutableStateFlow(false)

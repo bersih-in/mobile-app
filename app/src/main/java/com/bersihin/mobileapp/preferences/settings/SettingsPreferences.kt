@@ -1,4 +1,4 @@
-package com.bersihin.mobileapp.preferences.auth
+package com.bersihin.mobileapp.preferences.settings
 
 import android.content.Context
 import androidx.datastore.core.DataStore
@@ -6,22 +6,23 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
+import com.bersihin.mobileapp.utils.ColorMode
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 
-val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "auth_preferences")
+val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings_preferences")
 
-class AuthPreferences private constructor(
+class SettingsPreferences private constructor(
     private val dataStore: DataStore<Preferences>
 ) {
     companion object {
         @Volatile
-        private var INSTANCE: AuthPreferences? = null
+        private var INSTANCE: SettingsPreferences? = null
 
-        fun getInstance(dataStore: DataStore<Preferences>): AuthPreferences {
+        fun getInstance(dataStore: DataStore<Preferences>): SettingsPreferences {
             return INSTANCE ?: synchronized(this) {
-                val instance = AuthPreferences(dataStore)
+                val instance = SettingsPreferences(dataStore)
                 INSTANCE = instance
                 instance
             }
@@ -33,6 +34,7 @@ class AuthPreferences private constructor(
         val LAST_NAME = stringPreferencesKey("last_name")
         val EMAIL = stringPreferencesKey("email")
         val USER_ID = stringPreferencesKey("user_id")
+        val COLOR_MODE = stringPreferencesKey("color_mode")
     }
 
     fun getPrefValue(key: Preferences.Key<String>): Flow<String> {
@@ -45,13 +47,11 @@ class AuthPreferences private constructor(
         }
     }
 
-    fun getAuthToken(): Flow<String?> {
-        return dataStore.data.map { preferences ->
-            if (preferences.contains(AUTH_TOKEN)) {
-                preferences[AUTH_TOKEN]
-            } else {
-                ""
-            }
+    suspend fun setColorMode(
+        newColorMode: ColorMode
+    ) {
+        dataStore.edit { preferences ->
+            preferences[COLOR_MODE] = newColorMode.mode
         }
     }
 

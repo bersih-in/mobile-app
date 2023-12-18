@@ -14,3 +14,13 @@ enum class ReportStatus(val status: String) {
     IN_PROGRESS("IN_PROGRESS"),
     FINISHED("FINISHED")
 }
+
+enum class ColorMode(val mode: String) {
+    DARK("DARK"),
+    LIGHT("LIGHT"),
+    AUTO("AUTO");
+
+    companion object {
+        fun fromOrdinal(ordinal: Int) = values()[ordinal]
+    }
+}

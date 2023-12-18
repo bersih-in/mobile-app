@@ -47,7 +47,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.bersihin.mobileapp.R
 import com.bersihin.mobileapp.api.ApiConfig
-import com.bersihin.mobileapp.preferences.auth.AuthViewModel
 import com.bersihin.mobileapp.ui.components.common.FormField
 import com.bersihin.mobileapp.ui.components.common.FormFieldProps
 import com.bersihin.mobileapp.ui.navigation.Screen
@@ -61,9 +60,6 @@ import kotlinx.coroutines.launch
 fun LoginScreen(
     modifier: Modifier = Modifier,
     viewModel: LoginViewModel = viewModel(
-        factory = ViewModelFactory(LocalContext.current)
-    ),
-    authViewModel: AuthViewModel = viewModel(
         factory = ViewModelFactory(LocalContext.current)
     ),
     navController: NavController? = null,

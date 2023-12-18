@@ -20,7 +20,6 @@ fun rememberMapViewWithLifecycle(): MapView {
         }
     }
 
-    // Makes MapView follow the lifecycle of this composable
     val lifecycleObserver = rememberMapLifecycleObserver(mapView)
     val lifecycle = LocalLifecycleOwner.current.lifecycle
     DisposableEffect(lifecycle) {

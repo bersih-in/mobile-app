@@ -14,7 +14,6 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
@@ -26,7 +25,8 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.bersihin.mobileapp.R
-import com.bersihin.mobileapp.preferences.auth.AuthViewModel
+import com.bersihin.mobileapp.preferences.settings.SettingsViewModel
+import com.bersihin.mobileapp.ui.components.common.DarkModeDropdown
 import com.bersihin.mobileapp.ui.navigation.Screen
 import com.bersihin.mobileapp.utils.ViewModelFactory
 import kotlinx.coroutines.CoroutineScope
@@ -36,7 +36,7 @@ import kotlinx.coroutines.launch
 fun SettingsScreen(
     modifier: Modifier = Modifier,
     navController: NavController = NavController(LocalContext.current),
-    viewModel: AuthViewModel = viewModel(
+    viewModel: SettingsViewModel = viewModel(
         factory = ViewModelFactory(context = LocalContext.current)
     ),
     scope: CoroutineScope = rememberCoroutineScope()
@@ -49,6 +49,7 @@ fun SettingsScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top
     ) {
+        DarkModeDropdown()
         ElevatedButton(
             modifier = Modifier
                 .fillMaxWidth()
