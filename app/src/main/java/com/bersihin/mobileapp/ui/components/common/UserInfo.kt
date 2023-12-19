@@ -35,10 +35,25 @@ data class UserInfoProps(
     val userRole: String
 )
 
+fun getInitials(firstName: String, lastName: String): String {
+    var initial = ""
+
+    if (firstName.isNotEmpty()) {
+        initial += firstName.first().toString().uppercase()
+    }
+
+    if (lastName.isNotEmpty()) {
+        initial += lastName.first().toString().uppercase()
+    }
+
+    return initial
+}
+
 @Composable
 fun UserInfo(
     props: UserInfoProps
 ) {
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -56,9 +71,7 @@ fun UserInfo(
             contentAlignment = Alignment.Center
         ) {
             Text(
-                text = "${props.firstName.first().toString().uppercase()}${
-                    props.lastName.first().toString().uppercase()
-                }",
+                text = getInitials(props.firstName, props.lastName),
                 style = TextStyle(
                     color = Color.White,
                     fontSize = 20.sp,
@@ -88,7 +101,7 @@ fun UserInfo(
                         R.string.public_reporter
                     }
                 ),
-                style =  MaterialTheme.typography.labelMedium.copy(
+                style = MaterialTheme.typography.labelMedium.copy(
                     fontWeight = FontWeight.Normal
                 )
             )
