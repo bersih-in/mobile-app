@@ -1,7 +1,6 @@
 package com.bersihin.mobileapp.ui.pages.general.report_details
 
 import android.util.Log
-import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -17,6 +16,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -71,6 +71,7 @@ fun ReportDetailsScreen(
         factory = ViewModelFactory(context = LocalContext.current)
     ),
     navController: NavController = NavController(LocalContext.current),
+    snackbarHostState: SnackbarHostState? = null,
     scope: CoroutineScope = rememberCoroutineScope()
 ) {
     val reportInfo = viewModel.reportInfo.collectAsState(initial = UiState.Loading)
@@ -100,7 +101,9 @@ fun ReportDetailsScreen(
                 ),
                 viewModel = viewModel,
                 navController = navController,
-                userRole = UserRole.valueOf(userRole.value ?: "USER")
+                userRole = UserRole.valueOf(userRole.value ?: "USER"),
+                snackbarHostState = snackbarHostState,
+                scope = scope
             )
         }
 
@@ -125,8 +128,10 @@ fun ReportDetailsContent(
     modifier: Modifier = Modifier,
     viewModel: ReportDetailsViewModel?,
     navController: NavController?,
+    snackbarHostState: SnackbarHostState?,
     props: ReportDetailsContentProps,
     userRole: UserRole,
+    scope: CoroutineScope = rememberCoroutineScope()
 ) {
     var showStatusDialog by rememberSaveable { mutableStateOf(false) }
     var showFakeReportDialog by rememberSaveable { mutableStateOf(false) }
@@ -152,18 +157,19 @@ fun ReportDetailsContent(
             onDismissRequest = { showFakeReportDialog = false },
             onSuccess = {
                 navController?.navigateUp()
-                Toast.makeText(
-                    context,
-                    "Successfully updated the report status!",
-                    Toast.LENGTH_SHORT
-                ).show()
+
+                scope.launch {
+                    snackbarHostState?.showSnackbar(
+                        "Successfully updated the report status!",
+                    )
+                }
             },
             onFailure = {
-                Toast.makeText(
-                    context,
-                    "Failed to update the report status!",
-                    Toast.LENGTH_SHORT
-                ).show()
+                scope.launch {
+                    snackbarHostState?.showSnackbar(
+                        "Failed to update the report status!",
+                    )
+                }
             },
             viewModel = viewModel
         )
@@ -174,21 +180,21 @@ fun ReportDetailsContent(
             reportId = props.report.id,
             onDismissRequest = { showFinishedReportDialog = false },
             onSuccess = {
-                navController?.navigateUp()
-                Toast.makeText(
-                    context,
-                    "Successfully updated the report status!",
-                    Toast.LENGTH_SHORT
-                ).show()
+                scope.launch {
+                    snackbarHostState?.showSnackbar(
+                        "Successfully updated the report status!",
+                    )
+                }
             },
             onFailure = {
-                Toast.makeText(
-                    context,
-                    "Failed to update the report status!",
-                    Toast.LENGTH_SHORT
-                ).show()
+                scope.launch {
+                    snackbarHostState?.showSnackbar(
+                        "Failed to update the report status!",
+                    )
+                }
             },
-            viewModel = viewModel
+            viewModel = viewModel,
+            snackbarHostState = snackbarHostState
         )
     }
 
@@ -293,18 +299,18 @@ fun ReportDetailsContent(
                             viewModel = viewModel,
                             onSuccess = {
                                 navController?.navigate(Screen.Progress.route)
-                                Toast.makeText(
-                                    context,
-                                    pickupSuccess,
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                                scope.launch {
+                                    snackbarHostState?.showSnackbar(
+                                        pickupSuccess
+                                    )
+                                }
                             },
                             onFailure = {
-                                Toast.makeText(
-                                    context,
-                                    pickupFailed,
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                                scope.launch {
+                                    snackbarHostState?.showSnackbar(
+                                        pickupFailed,
+                                    )
+                                }
                             },
                         )
                     } else if (props.report.status == ReportStatus.IN_PROGRESS) {
@@ -345,6 +351,7 @@ fun ReportDetailsContentPreview() {
 
                 ),
             navController = null,
+            snackbarHostState = null,
             viewModel = null,
             userRole = UserRole.WORKER
         )

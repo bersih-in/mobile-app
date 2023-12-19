@@ -3,7 +3,6 @@ package com.bersihin.mobileapp.ui.pages.user.report_upload
 import android.Manifest
 import android.content.pm.PackageManager
 import android.util.Log
-import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -24,6 +23,7 @@ import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -69,6 +69,7 @@ fun ReportUploadScreen(
         factory = ViewModelFactory(context = LocalContext.current)
     ),
     navController: NavController? = null,
+    snackbarHostState: SnackbarHostState? = null,
     scope: CoroutineScope = rememberCoroutineScope()
 ) {
     var title by rememberSaveable { mutableStateOf("") }
@@ -196,8 +197,7 @@ fun ReportUploadScreen(
                 Text(text = "Uploading image...")
             } else {
                 Column(
-                    verticalArrangement = Arrangement.Center,
-                    modifier = Modifier.padding(bottom = 32.dp)
+                    verticalArrangement = Arrangement.Center
                 ) {
                     CameraUploadButton(
                         modifier = Modifier.padding(top = 16.dp),
@@ -210,18 +210,18 @@ fun ReportUploadScreen(
                             updateValid()
                         },
                         onError = {
-                            Toast.makeText(
-                                context,
-                                "Failed to upload image; please try again later!",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            scope.launch {
+                                snackbarHostState?.showSnackbar(
+                                    "Failed to upload image; please try again later!",
+                                )
+                            }
                         }
                     )
 
                     Text(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(vertical = 8.dp),
+                            .padding(vertical = 16.dp),
                         text = "or",
                         textAlign = TextAlign.Center
                     )
@@ -236,15 +236,14 @@ fun ReportUploadScreen(
                             updateValid()
                         },
                         onError = {
-                            Toast.makeText(
-                                context,
-                                "Failed to upload image; please try again later!",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            scope.launch {
+                                snackbarHostState?.showSnackbar(
+                                    "Failed to upload image; please try again later!",
+                                )
+                            }
                         }
                     )
                 }
-
 
                 AsyncImage(
                     model = imageUrl,
@@ -255,12 +254,10 @@ fun ReportUploadScreen(
                         .height(if (imageUrl.isEmpty()) 0.dp else 400.dp)
                         .clip(RoundedCornerShape(16.dp))
                 )
-
             }
 
             ElevatedButton(
                 modifier = Modifier
-                    .padding(top = 4.dp)
                     .fillMaxWidth()
                     .height(50.dp),
 
@@ -274,24 +271,24 @@ fun ReportUploadScreen(
                         )
 
                         if (response is Response.Success) {
-                            Toast.makeText(
-                                context,
-                                submitSuccess,
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            scope.launch {
+                                snackbarHostState?.showSnackbar(
+                                    submitSuccess
+                                )
+                            }
                             Log.i("ReportUploadScreen", "response: $response")
                             navController?.navigate(Screen.UserHome.route) {
-                                popUpTo(Screen.ReportUpload.route) {
+                                popUpTo(navController.graph.id) {
                                     inclusive = true
                                 }
                             }
 
                         } else {
-                            Toast.makeText(
-                                context,
-                                submitFailed,
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            scope.launch {
+                                snackbarHostState?.showSnackbar(
+                                    submitFailed
+                                )
+                            }
                         }
                     }
                 }) {

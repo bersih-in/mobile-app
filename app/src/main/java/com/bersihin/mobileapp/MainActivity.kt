@@ -145,7 +145,7 @@ fun App(
         if (authToken.value != null) {
             if (authToken.value == "") {
                 navController.navigate(Screen.Login.route) {
-                    popUpTo(Screen.LoadingScreen.route) {
+                    popUpTo(navController.graph.id) {
                         inclusive = true
                     }
                 }
@@ -169,14 +169,14 @@ fun App(
                         }
                     }
                 ) {
-                    popUpTo(Screen.Login.route) {
+                    popUpTo(navController.graph.id) {
                         inclusive = true
                     }
                 }
             }
         } else {
             navController.navigate(Screen.IntroScreen.route) {
-                popUpTo(Screen.LoadingScreen.route) {
+                popUpTo(navController.graph.id) {
                     inclusive = true
                 }
             }
@@ -264,6 +264,7 @@ fun App(
                 ReportUploadScreen(
                     modifier = Modifier.padding(bottom = innerPadding.calculateBottomPadding()),
                     navController = navController,
+                    snackbarHostState = snackbarHostState,
                     scope = scope
                 )
             }

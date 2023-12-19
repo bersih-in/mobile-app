@@ -43,7 +43,14 @@ fun LocationPickerScreen(
         factory = ViewModelFactory(LocalContext.current)
     )
 ) {
-    var position by rememberSaveable { mutableStateOf<LatLng?>(null) }
+    var position by rememberSaveable {
+        mutableStateOf<LatLng?>(
+            LatLng(
+                viewModel.latitude,
+                viewModel.longitude
+            )
+        )
+    }
     val context = LocalContext.current
     val mapView = rememberMapViewWithLifecycle()
 

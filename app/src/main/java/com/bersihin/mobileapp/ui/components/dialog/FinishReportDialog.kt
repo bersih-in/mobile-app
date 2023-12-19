@@ -17,6 +17,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -45,6 +46,7 @@ import kotlinx.coroutines.launch
 fun FinishReportDialog(
     reportId: String = "",
     viewModel: ReportDetailsViewModel? = null,
+    snackbarHostState: SnackbarHostState? = null,
     onSuccess: () -> Unit = {},
     onFailure: () -> Unit = {},
     onDismissRequest: () -> Unit = {}
@@ -84,12 +86,11 @@ fun FinishReportDialog(
                             },
                             onError = {
                                 isUploading = false
-                                Toast.makeText(
-                                    context,
-                                    "Failed to upload image, please try again later!",
-                                    Toast.LENGTH_SHORT
-                                ).show(
-                                )
+                                scope.launch {
+                                    snackbarHostState?.showSnackbar(
+                                        "Failed to upload image, please try again later!",
+                                    )
+                                }
                             }
                         )
 
@@ -107,12 +108,11 @@ fun FinishReportDialog(
                             },
                             onError = {
                                 isUploading = false
-                                Toast.makeText(
-                                    context,
-                                    "Failed to upload image, please try again later!",
-                                    Toast.LENGTH_SHORT
-                                ).show(
-                                )
+                                scope.launch {
+                                    snackbarHostState?.showSnackbar(
+                                        "Failed to upload image, please try again later!",
+                                    )
+                                }
                             }
                         )
                     }
