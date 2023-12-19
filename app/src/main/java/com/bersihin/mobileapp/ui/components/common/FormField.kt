@@ -26,6 +26,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.bersihin.mobileapp.R
@@ -43,7 +44,8 @@ data class FormFieldProps(
     val onPasswordToggle: () -> Unit = {},
     val singleLine: Boolean = true,
     val textFieldHeight: Int = 60,
-    val icon: ImageVector? = null
+    val icon: ImageVector? = null,
+    val maxLength: Int? = null
 )
 
 @Composable
@@ -92,6 +94,15 @@ fun FormField(
                         fontWeight = FontWeight.Normal
                     )
                 )
+            },
+            supportingText = {
+                if (props.maxLength != null) {
+                    Text(
+                        text = "${props.value.toString().length} / ${props.maxLength}",
+                        modifier = Modifier.fillMaxWidth(),
+                        textAlign = TextAlign.End,
+                    )
+                }
             },
             singleLine = props.singleLine,
             shape = RoundedCornerShape(12.dp),

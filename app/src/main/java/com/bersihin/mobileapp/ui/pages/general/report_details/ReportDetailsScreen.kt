@@ -269,31 +269,6 @@ fun ReportDetailsContent(
 
                 Spacer(modifier = modifier.height(8.dp))
 
-//                ElevatedButton(
-//                    onClick = {
-//                        val zoomLevel = 15
-//                        val uri =
-//                            "http://maps.google.com/maps?q=loc:${props.report.latitude},${props.report.longitude}&z=$zoomLevel"
-//
-//                        context.startActivity(
-//                            Intent(
-//                                Intent.ACTION_VIEW,
-//                                Uri.parse(uri)
-//                            )
-//                        )
-//                    },
-//                    modifier = modifier
-//                        .fillMaxWidth()
-//                        .height(50.dp)
-//                ) {
-//                    Icon(imageVector = Icons.Default.Map, contentDescription = null)
-//                    Spacer(modifier = modifier.width(8.dp))
-//                    Text(
-//                        text = "Check Location",
-//                        style = MaterialTheme.typography.labelLarge
-//                    )
-//                }
-
                 ListMapView(
                     modifier = Modifier
                         .fillMaxWidth()

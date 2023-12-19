@@ -109,12 +109,15 @@ fun ReportUploadScreen(
             placeholderId = R.string.description_placeholder,
             validator = { it.toString().isNotEmpty() },
             onValueChanged = {
-                description = it as String
+                if (it.toString().length <= 255)
+                    description = it.toString()
+
                 updateValid()
             },
             errorMessageId = R.string.description_invalid,
             singleLine = false,
-            textFieldHeight = 120,
+            textFieldHeight = 180,
+            maxLength = 255
         ),
     )
     val fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
@@ -186,7 +189,6 @@ fun ReportUploadScreen(
             }
 
             Divider()
-
 
             if (isUploading) {
                 CircularProgressIndicator(modifier = Modifier.padding(top = 32.dp))

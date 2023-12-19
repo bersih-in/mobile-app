@@ -76,7 +76,7 @@ fun SettingsScreen(
         )
 
         Row(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 8.dp)
                 .padding(bottom = 8.dp),
@@ -90,6 +90,7 @@ fun SettingsScreen(
             DarkModeDropdown()
         }
 
+        Spacer(modifier = Modifier.height(16.dp))
         ElevatedButton(
             modifier = Modifier
                 .fillMaxWidth()

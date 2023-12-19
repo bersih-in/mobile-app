@@ -61,11 +61,15 @@ fun FakeReportDialog(
                         labelId = R.string.reason,
                         placeholderId = R.string.reason_placeholder,
                         value = reason,
-                        onValueChanged = { reason = it.toString() },
+                        onValueChanged = {
+                            if (it.toString().length <= 255)
+                                reason = it.toString()
+                             },
                         validator = { it.toString().isNotEmpty() },
                         errorMessageId = R.string.reason_invalid,
                         textFieldHeight = 300,
                         singleLine = false,
+                        maxLength = 255
                     )
                 )
 
