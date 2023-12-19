@@ -98,7 +98,7 @@ fun ProgressScreen(
                     LazyColumn(
                         modifier = Modifier
                             .fillMaxSize()
-                            .padding(bottom = 80.dp)
+//                            .padding(bottom = 80.dp)
                     ) {
                         if (uiState.data.isEmpty()) {
                             item {
@@ -139,6 +139,5 @@ fun ProgressScreen(
                 }
             }
         }
-
     }
 }

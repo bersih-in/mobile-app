@@ -1,7 +1,5 @@
 package com.bersihin.mobileapp.ui.pages.general.report_details
 
-import android.content.Intent
-import android.net.Uri
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.clickable
@@ -12,14 +10,11 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Map
-import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -53,6 +48,7 @@ import com.bersihin.mobileapp.ui.components.actions.WorkerPickupActions
 import com.bersihin.mobileapp.ui.components.actions.WorkerUpdateActions
 import com.bersihin.mobileapp.ui.components.common.FullscreenLoadingIndicator
 import com.bersihin.mobileapp.ui.components.common.InfoItem
+import com.bersihin.mobileapp.ui.components.common.ListMapView
 import com.bersihin.mobileapp.ui.components.dialog.FakeReportDialog
 import com.bersihin.mobileapp.ui.components.dialog.FinishReportDialog
 import com.bersihin.mobileapp.ui.components.dialog.StatusReasonDialog
@@ -273,30 +269,38 @@ fun ReportDetailsContent(
 
                 Spacer(modifier = modifier.height(8.dp))
 
-                ElevatedButton(
-                    onClick = {
-                        val zoomLevel = 15
-                        val uri =
-                            "http://maps.google.com/maps?q=loc:${props.report.latitude},${props.report.longitude}&z=$zoomLevel"
+//                ElevatedButton(
+//                    onClick = {
+//                        val zoomLevel = 15
+//                        val uri =
+//                            "http://maps.google.com/maps?q=loc:${props.report.latitude},${props.report.longitude}&z=$zoomLevel"
+//
+//                        context.startActivity(
+//                            Intent(
+//                                Intent.ACTION_VIEW,
+//                                Uri.parse(uri)
+//                            )
+//                        )
+//                    },
+//                    modifier = modifier
+//                        .fillMaxWidth()
+//                        .height(50.dp)
+//                ) {
+//                    Icon(imageVector = Icons.Default.Map, contentDescription = null)
+//                    Spacer(modifier = modifier.width(8.dp))
+//                    Text(
+//                        text = "Check Location",
+//                        style = MaterialTheme.typography.labelLarge
+//                    )
+//                }
 
-                        context.startActivity(
-                            Intent(
-                                Intent.ACTION_VIEW,
-                                Uri.parse(uri)
-                            )
-                        )
-                    },
-                    modifier = modifier
+                ListMapView(
+                    modifier = Modifier
                         .fillMaxWidth()
-                        .height(50.dp)
-                ) {
-                    Icon(imageVector = Icons.Default.Map, contentDescription = null)
-                    Spacer(modifier = modifier.width(8.dp))
-                    Text(
-                        text = "Check Location",
-                        style = MaterialTheme.typography.labelLarge
-                    )
-                }
+                        .height(250.dp),
+
+                    reports = listOf(props.report)
+                )
 
                 Spacer(modifier = modifier.height(32.dp))
 

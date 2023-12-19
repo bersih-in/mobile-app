@@ -60,6 +60,17 @@ fun LocationPickerScreen(
                 map.uiSettings.isZoomControlsEnabled = true
                 map.uiSettings.isCompassEnabled = true
 
+                val marker = map.addMarker(
+                    MarkerOptions().position(
+                        LatLng(
+                            viewModel.latitude,
+                            viewModel.longitude
+                        )
+                    )
+                )
+
+                marker?.showInfoWindow()
+
                 map.moveCamera(
                     CameraUpdateFactory.newLatLngZoom(
                         LatLng(
@@ -72,7 +83,8 @@ fun LocationPickerScreen(
                     position = latLng
                     viewModel.updateLatLng(position!!, context)
                     map.clear()
-                    map.addMarker(MarkerOptions().position(latLng))
+                    val newMarker = map.addMarker(MarkerOptions().position(latLng))
+                    newMarker?.showInfoWindow()
                 }
             }
         }
