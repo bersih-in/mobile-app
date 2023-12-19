@@ -217,7 +217,9 @@ fun ReportUploadScreen(
                     )
 
                     Text(
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 8.dp),
                         text = "or",
                         textAlign = TextAlign.Center
                     )

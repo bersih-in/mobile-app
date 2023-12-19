@@ -2,7 +2,6 @@ package com.bersihin.mobileapp
 
 import android.Manifest
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -82,7 +81,6 @@ class MainActivity : ComponentActivity() {
             val colorMode = settingsViewModel.getPrefValue(SettingsPreferences.COLOR_MODE)
                 .collectAsState(initial = ColorMode.AUTO.mode)
 
-            Log.i("MainActivity", "colorMode: ${colorMode.value}")
 
             val colorTheme = when (colorMode.value) {
                 ColorMode.DARK.mode -> ColorTheme(true)
@@ -146,7 +144,7 @@ fun App(
 
         if (authToken.value != null) {
             if (authToken.value == "") {
-                navController.navigate(Screen.SplashScreen.route) {
+                navController.navigate(Screen.Login.route) {
                     popUpTo(Screen.LoadingScreen.route) {
                         inclusive = true
                     }
@@ -176,8 +174,13 @@ fun App(
                     }
                 }
             }
+        } else {
+            navController.navigate(Screen.IntroScreen.route) {
+                popUpTo(Screen.LoadingScreen.route) {
+                    inclusive = true
+                }
+            }
         }
-
     }
 
     Scaffold(
@@ -196,7 +199,7 @@ fun App(
             modifier = modifier
         ) {
             // general pages
-            composable(Screen.SplashScreen.route) {
+            composable(Screen.IntroScreen.route) {
                 IntroScreen(
                     navController = navController
                 )
