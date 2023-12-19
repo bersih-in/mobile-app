@@ -24,12 +24,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.bersihin.mobileapp.ui.pages.user.report_upload.ReportUploadViewModel
+import com.bersihin.mobileapp.ui.theme.BersihinTheme
 import com.bersihin.mobileapp.utils.ViewModelFactory
 import com.bersihin.mobileapp.utils.rememberMapViewWithLifecycle
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -38,7 +40,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 
 @Composable
 fun LocationPickerScreen(
-    navController: NavHostController,
+    navController: NavHostController? = null,
     viewModel: ReportUploadViewModel = viewModel(
         factory = ViewModelFactory(LocalContext.current)
     )
@@ -105,6 +107,7 @@ fun LocationPickerScreen(
         ) {
             Text(
                 text = "Location: ${address.value}",
+                maxLines = 2,
                 style = MaterialTheme.typography.bodyMedium.copy(
                     fontWeight = FontWeight.SemiBold,
                     lineHeight = 24.sp,
@@ -115,7 +118,7 @@ fun LocationPickerScreen(
             ElevatedButton(
                 onClick = {
                     viewModel.updateLatLng(position!!, context)
-                    navController.popBackStack()
+                    navController?.popBackStack()
                 },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -130,7 +133,13 @@ fun LocationPickerScreen(
                 )
             }
         }
+    }
+}
 
-
+@Preview(showBackground = true)
+@Composable
+fun LocationPickerScreenPreview() {
+    BersihinTheme {
+        LocationPickerScreen()
     }
 }
