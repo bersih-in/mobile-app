@@ -127,4 +127,10 @@
     <string name="confirm_location">Confirm Location</string>
     <string name="go_back">Go Back</string>
     <string name="status">Status:&#160;</string>
+
+    <string name="proof_of_clearance">Proof of clearance:&#160;</string>
+    <string name="reason_of_rejection">Reason of rejection:&#160;</string>
+    <string name="update_success">Successfully updated the report status!</string>
+    <string name="update_failed">Failed to update the report status, please try again later!</string>
+    <string name="upload_image_failed">Failed to upload your image, please try again later!</string>
 </resources>

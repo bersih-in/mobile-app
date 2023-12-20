@@ -95,7 +95,7 @@ fun StatusReasonDialog(
 
                 if (status == ReportStatus.FINISHED) {
                     Text(
-                        "Proof of clearance: ",
+                        stringResource(id = R.string.proof_of_clearance),
                         style = MaterialTheme.typography.bodyMedium.copy(
                             fontWeight = FontWeight.SemiBold,
                             lineHeight = 15.sp
@@ -111,7 +111,7 @@ fun StatusReasonDialog(
                     )
                 } else if (rejectedStatus.contains(status)) {
                     Text(
-                        "Reason for rejection: ",
+                        text = stringResource(id = R.string.reason_of_rejection),
                         style = MaterialTheme.typography.bodyMedium.copy(
                             fontWeight = FontWeight.SemiBold,
                             lineHeight = 15.sp

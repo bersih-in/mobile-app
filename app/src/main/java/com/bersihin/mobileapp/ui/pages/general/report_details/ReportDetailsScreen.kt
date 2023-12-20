@@ -140,6 +140,9 @@ fun ReportDetailsContent(
     val pickupSuccess = stringResource(id = R.string.pickup_success)
     val pickupFailed = stringResource(id = R.string.pickup_failed)
 
+    val updateSuccess = stringResource(id = R.string.update_success)
+    val updateFailed = stringResource(id = R.string.update_failed)
+
     val context = LocalContext.current
 
     if (showStatusDialog) {
@@ -160,14 +163,14 @@ fun ReportDetailsContent(
 
                 scope.launch {
                     snackbarHostState?.showSnackbar(
-                        "Successfully updated the report status!",
+                        updateSuccess
                     )
                 }
             },
             onFailure = {
                 scope.launch {
                     snackbarHostState?.showSnackbar(
-                        "Failed to update the report status!",
+                        updateFailed
                     )
                 }
             },
@@ -182,14 +185,14 @@ fun ReportDetailsContent(
             onSuccess = {
                 scope.launch {
                     snackbarHostState?.showSnackbar(
-                        "Successfully updated the report status!",
+                        updateSuccess,
                     )
                 }
             },
             onFailure = {
                 scope.launch {
                     snackbarHostState?.showSnackbar(
-                        "Failed to update the report status!",
+                        updateFailed,
                     )
                 }
             },

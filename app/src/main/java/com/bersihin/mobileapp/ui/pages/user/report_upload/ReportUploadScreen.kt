@@ -85,6 +85,7 @@ fun ReportUploadScreen(
 
     val submitSuccess = stringResource(id = R.string.submit_success)
     val submitFailed = stringResource(id = R.string.submit_failed)
+    val uploadImageFailed = stringResource(id = R.string.upload_image_failed)
 
     val address = viewModel.address.collectAsState()
 
@@ -212,7 +213,7 @@ fun ReportUploadScreen(
                         onError = {
                             scope.launch {
                                 snackbarHostState?.showSnackbar(
-                                    "Failed to upload image; please try again later!",
+                                    uploadImageFailed,
                                 )
                             }
                         }
@@ -238,7 +239,7 @@ fun ReportUploadScreen(
                         onError = {
                             scope.launch {
                                 snackbarHostState?.showSnackbar(
-                                    "Failed to upload image; please try again later!",
+                                    uploadImageFailed
                                 )
                             }
                         }

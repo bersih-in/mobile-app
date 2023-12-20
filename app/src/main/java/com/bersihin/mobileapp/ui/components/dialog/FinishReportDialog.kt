@@ -55,6 +55,8 @@ fun FinishReportDialog(
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
 
+    val uploadImageFailed = stringResource(id = R.string.upload_image_failed)
+
     Dialog(onDismissRequest = { onDismissRequest() }) {
         Card(
             modifier = Modifier
@@ -87,7 +89,7 @@ fun FinishReportDialog(
                                 isUploading = false
                                 scope.launch {
                                     snackbarHostState?.showSnackbar(
-                                        "Failed to upload image, please try again later!",
+                                        uploadImageFailed
                                     )
                                 }
                             }
@@ -109,7 +111,7 @@ fun FinishReportDialog(
                                 isUploading = false
                                 scope.launch {
                                     snackbarHostState?.showSnackbar(
-                                        "Failed to upload image, please try again later!",
+                                        uploadImageFailed
                                     )
                                 }
                             }
