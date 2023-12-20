@@ -50,7 +50,7 @@ class SettingsViewModel(
         }
     }
 
-    fun getPrefValue(key: Preferences.Key<String>): Flow<String> {
+    fun getPrefValue(key: Preferences.Key<String>): Flow<String?> {
         return pref.getPrefValue(key)
     }
 

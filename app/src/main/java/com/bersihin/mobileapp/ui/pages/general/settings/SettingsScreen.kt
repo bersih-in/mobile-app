@@ -1,6 +1,5 @@
 package com.bersihin.mobileapp.ui.pages.general.settings
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -22,7 +21,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -68,10 +66,10 @@ fun SettingsScreen(
 
         UserInfo(
             props = UserInfoProps(
-                firstName = firstName.value,
-                lastName = lastName.value,
-                email = email.value,
-                userRole = userRole.value
+                firstName = firstName.value ?: "John",
+                lastName = lastName.value ?: "Doe",
+                email = email.value ?: "johndoe@gmail.com",
+                userRole = userRole.value ?: "WORKER"
             )
         )
 

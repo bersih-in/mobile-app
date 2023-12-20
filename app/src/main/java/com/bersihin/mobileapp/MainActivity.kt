@@ -119,7 +119,6 @@ fun App(
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
 
-
     val screenWithBottomBar = listOf(
         Screen.UserHome.route,
         Screen.WorkerHome.route,

@@ -37,12 +37,12 @@ class SettingsPreferences private constructor(
         val COLOR_MODE = stringPreferencesKey("color_mode")
     }
 
-    fun getPrefValue(key: Preferences.Key<String>): Flow<String> {
+    fun getPrefValue(key: Preferences.Key<String>): Flow<String?> {
         return dataStore.data.map { preferences ->
             if (preferences.contains(key)) {
                 preferences[key] ?: ""
             } else {
-                ""
+                null
             }
         }
     }

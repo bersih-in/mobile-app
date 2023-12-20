@@ -59,7 +59,7 @@ fun DarkModeDropdown(
     LaunchedEffect(Unit) {
         Log.i("DarkModeDropdown", "colorMode: ${colorMode.value}")
         selectedMode = modes[
-            values.indexOf(ColorMode.valueOf(colorMode.value))
+            values.indexOf(ColorMode.valueOf(colorMode.value ?: ColorMode.AUTO.mode))
         ]
     }
 
