@@ -183,6 +183,8 @@ fun ReportDetailsContent(
             reportId = props.report.id,
             onDismissRequest = { showFinishedReportDialog = false },
             onSuccess = {
+                navController?.navigateUp()
+
                 scope.launch {
                     snackbarHostState?.showSnackbar(
                         updateSuccess,

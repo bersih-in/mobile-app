@@ -195,7 +195,7 @@ fun ReportUploadScreen(
             if (isUploading) {
                 CircularProgressIndicator(modifier = Modifier.padding(top = 32.dp))
                 Spacer(modifier = Modifier.height(16.dp))
-                Text(text = stringResource(id = R.string.uploading_image))
+                Text(text = stringResource(id = R.string.uploading_image), modifier = Modifier.padding(bottom = 32.dp))
             } else {
                 Column(
                     verticalArrangement = Arrangement.Center

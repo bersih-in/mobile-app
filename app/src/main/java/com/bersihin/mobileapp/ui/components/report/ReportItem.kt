@@ -55,7 +55,7 @@ fun ReportItem(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.Top,
             modifier = Modifier
-                .height(50.dp)
+                .height(60.dp)
                 .padding(top = 8.dp)
         ) {
             Column(
@@ -70,7 +70,7 @@ fun ReportItem(
                         fontSize = 20.sp,
                         lineHeight = 24.sp,
                     ),
-                    maxLines = 2
+                    maxLines = 2,
                 )
             }
 

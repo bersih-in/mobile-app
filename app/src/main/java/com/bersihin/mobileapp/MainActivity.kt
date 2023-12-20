@@ -246,7 +246,8 @@ fun App(
                 ReportDetailsScreen(
                     reportId = reportId,
                     navController = navController,
-                    scope = scope
+                    scope = scope,
+                    snackbarHostState = snackbarHostState
                 )
             }
 

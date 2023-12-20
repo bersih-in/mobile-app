@@ -96,7 +96,9 @@ fun FinishReportDialog(
                         )
 
                         Text(
-                            modifier = Modifier.fillMaxWidth(),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 16.dp),
                             text = stringResource(id = R.string.or),
                             textAlign = TextAlign.Center
                         )
