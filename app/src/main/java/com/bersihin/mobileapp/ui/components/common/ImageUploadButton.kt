@@ -23,7 +23,9 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.bersihin.mobileapp.R
 import com.bersihin.mobileapp.utils.uploadImage
 import kotlinx.coroutines.launch
 
@@ -74,7 +76,7 @@ fun ImageUploadButton(
         Icon(imageVector = Icons.Default.CloudUpload, contentDescription = null)
         Spacer(modifier = Modifier.width(8.dp))
         Text(
-            text = "Upload Image",
+            text = stringResource(id = R.string.upload_image),
             style = MaterialTheme.typography.labelLarge
         )
     }

@@ -23,8 +23,10 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.content.FileProvider
+import com.bersihin.mobileapp.R
 import com.bersihin.mobileapp.utils.uploadImage
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberPermissionState
@@ -105,7 +107,7 @@ fun CameraUploadButton(
         Icon(imageVector = Icons.Default.Camera, contentDescription = null)
         Spacer(modifier = Modifier.width(8.dp))
         Text(
-            text = "Take Picture",
+            text = stringResource(id = R.string.take_picture),
             style = MaterialTheme.typography.labelLarge
         )
     }

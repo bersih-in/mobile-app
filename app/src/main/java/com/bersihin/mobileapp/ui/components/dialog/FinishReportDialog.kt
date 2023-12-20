@@ -1,7 +1,6 @@
 package com.bersihin.mobileapp.ui.components.dialog
 
 import android.util.Log
-import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -74,7 +73,7 @@ fun FinishReportDialog(
                 if (isUploading) {
                     CircularProgressIndicator(modifier = Modifier.padding(top = 32.dp))
                     Spacer(modifier = Modifier.height(16.dp))
-                    Text(text = "Uploading image...")
+                    Text(text = stringResource(id = R.string.uploading_image))
                 } else {
                     Column(verticalArrangement = Arrangement.Center) {
 
@@ -96,7 +95,7 @@ fun FinishReportDialog(
 
                         Text(
                             modifier = Modifier.fillMaxWidth(),
-                            text = "or",
+                            text = stringResource(id = R.string.or),
                             textAlign = TextAlign.Center
                         )
 

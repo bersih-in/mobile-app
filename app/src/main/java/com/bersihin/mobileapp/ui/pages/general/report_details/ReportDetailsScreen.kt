@@ -213,7 +213,7 @@ fun ReportDetailsContent(
                     .testTag("backButton")
             )
             Text(
-                text = "Go Back"
+                text = stringResource(id = R.string.go_back)
             )
         }
 
@@ -253,7 +253,7 @@ fun ReportDetailsContent(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = "Status: ",
+                        text = stringResource(id = R.string.status),
                         style = MaterialTheme.typography.bodyLarge.copy(
                             fontWeight = FontWeight.ExtraBold,
                             lineHeight = 24.sp

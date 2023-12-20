@@ -183,7 +183,7 @@ fun ReportUploadScreen(
                     Icon(imageVector = Icons.Default.LocationCity, contentDescription = null)
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
-                        text = "Select Location",
+                        text = stringResource(id = R.string.change_location),
                         style = MaterialTheme.typography.labelLarge
                     )
                 }
@@ -194,7 +194,7 @@ fun ReportUploadScreen(
             if (isUploading) {
                 CircularProgressIndicator(modifier = Modifier.padding(top = 32.dp))
                 Spacer(modifier = Modifier.height(16.dp))
-                Text(text = "Uploading image...")
+                Text(text = stringResource(id = R.string.uploading_image))
             } else {
                 Column(
                     verticalArrangement = Arrangement.Center
@@ -222,7 +222,7 @@ fun ReportUploadScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(vertical = 16.dp),
-                        text = "or",
+                        text = stringResource(id = R.string.or),
                         textAlign = TextAlign.Center
                     )
 
@@ -303,7 +303,7 @@ fun ReportUploadScreen(
                     Icon(imageVector = Icons.Default.UploadFile, contentDescription = null)
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
-                        text = "Submit Report",
+                        text = stringResource(id = R.string.submit_report),
                         style = MaterialTheme.typography.labelLarge
                     )
                 }

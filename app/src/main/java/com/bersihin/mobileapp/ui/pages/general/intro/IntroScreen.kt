@@ -28,6 +28,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -184,7 +185,7 @@ fun IntroScreen(
                 .height(60.dp)
         ) {
             Text(
-                text = "Get Started",
+                text = stringResource(id = R.string.get_started),
                 style = MaterialTheme.typography.labelLarge
             )
         }

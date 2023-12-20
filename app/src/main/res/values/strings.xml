@@ -114,5 +114,17 @@
     <string name="dark_mode">Dark Mode</string>
     <string name="light_mode">Light Mode</string>
     <string name="use_system_default">Use System Default</string>
-    <string name="dark_mode_summary">Color Mode</string>
+    <string name="color_mode">Color Mode</string>
+
+    <string name="take_picture">Take Picture</string>
+    <string name="uploading_image">Uploading image...</string>
+    <string name="adjust_filters">Adjust Filters</string>
+    <string name="or">or</string>
+    <string name="sort_by">Sort by: </string>
+    <string name="apply_changes">Apply Changes</string>
+    <string name="get_started">Get Started</string>
+    <string name="change_location">Change Location</string>
+    <string name="confirm_location">Confirm Location</string>
+    <string name="go_back">Go Back</string>
+    <string name="status">Status:&#160;</string>
 </resources>

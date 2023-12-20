@@ -18,8 +18,8 @@ val darkColorScheme = darkColorScheme(
     onPrimary = Color(0xFFFFFFFF),
     secondary = Color(0xFF016b64),
     surface = Color(0XFF001826),
-    error = Color(0xFFd10042),
-    onErrorContainer = Color(0xFFFFDBDB),
+    error = Color(0xFFFFDBDB),
+    onErrorContainer = Color(0xFFd10042),
     secondaryContainer = Color(0xFF016b64),
     onSecondaryContainer = Color(0xFFD2FDFA),
 )

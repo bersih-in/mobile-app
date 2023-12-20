@@ -23,6 +23,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -30,6 +31,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.bersihin.mobileapp.R
 import com.bersihin.mobileapp.ui.pages.user.report_upload.ReportUploadViewModel
 import com.bersihin.mobileapp.ui.theme.BersihinTheme
 import com.bersihin.mobileapp.utils.ViewModelFactory
@@ -128,7 +130,7 @@ fun LocationPickerScreen(
                 Icon(imageVector = Icons.Default.Check, contentDescription = null)
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = "Confirm Location",
+                    text = stringResource(id = R.string.confirm_location),
                     style = MaterialTheme.typography.labelLarge
                 )
             }

@@ -33,10 +33,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import com.bersihin.mobileapp.R
 import com.bersihin.mobileapp.ui.theme.BersihinTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -67,7 +69,7 @@ fun FilterDialog(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = "Sort by: ",
+                        text = stringResource(id = R.string.sort_by),
                         style = MaterialTheme.typography.labelMedium,
                         modifier = Modifier.padding(end = 16.dp)
                     )
@@ -149,7 +151,7 @@ fun FilterDialog(
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
-                        text = "Apply Changes",
+                        text = stringResource(id = R.string.apply_changes),
                         style = MaterialTheme.typography.labelLarge
                     )
                 }

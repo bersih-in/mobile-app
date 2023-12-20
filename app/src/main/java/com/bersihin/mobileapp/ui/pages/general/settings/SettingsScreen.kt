@@ -82,7 +82,7 @@ fun SettingsScreen(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                text = "Color Mode",
+                text = stringResource(id = R.string.color_mode),
                 style = MaterialTheme.typography.labelLarge
             )
             DarkModeDropdown()

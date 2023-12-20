@@ -134,7 +134,7 @@ fun WorkerHomeScreen(
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = "Adjust Filters",
+                    text = stringResource(id = R.string.adjust_filters),
                     style = MaterialTheme.typography.labelLarge
                 )
             }
