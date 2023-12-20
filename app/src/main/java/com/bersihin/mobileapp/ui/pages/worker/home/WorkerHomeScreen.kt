@@ -125,6 +125,8 @@ fun WorkerHomeScreen(
         floatingActionButton = {
             ExtendedFloatingActionButton(
                 onClick = { isFilterDialogShown = true },
+                containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                contentColor = MaterialTheme.colorScheme.onSecondaryContainer
             ) {
                 Icon(
                     imageVector = Icons.Default.Settings,

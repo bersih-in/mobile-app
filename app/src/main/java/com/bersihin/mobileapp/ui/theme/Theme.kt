@@ -16,10 +16,12 @@ import androidx.core.view.WindowCompat
 val darkColorScheme = darkColorScheme(
     primary = Color(0xff2aadad),
     onPrimary = Color(0xFFFFFFFF),
-    secondary = Color(0xFF00D6C4),
+    secondary = Color(0xFF016b64),
     surface = Color(0XFF001826),
     error = Color(0xFFd10042),
     onErrorContainer = Color(0xFFFFDBDB),
+    secondaryContainer = Color(0xFF016b64),
+    onSecondaryContainer = Color(0xFFD2FDFA),
 )
 
 val lightColorScheme = lightColorScheme(
@@ -29,6 +31,8 @@ val lightColorScheme = lightColorScheme(
     surface = Color(0xFFF2FAFA),
     error = Color(0xFFd10042),
     onErrorContainer = Color(0xFFFFDBDB),
+    secondaryContainer = Color(0xFFD2FDFA),
+    onSecondaryContainer = Color(0xFF016b64),
 )
 
 data class ColorTheme(val isDarkMode: Boolean = false)
