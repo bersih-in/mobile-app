@@ -226,11 +226,13 @@ fun ReportUploadScreen(
 
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center,
-                    modifier = Modifier.padding(top = 16.dp)
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    modifier = Modifier
+                        .padding(top = 16.dp)
+                        .fillMaxWidth()
                 ) {
                     CameraUploadButton(
-
+                        modifier = Modifier.fillMaxWidth(0.5f),
                         onUploading = {
                             isUploading = true
                         },
@@ -248,9 +250,9 @@ fun ReportUploadScreen(
                         }
                     )
 
-                    Spacer(modifier = Modifier.width(8.dp))
 
                     ImageUploadButton(
+                        modifier = Modifier.fillMaxWidth(0.95f),
                         onUploading = {
                             isUploading = true
                         },

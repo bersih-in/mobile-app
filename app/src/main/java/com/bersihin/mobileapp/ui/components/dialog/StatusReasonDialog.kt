@@ -56,7 +56,6 @@ fun StatusReasonDialog(
     val rejectedStatus = listOf(
         ReportStatus.REJECTED_BY_ADMIN,
         ReportStatus.REJECTED_BY_WORKER,
-        ReportStatus.REJECTED_BY_SYSTEM
     )
 
     Dialog(onDismissRequest = { onDismissRequest() }) {

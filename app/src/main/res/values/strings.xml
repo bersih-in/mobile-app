@@ -75,7 +75,7 @@
     <string name="reason_invalid">Reason must not be empty!</string>
 
     <string name="finish_report_prompt">Please provide an image as proof of finished cleaning work!</string>
-    <string name="upload_image">Upload Image</string>
+    <string name="upload_image">Upload</string>
     <string name="finish_report">Finish Report</string>
 
     <string name="worker_home_header">Check the latest reports submitted by others here!</string>
