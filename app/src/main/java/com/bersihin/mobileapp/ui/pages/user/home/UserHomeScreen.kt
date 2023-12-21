@@ -103,7 +103,8 @@ fun UserHomeScreen(
                                         id = it.id,
                                         title = it.title,
                                         description = it.description,
-                                        status = it.status
+                                        status = it.status,
+                                        urgent = it.urgent
                                     ),
                                     onClick = {
                                         navController.navigate(

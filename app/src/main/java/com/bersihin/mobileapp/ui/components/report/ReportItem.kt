@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
@@ -29,7 +28,8 @@ data class ReportItemProps(
     val id: String,
     val title: String,
     val description: String,
-    val status: ReportStatus
+    val status: ReportStatus,
+    val urgent: Boolean
 )
 
 @Composable
@@ -38,6 +38,7 @@ fun ReportItem(
     props: ReportItemProps,
     onClick: () -> Unit = {}
 ) {
+
     Column(
         modifier = modifier
             .clickable { onClick() }
@@ -49,19 +50,19 @@ fun ReportItem(
                 ambientColor = MaterialTheme.colorScheme.secondary,
                 spotColor = MaterialTheme.colorScheme.secondary
             )
-            .padding(horizontal = 24.dp, vertical = 16.dp)
+            .padding(vertical = 16.dp)
+            .padding(start = 24.dp, end = 16.dp)
     ) {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.Top,
             modifier = Modifier
-                .height(60.dp)
                 .padding(top = 8.dp)
         ) {
             Column(
                 modifier = Modifier
-                    .weight(3f)
-                    .fillMaxHeight(),
+                    .weight(3f),
+//                    .fillMaxHeight(),
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(
@@ -72,28 +73,32 @@ fun ReportItem(
                     ),
                     maxLines = 2,
                 )
+
+                Spacer(modifier = modifier.height(8.dp))
+
+                Text(
+                    text = props.description,
+                    style = MaterialTheme.typography.bodyMedium,
+                    maxLines = 2,
+                    modifier = Modifier
+                        .heightIn(min = 24.dp, max = 48.dp)
+                        .padding(bottom = 8.dp)
+                )
             }
 
             Column(
                 modifier = Modifier
                     .weight(2f)
-                    .fillMaxHeight(),
-                verticalArrangement = Arrangement.Center
             ) {
                 StatusBox(status = props.status)
+
+                if (props.status == ReportStatus.VERIFIED || props.status == ReportStatus.IN_PROGRESS) {
+                    UrgentBox(urgent = props.urgent)
+                }
             }
         }
 
-        Spacer(modifier = modifier.height(8.dp))
 
-        Text(
-            text = props.description,
-            style = MaterialTheme.typography.bodyMedium,
-            maxLines = 2,
-            modifier = Modifier
-                .heightIn(min = 24.dp, max = 48.dp)
-                .padding(bottom = 8.dp)
-        )
     }
 
     Spacer(modifier = modifier.height(16.dp))
@@ -109,7 +114,8 @@ fun LightModePreview() {
                 id = "1",
                 title = "Banjir",
                 description = "Banjir di daerah Cipinang",
-                status = ReportStatus.IN_PROGRESS
+                status = ReportStatus.IN_PROGRESS,
+                urgent = true
             )
         )
     }
@@ -123,8 +129,9 @@ fun DarkModePreview() {
             props = ReportItemProps(
                 id = "1",
                 title = "Banjir Banjir Banjir Banjir Banjir",
-                description = "Banjir di daerah Cipinang",
-                status = ReportStatus.IN_PROGRESS
+                description = "Banjir di daerah Cipinang coy gw lagi mandi  padahal ????",
+                status = ReportStatus.IN_PROGRESS,
+                urgent = false
             )
         )
     }

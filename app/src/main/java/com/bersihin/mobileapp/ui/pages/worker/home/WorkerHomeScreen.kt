@@ -164,6 +164,19 @@ fun WorkerHomeScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp)
+                        .padding(
+                            top =
+                            when (reports.value) {
+                                is UiState.Success ->
+                                    if ((reports.value as UiState.Success).data.isNotEmpty()) {
+                                        0.dp
+                                    } else {
+                                        16.dp
+                                    }
+
+                                else -> 16.dp
+                            }
+                        )
                 ) {
                     PageHeader(
                         props = PageHeaderProps(
@@ -197,7 +210,8 @@ fun WorkerHomeScreen(
                                                 id = it.id,
                                                 title = it.title,
                                                 description = it.description,
-                                                status = it.status
+                                                status = it.status,
+                                                urgent = it.urgent
                                             ),
                                             onClick = {
                                                 navController.navigate(

@@ -32,5 +32,8 @@ data class Report(
     val distance: Double? = 0.0,
 
     @field:SerializedName("workedBy")
-    val workedBy: String? = ""
+    val workedBy: String? = "",
+
+    @field:SerializedName("urgent")
+    val urgent: Boolean = false,
 )

@@ -5,6 +5,7 @@ import android.content.pm.PackageManager
 import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,7 +13,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.LocationCity
@@ -35,11 +35,9 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -165,9 +163,9 @@ fun ReportUploadScreen(
                 FormField(props = prop)
             }
 
-            Column(modifier = Modifier.padding(vertical = 16.dp)) {
+            Column(modifier = Modifier.padding(top = 16.dp)) {
                 Text(
-                    "Current location: ${address.value}",
+                    "Location: ${address.value}",
                     style = MaterialTheme.typography.bodyMedium.copy(
                         fontWeight = FontWeight.SemiBold,
                         lineHeight = 24.sp
@@ -190,18 +188,49 @@ fun ReportUploadScreen(
                 }
             }
 
-            Divider()
+            Divider(modifier = Modifier.padding(vertical = 16.dp))
+
+
+
+            AsyncImage(
+                model = imageUrl,
+                contentDescription = null,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(if (imageUrl.isNotEmpty()) 400.dp else 10.dp)
+                    .padding(vertical = 16.dp)
+            )
 
             if (isUploading) {
                 CircularProgressIndicator(modifier = Modifier.padding(top = 32.dp))
                 Spacer(modifier = Modifier.height(16.dp))
-                Text(text = stringResource(id = R.string.uploading_image), modifier = Modifier.padding(bottom = 32.dp))
+                Text(
+                    text = stringResource(id = R.string.uploading_image),
+                    modifier = Modifier.padding(bottom = 32.dp)
+                )
             } else {
-                Column(
-                    verticalArrangement = Arrangement.Center
+                Text(
+                    text = if (imageUrl.isNotEmpty()) {
+                        "Image successfully uploaded!"
+                    } else
+                        "Upload image for report proof!",
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 18.sp,
+                        lineHeight = 24.sp
+                    ),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 12.dp)
+                )
+
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center,
+                    modifier = Modifier.padding(top = 16.dp)
                 ) {
                     CameraUploadButton(
-                        modifier = Modifier.padding(top = 16.dp),
+
                         onUploading = {
                             isUploading = true
                         },
@@ -219,13 +248,7 @@ fun ReportUploadScreen(
                         }
                     )
 
-                    Text(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 16.dp),
-                        text = stringResource(id = R.string.or),
-                        textAlign = TextAlign.Center
-                    )
+                    Spacer(modifier = Modifier.width(8.dp))
 
                     ImageUploadButton(
                         onUploading = {
@@ -245,21 +268,14 @@ fun ReportUploadScreen(
                         }
                     )
                 }
-
-                AsyncImage(
-                    model = imageUrl,
-                    contentDescription = null,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 8.dp)
-                        .height(if (imageUrl.isEmpty()) 0.dp else 400.dp)
-                        .clip(RoundedCornerShape(16.dp))
-                )
             }
+
+            Divider(modifier = Modifier.padding(vertical = 16.dp))
 
             ElevatedButton(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .padding(top = 16.dp)
                     .height(50.dp),
 
                 enabled = isAllValid,
